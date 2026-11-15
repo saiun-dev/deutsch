@@ -67,11 +67,6 @@
       font-weight: 700;
     }
 
-    .header-actions {
-      display: flex;
-      gap: 8px;
-    }
-
     .icon-btn {
       background: rgba(255, 255, 255, 0.15);
       border: none;
@@ -97,52 +92,6 @@
 
     .hidden {
       display: none !important;
-    }
-
-    .settings-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    input[type="text"], input[type="url"] {
-      width: 100%;
-      padding: 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    input[type="text"]:focus, input[type="url"]:focus {
-      border-color: var(--primary);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.05s;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
     }
 
     .mode-tabs {
@@ -324,16 +273,29 @@
       color: #b91c1c;
     }
 
-    .file-upload-label {
-      display: block;
-      text-align: center;
+    input[type="text"] {
+      width: 100%;
       padding: 12px;
-      border: 1.5px dashed #94a3b8;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: var(--primary);
+    }
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
       border-radius: 12px;
-      color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
     }
   </style>
 </head>
@@ -341,33 +303,13 @@
   <div class="app-container">
     <header>
       <h1>🇩🇪 독어 공부 퀴즈</h1>
-      <div class="header-actions">
-        <button class="icon-btn" onclick="refreshSheet()" title="시트 새로고침">🔄 새로고침</button>
-        <button class="icon-btn" onclick="toggleSettings()">⚙️ 시트설정</button>
-      </div>
+      <button class="icon-btn" onclick="loadCSVFile()" title="단어 새로고침">🔄 새로고침</button>
     </header>
-
-    <!-- 데이터 연동 설정 패널 -->
-    <div id="settings-panel" class="card hidden">
-      <div class="settings-group">
-        <label>1. 구글 시트 웹 게시 CSV 링크</label>
-        <input type="url" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" />
-        <button class="btn btn-primary" onclick="saveAndLoadUrl()">링크 저장 및 단어 불러오기</button>
-      </div>
-
-      <hr style="border: 0; border-top: 1px solid var(--border); margin: 14px 0;" />
-
-      <div class="settings-group" style="margin-bottom: 0;">
-        <label>2. 또는 엑셀(.xlsx) / CSV 파일 직접 선택</label>
-        <label class="file-upload-label" for="file-input">📂 스마트폰에서 엑셀/CSV 파일 열기</label>
-        <input type="file" id="file-input" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)" />
-      </div>
-    </div>
 
     <!-- 모드 선택 탭 -->
     <div class="mode-tabs">
-      <button class="mode-tab active" id="tab-choice" onclick="setMode('choice')">객관식 4지선다</button>
-      <button class="mode-tab" id="tab-typing" onclick="setMode('typing')">주관식 스펠링</button>
+      <button class="mode-tab active" id="tab-choice" onclick="setMode('choice')">객관식</button>
+      <button class="mode-tab" id="tab-typing" onclick="setMode('typing')">주관식</button>
       <button class="mode-tab" id="tab-flash" onclick="setMode('flash')">플래시카드</button>
     </div>
 
@@ -409,14 +351,14 @@
           <button type="button" class="umlaut-btn" onclick="insertChar('Ö')">Ö</button>
           <button type="button" class="umlaut-btn" onclick="insertChar('Ü')">Ü</button>
         </div>
-        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()">정답 확인</button>
+        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()" style="margin-top: 10px;">정답 확인</button>
       </div>
 
       <!-- 3. 플래시카드 모드 -->
       <div id="view-flash" class="hidden">
         <div class="flashcard" onclick="flipFlashcard()">
           <div class="word-sub" id="flash-side-label">앞면 (터치해서 뜻 보기)</div>
-          <div class="word-main" id="flash-main">der Aufzug</div>
+          <div class="word-main" id="flash-main">단어</div>
           <div class="word-sub" id="flash-sub"></div>
           <button class="tts-btn" onclick="event.stopPropagation(); speakCurrentWord();">🔊 발음 듣기</button>
         </div>
@@ -433,14 +375,6 @@
   </div>
 
   <script>
-    const SAMPLE_WORDS = [
-      { German: "der Aufzug", Meaning: "엘리베이터", Info: "", Example: "" },
-      { German: "die Birne", Meaning: "전구", Info: "", Example: "" },
-      { German: "der Bruder", Meaning: "남자형제", Info: "", Example: "" },
-      { German: "alleinerziehend", Meaning: "편부모", Info: "", Example: "" },
-      { German: "bewölkt", Meaning: "흐린", Info: "", Example: "Es ist bewölkt." }
-    ];
-
     let allWords = [];
     let wrongWordsSet = new Set();
     let wrongOnlyMode = false;
@@ -451,18 +385,10 @@
     let stats = { correct: 0, total: 0 };
 
     window.addEventListener("DOMContentLoaded", () => {
-      const savedUrl = localStorage.getItem("german_sheet_url");
       const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words") || "[]");
       wrongWordsSet = new Set(savedWrong);
 
-      if (savedUrl) {
-        document.getElementById("sheet-url-input").value = savedUrl;
-        fetchGoogleSheet(savedUrl);
-      } else {
-        allWords = [...SAMPLE_WORDS];
-        updateStatusUI();
-        nextQuestion();
-      }
+      loadCSVFile();
 
       document.getElementById("typing-input").addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
@@ -472,55 +398,288 @@
       });
     });
 
-    function toggleSettings() {
-      document.getElementById("settings-panel").classList.toggle("hidden");
-    }
-
-    function saveAndLoadUrl() {
-      const url = document.getElementById("sheet-url-input").value.trim();
-      if (!url) {
-        alert("구글 시트 CSV 주소를 입력해 주세요.");
-        return;
-      }
-      localStorage.setItem("german_sheet_url", url);
-      fetchGoogleSheet(url, true);
-    }
-
-    function refreshSheet() {
-      const savedUrl = localStorage.getItem("german_sheet_url");
-      if (!savedUrl) {
-        alert("먼저 [⚙️ 시트설정]에서 구글 시트 링크를 등록해 주세요.");
-        toggleSettings();
-        return;
-      }
-      fetchGoogleSheet(savedUrl, true);
-    }
-
-    async function fetchGoogleSheet(url, showAlert = false) {
+    // 같은 폴더의 words.csv 자동 로드
+    async function loadCSVFile() {
       try {
-        const fetchUrl = url + (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-        const response = await fetch(fetchUrl);
-        if (!response.ok) throw new Error("네트워크 응답 오류");
+        const response = await fetch("words.csv?t=" + Date.now());
+        if (!response.ok) throw new Error("words.csv 파일을 찾을 수 없습니다.");
         const csvText = await response.text();
         const workbook = XLSX.read(csvText, { type: "string" });
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json(firstSheet);
 
-        parseLoadedRows(rows, showAlert);
+        parseLoadedRows(rows);
       } catch (err) {
         console.error(err);
-        alert("시트를 불러오지 못했습니다. '웹에 게시(CSV)' 링크가 맞는지 확인해 주세요.");
-        if (allWords.length === 0) {
-          allWords = [...SAMPLE_WORDS];
-          updateStatusUI();
-          nextQuestion();
-        }
+        alert("words.csv 파일을 불러오지 못했습니다. GitHub 저장소에 words.csv 파일이 정상적으로 업로드되었는지 확인해 주세요.");
       }
     }
 
-    function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    function parseLoadedRows(rows) {
+      const parsed = rows.map(row => {
+        const getVal = (keyName) => {
+          const foundKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.toLowerCase());
+          return foundKey ? String(row[foundKey]).trim() : "";
+        };
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
+        const artikel = getVal("artikel");
+        const wort = getVal("wort");
+        const meaning = getVal("meaning");
+        const plural = getVal("plural");
+        const example = getVal("example");
+
+        const ich = getVal("ich");
+        const du = getVal("du");
+        const erSieEs = getVal("er/sie/es");
+        const ihr = getVal("ihr");
+
+        const conjList = [];
+        if (ich) conjList.push(`ich ${ich}`);
+        if (du) conjList.push(`du ${du}`);
+        if (erSieEs) conjList.push(`er/sie/es ${erSieEs}`);
+        if (ihr) conjList.push(`ihr ${ihr}`);
+
+        const infoParts = [];
+        if (plural) infoParts.push(`복수형: ${plural}`);
+        if (conjList.length > 0) infoParts.push(`동사변화: ${conjList.join(", ")}`);
+
+        const fullGerman = artikel ? `${artikel} ${wort}` : wort;
+
+        return {
+          German: fullGerman.trim(),
+          Meaning: meaning,
+          Info: infoParts.join(" | "),
+          Example: example
+        };
+      }).filter(item => {
+        return item.German && item.Meaning && item.Meaning !== "??";
+      });
+
+      if (parsed.length < 4) {
+        alert(`유효한 단어가 ${parsed.length}개입니다. 퀴즈를 위해 최소 4개 이상의 단어에 뜻을 채워 주세요.`);
+        return;
+      }
+
+      allWords = parsed;
+      stats = { correct: 0, total: 0 };
+      updateStatusUI();
+      nextQuestion();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      ["choice", "typing", "flash"].forEach(m => {
+        document.getElementById(`tab-${m}`).classList.toggle("active", m === mode);
+        document.getElementById(`view-${m}`).classList.toggle("hidden", m !== mode);
+      });
+      nextQuestion();
+    }
+
+    function toggleWrongOnly() {
+      wrongOnlyMode = !wrongOnlyMode;
+      updateStatusUI();
+      nextQuestion();
+    }
+
+    function updateStatusUI() {
+      document.getElementById("total-count").textContent = allWords.length;
+      document.getElementById("score-text").textContent = `${stats.correct} / ${stats.total}`;
+
+      const wrongBadge = document.getElementById("wrong-filter-badge");
+      if (wrongWordsSet.size > 0) {
+        wrongBadge.classList.remove("hidden");
+        wrongBadge.textContent = `오답(${wrongWordsSet.size})만 풀기: ${wrongOnlyMode ? "ON" : "OFF"}`;
+        wrongBadge.style.background = wrongOnlyMode ? "#dc2626" : "#fee2e2";
+        wrongBadge.style.color = wrongOnlyMode ? "#ffffff" : "#dc2626";
+      } else {
+        wrongBadge.classList.add("hidden");
+        wrongOnlyMode = false;
+      }
+    }
+
+    function nextQuestion() {
+      answered = false;
+      isFlashFlipped = false;
+      document.getElementById("feedback-area").classList.add("hidden");
+      document.getElementById("extra-info-area").classList.add("hidden");
+      document.getElementById("example-area").classList.add("hidden");
+
+      let pool = allWords;
+      if (wrongOnlyMode && wrongWordsSet.size > 0) {
+        const filtered = allWords.filter(w => wrongWordsSet.has(w.German));
+        if (filtered.length > 0) pool = filtered;
+      }
+
+      currentWord = pool[Math.floor(Math.random() * pool.length)];
+
+      if (currentMode === "choice") renderChoiceQuestion();
+      else if (currentMode === "typing") renderTypingQuestion();
+      else if (currentMode === "flash") renderFlashcard();
+    }
+
+    function renderChoiceQuestion() {
+      document.getElementById("choice-word").textContent = currentWord.German;
+      document.getElementById("choice-info").textContent = "";
+
+      const distractors = allWords
+        .filter(w => w.Meaning !== currentWord.Meaning)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      const options = [currentWord, ...distractors].sort(() => Math.random() - 0.5);
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt.Meaning;
+        btn.onclick = () => handleChoiceSelect(btn, opt.Meaning === currentWord.Meaning);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleChoiceSelect(selectedBtn, isCorrect) {
+      if (answered) return;
+      answered = true;
+      stats.total++;
+
+      const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach(btn => {
+        if (btn.textContent === currentWord.Meaning) {
+          btn.classList.add("correct");
+        }
+      });
+
+      if (isCorrect) {
+        stats.correct++;
+        markAsCorrect(currentWord.German);
+        showFeedback(true, `정답입니다! (${currentWord.German} = ${currentWord.Meaning})`);
+      } else {
+        selectedBtn.classList.add("wrong");
+        markAsWrong(currentWord.German);
+        showFeedback(false, `오답입니다. 정답: ${currentWord.Meaning}`);
+      }
+      updateStatusUI();
+    }
+
+    function renderTypingQuestion() {
+      document.getElementById("typing-meaning").textContent = currentWord.Meaning;
+      const hasArticle = /^(der|die|das)\s+/i.test(currentWord.German);
+      document.getElementById("typing-hint").textContent = hasArticle ? "힌트: 정관사(der/die/das) 포함하여 입력" : "";
+
+      const input = document.getElementById("typing-input");
+      input.value = "";
+      input.disabled = false;
+      document.getElementById("check-typing-btn").classList.remove("hidden");
+      setTimeout(() => input.focus(), 100);
+    }
+
+    function insertChar(char) {
+      const input = document.getElementById("typing-input");
+      if (input.disabled) return;
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const val = input.value;
+      input.value = val.substring(0, start) + char + val.substring(end);
+      input.focus();
+      input.setSelectionRange(start + 1, start + 1);
+    }
+
+    function checkTypingAnswer() {
+      if (answered) return;
+      const input = document.getElementById("typing-input");
+      const userAns = input.value.trim();
+      if (!userAns) return;
+
+      answered = true;
+      stats.total++;
+      input.disabled = true;
+      document.getElementById("check-typing-btn").classList.add("hidden");
+
+      const normalizedTarget = currentWord.German.replace(/\//g, "").toLowerCase();
+      const normalizedUser = userAns.replace(/\//g, "").toLowerCase();
+
+      const isCorrect = normalizedUser === normalizedTarget;
+      if (isCorrect) {
+        stats.correct++;
+        markAsCorrect(currentWord.German);
+        showFeedback(true, `정답입니다! 표기: ${currentWord.German}`);
+      } else {
+        markAsWrong(currentWord.German);
+        showFeedback(false, `틀렸습니다. 정답: ${currentWord.German}`);
+      }
+      speakCurrentWord();
+      updateStatusUI();
+    }
+
+    function renderFlashcard() {
+      document.getElementById("flash-side-label").textContent = "앞면 (터치해서 뜻 보기)";
+      document.getElementById("flash-main").textContent = currentWord.German;
+      document.getElementById("flash-sub").textContent = "";
+    }
+
+    function flipFlashcard() {
+      isFlashFlipped = !isFlashFlipped;
+      if (isFlashFlipped) {
+        document.getElementById("flash-side-label").textContent = "뒷면 (터치해서 단어 보기)";
+        document.getElementById("flash-main").textContent = currentWord.Meaning;
+        document.getElementById("flash-sub").textContent = currentWord.Info || "";
+        document.getElementById("feedback-area").classList.remove("hidden");
+        document.getElementById("feedback-msg").classList.add("hidden");
+        if (currentWord.Example) {
+          const exArea = document.getElementById("example-area");
+          exArea.classList.remove("hidden");
+          exArea.innerHTML = `<strong>예문:</strong> ${currentWord.Example}`;
+        }
+      } else {
+        renderFlashcard();
+      }
+    }
+
+    function showFeedback(isCorrect, text) {
+      const area = document.getElementById("feedback-area");
+      const msg = document.getElementById("feedback-msg");
+      const infoArea = document.getElementById("extra-info-area");
+      const exArea = document.getElementById("example-area");
+
+      area.classList.remove("hidden");
+      msg.classList.remove("hidden", "feedback-correct", "feedback-wrong");
+      msg.classList.add(isCorrect ? "feedback-correct" : "feedback-wrong");
+      msg.textContent = text;
+
+      if (currentWord.Info) {
+        infoArea.classList.remove("hidden");
+        infoArea.innerHTML = `<strong>문법 정보:</strong> ${currentWord.Info}`;
+      }
+
+      if (currentWord.Example) {
+        exArea.classList.remove("hidden");
+        exArea.innerHTML = `<strong>예문:</strong> ${currentWord.Example}`;
+      }
+    }
+
+    function markAsWrong(germanWord) {
+      wrongWordsSet.add(germanWord);
+      localStorage.setItem("german_wrong_words", JSON.stringify([...wrongWordsSet]));
+    }
+
+    function markAsCorrect(germanWord) {
+      if (wrongWordsSet.has(germanWord)) {
+        wrongWordsSet.delete(germanWord);
+        localStorage.setItem("german_wrong_words", JSON.stringify([...wrongWordsSet]));
+      }
+    }
+
+    function speakCurrentWord() {
+      if (!currentWord || !("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const cleanText = currentWord.German.replace(/\//g, "");
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = "de-DE";
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>
