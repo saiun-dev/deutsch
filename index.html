@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="독일어 퀴즈" />
+  <meta name="apple-mobile-web-app-title" content="독어 공부" />
   <meta name="theme-color" content="#1e293b" />
   <title>독일어 단어 퀴즈</title>
 
@@ -92,4 +92,435 @@
       border-radius: 16px;
       padding: 18px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      border: 1px
+      border: 1px solid var(--border);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .settings-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    input[type="text"], input[type="url"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input[type="text"]:focus, input[type="url"]:focus {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.05s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 12px;
+    }
+
+    .mode-tab {
+      padding: 10px 4px;
+      border: none;
+      background: transparent;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .mode-tab.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding: 0 4px;
+    }
+
+    .badge {
+      background: #dbeafe;
+      color: var(--primary-dark);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .badge-wrong {
+      background: #fee2e2;
+      color: var(--danger);
+      cursor: pointer;
+    }
+
+    .question-box {
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .word-main {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 8px 0;
+      word-break: keep-all;
+    }
+
+    .word-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      min-height: 22px;
+      line-height: 1.4;
+    }
+
+    .tts-btn {
+      margin-top: 10px;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 15px 16px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7;
+      border-color: var(--success);
+      color: #14532d;
+    }
+
+    .option-btn.wrong {
+      background: #fee2e2;
+      border-color: var(--danger);
+      color: #7f1d1d;
+    }
+
+    .umlaut-bar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin: 10px 0;
+    }
+
+    .umlaut-btn {
+      padding: 10px 0;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .umlaut-btn:active {
+      background: #cbd5e1;
+    }
+
+    .flashcard {
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      user-select: none;
+    }
+
+    .example-box {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #334155;
+      border-left: 3px solid var(--primary);
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .feedback-msg {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .feedback-correct {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .feedback-wrong {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .file-upload-label {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>🇩🇪 독어 공부 퀴즈</h1>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="refreshSheet()" title="시트 새로고침">🔄 새로고침</button>
+        <button class="icon-btn" onclick="toggleSettings()">⚙️ 시트설정</button>
+      </div>
+    </header>
+
+    <!-- 데이터 연동 설정 패널 -->
+    <div id="settings-panel" class="card hidden">
+      <div class="settings-group">
+        <label>1. 구글 시트 웹 게시 CSV 링크</label>
+        <input type="url" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv" />
+        <button class="btn btn-primary" onclick="saveAndLoadUrl()">링크 저장 및 단어 불러오기</button>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 14px 0;" />
+
+      <div class="settings-group" style="margin-bottom: 0;">
+        <label>2. 또는 엑셀(.xlsx) / CSV 파일 직접 선택</label>
+        <label class="file-upload-label" for="file-input">📂 스마트폰에서 엑셀/CSV 파일 열기</label>
+        <input type="file" id="file-input" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)" />
+      </div>
+    </div>
+
+    <!-- 모드 선택 탭 -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-choice" onclick="setMode('choice')">객관식 4지선다</button>
+      <button class="mode-tab" id="tab-typing" onclick="setMode('typing')">주관식 스펠링</button>
+      <button class="mode-tab" id="tab-flash" onclick="setMode('flash')">플래시카드</button>
+    </div>
+
+    <!-- 진행 상태 표시줄 -->
+    <div class="status-bar">
+      <div>
+        출제 가능 <span id="total-count" class="badge">0</span>단어
+        <span id="wrong-filter-badge" class="badge badge-wrong hidden" onclick="toggleWrongOnly()">오답만 풀기: OFF</span>
+      </div>
+      <div>정답률 <strong id="score-text">0 / 0</strong></div>
+    </div>
+
+    <!-- 퀴즈 메인 카드 -->
+    <div id="quiz-card" class="card">
+      <!-- 1. 객관식 모드 -->
+      <div id="view-choice">
+        <div class="question-box">
+          <div class="word-sub" id="choice-info"></div>
+          <div class="word-main" id="choice-word">단어를 불러오는 중...</div>
+          <button class="tts-btn" onclick="speakCurrentWord()">🔊 발음 듣기</button>
+        </div>
+        <div class="options-list" id="options-container"></div>
+      </div>
+
+      <!-- 2. 주관식 모드 -->
+      <div id="view-typing" class="hidden">
+        <div class="question-box">
+          <div class="word-sub">다음 뜻에 해당하는 독일어는?</div>
+          <div class="word-main" id="typing-meaning">뜻</div>
+          <div class="word-sub" id="typing-hint"></div>
+        </div>
+        <input type="text" id="typing-input" placeholder="독일어 입력 (관사 포함 시 띄어쓰기)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+        <div class="umlaut-bar">
+          <button type="button" class="umlaut-btn" onclick="insertChar('ä')">ä</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ö')">ö</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ü')">ü</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ß')">ß</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ä')">Ä</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ö')">Ö</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()">정답 확인</button>
+      </div>
+
+      <!-- 3. 플래시카드 모드 -->
+      <div id="view-flash" class="hidden">
+        <div class="flashcard" onclick="flipFlashcard()">
+          <div class="word-sub" id="flash-side-label">앞면 (터치해서 뜻 보기)</div>
+          <div class="word-main" id="flash-main">der Aufzug</div>
+          <div class="word-sub" id="flash-sub"></div>
+          <button class="tts-btn" onclick="event.stopPropagation(); speakCurrentWord();">🔊 발음 듣기</button>
+        </div>
+      </div>
+
+      <!-- 피드백 및 부가정보/예문 영역 -->
+      <div id="feedback-area" class="hidden">
+        <div id="feedback-msg" class="feedback-msg"></div>
+        <div id="extra-info-area" class="example-box hidden"></div>
+        <div id="example-area" class="example-box hidden"></div>
+        <button class="btn btn-primary" style="margin-top: 12px;" onclick="nextQuestion()">다음 문제 ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SAMPLE_WORDS = [
+      { German: "der Aufzug", Meaning: "엘리베이터", Info: "", Example: "" },
+      { German: "die Birne", Meaning: "전구", Info: "", Example: "" },
+      { German: "der Bruder", Meaning: "남자형제", Info: "", Example: "" },
+      { German: "alleinerziehend", Meaning: "편부모", Info: "", Example: "" },
+      { German: "bewölkt", Meaning: "흐린", Info: "", Example: "Es ist bewölkt." }
+    ];
+
+    let allWords = [];
+    let wrongWordsSet = new Set();
+    let wrongOnlyMode = false;
+    let currentMode = "choice";
+    let currentWord = null;
+    let isFlashFlipped = false;
+    let answered = false;
+    let stats = { correct: 0, total: 0 };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedUrl = localStorage.getItem("german_sheet_url");
+      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words") || "[]");
+      wrongWordsSet = new Set(savedWrong);
+
+      if (savedUrl) {
+        document.getElementById("sheet-url-input").value = savedUrl;
+        fetchGoogleSheet(savedUrl);
+      } else {
+        allWords = [...SAMPLE_WORDS];
+        updateStatusUI();
+        nextQuestion();
+      }
+
+      document.getElementById("typing-input").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          if (!answered) checkTypingAnswer();
+          else nextQuestion();
+        }
+      });
+    });
+
+    function toggleSettings() {
+      document.getElementById("settings-panel").classList.toggle("hidden");
+    }
+
+    function saveAndLoadUrl() {
+      const url = document.getElementById("sheet-url-input").value.trim();
+      if (!url) {
+        alert("구글 시트 CSV 주소를 입력해 주세요.");
+        return;
+      }
+      localStorage.setItem("german_sheet_url", url);
+      fetchGoogleSheet(url, true);
+    }
+
+    function refreshSheet() {
+      const savedUrl = localStorage.getItem("german_sheet_url");
+      if (!savedUrl) {
+        alert("먼저 [⚙️ 시트설정]에서 구글 시트 링크를 등록해 주세요.");
+        toggleSettings();
+        return;
+      }
+      fetchGoogleSheet(savedUrl, true);
+    }
+
+    async function fetchGoogleSheet(url, showAlert = false) {
+      try {
+        const fetchUrl = url + (url.includes("?") ? "&" : "?") + "t=" + Date.now();
+        const response = await fetch(fetchUrl);
+        if (!response.ok) throw new Error("네트워크 응답 오류");
+        const csvText = await response.text();
+        const workbook = XLSX.read(csvText, { type: "string" });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(firstSheet);
+
+        parseLoadedRows(rows, showAlert);
+      } catch (err) {
+        console.error(err);
+        alert("시트를 불러오지 못했습니다. '웹에 게시(CSV)' 링크가 맞는지 확인해 주세요.");
+        if (allWords.length === 0) {
+          allWords = [...SAMPLE_WORDS];
+          updateStatusUI();
+          nextQuestion();
+        }
+      }
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
