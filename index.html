@@ -360,7 +360,7 @@
     let stats = { correct: 0, total: 0 };
 
     window.addEventListener("DOMContentLoaded", () => {
-      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words_v13") || "[]");
+      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words_v14") || "[]");
       wrongWordsSet = new Set(savedWrong);
       loadData();
 
@@ -576,12 +576,18 @@
         }
 
         const target = pronouns[Math.floor(Math.random() * pronouns.length)];
-        const allFormsOfThisVerb = [w.ich, w.du, w.erSieEs, w.ihr].filter(v => v && v !== "");
-        let possibleDistractors = allFormsOfThisVerb.filter(v => v !== target.v);
+        
+        // [엄격 개선] 오직 "현재 동사무늬"의 다른 인칭 변화 형태들만 오답 후보로 사용
+        let possibleDistractors = [w.ich, w.du, w.erSieEs, w.ihr].filter(v => v && v !== "" && v !== target.v);
 
-        if (possibleDistractors.length < 3) {
-          const otherVerbsForms = allWords.flatMap(x => [x.ich, x.du, x.erSieEs, x.ihr]).filter(v => v && v !== target.v && !possibleDistractors.includes(v));
-          possibleDistractors = [...possibleDistractors, ...otherVerbsForms];
+        // 만약 해당 동사의 등록된 형태가 부족하다면, 같은 동사의 어근을 활용해 헷갈리는 오답 형태를 자동 생성하여 채움
+        const baseStem = w.wort.replace(/\/|en$|n$/g, '');
+        const fallbackPool = [baseStem + 'e', baseStem + 'st', baseStem + 't', baseStem + 'en'];
+        
+        for (let cand of fallbackPool) {
+          if (possibleDistractors.length < 3 && cand !== target.v && !possibleDistractors.includes(cand)) {
+            possibleDistractors.push(cand);
+          }
         }
 
         const distractors = possibleDistractors.sort(() => Math.random() - 0.5).slice(0, 3);
@@ -740,13 +746,13 @@
 
     function markAsWrong(wort) {
       wrongWordsSet.add(wort);
-      localStorage.setItem("german_wrong_words_v13", JSON.stringify([...wrongWordsSet]));
+      localStorage.setItem("german_wrong_words_v14", JSON.stringify([...wrongWordsSet]));
     }
 
     function markAsCorrect(wort) {
       if (wrongWordsSet.has(wort)) {
         wrongWordsSet.delete(wort);
-        localStorage.setItem("german_wrong_words_v13", JSON.stringify([...wrongWordsSet]));
+        localStorage.setItem("german_wrong_words_v14", JSON.stringify([...wrongWordsSet]));
       }
     }
 
