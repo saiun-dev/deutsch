@@ -227,10 +227,6 @@
       cursor: pointer;
     }
 
-    .umlaut-btn:active {
-      background: #cbd5e1;
-    }
-
     .flashcard {
       min-height: 190px;
       display: flex;
@@ -239,4 +235,260 @@
       align-items: center;
       text-align: center;
       cursor: pointer;
-      background:
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      user-select: none;
+    }
+
+    .info-box {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #334155;
+      border-left: 3px solid var(--primary);
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .feedback-msg {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .feedback-correct {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .feedback-wrong {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>🇩🇪 독일어 맞춤형 퀴즈</h1>
+      <button class="icon-btn" onclick="loadCSVFile()">🔄 새로고침</button>
+    </header>
+
+    <div class="mode-selector">
+      <button class="mode-btn active" onclick="setMode('word_to_meaning')">1. 단어➔뜻</button>
+      <button class="mode-btn" onclick="setMode('meaning_to_word')">2. 뜻➔단어</button>
+      <button class="mode-btn" onclick="setMode('article')">3. 관사 맞추기</button>
+      <button class="mode-btn" onclick="setMode('plural')">4. 복수형 쓰기</button>
+      <button class="mode-btn" onclick="setMode('verb_conj')">5. 동사 인칭변화</button>
+      <button class="mode-btn" onclick="setMode('flashcard')">6. 플래시카드</button>
+    </div>
+
+    <div class="status-bar">
+      <div>
+        대상 <span id="pool-count" class="badge">0</span>개
+        <span id="wrong-filter-badge" class="badge badge-wrong hidden" onclick="toggleWrongOnly()">오답만: OFF</span>
+      </div>
+      <div>정답률 <strong id="score-text">0 / 0</strong></div>
+    </div>
+
+    <div id="quiz-card" class="card">
+      <div id="question-container">
+        <div class="word-main" style="font-size:1.1rem; padding:20px; text-align:center;">words.csv 불러오는 중...</div>
+      </div>
+      
+      <div id="typing-container" class="hidden" style="margin-top: 10px;">
+        <input type="text" id="typing-input" placeholder="정답을 입력하세요" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+        <div class="umlaut-bar">
+          <button type="button" class="umlaut-btn" onclick="insertChar('ä')">ä</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ö')">ö</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ü')">ü</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('ß')">ß</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ä')">Ä</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ö')">Ö</button>
+          <button type="button" class="umlaut-btn" onclick="insertChar('Ü')">Ü</button>
+        </div>
+        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()" style="margin-top: 8px;">정답 확인</button>
+      </div>
+
+      <div id="feedback-area" class="hidden">
+        <div id="feedback-msg" class="feedback-msg"></div>
+        <div id="example-area" class="info-box hidden"></div>
+        <div id="note-area" class="info-box hidden"></div>
+        <button class="btn btn-primary" style="margin-top: 12px;" onclick="nextQuestion()">다음 문제 ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allWords = [];
+    let wrongWordsSet = new Set();
+    let wrongOnlyMode = false;
+    let currentMode = "word_to_meaning";
+    let currentQuizData = null;
+    let answered = false;
+    let stats = { correct: 0, total: 0 };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words_v7") || "[]");
+      wrongWordsSet = new Set(savedWrong);
+      loadCSVFile();
+
+      document.getElementById("typing-input").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          if (!answered) checkTypingAnswer();
+          else nextQuestion();
+        }
+      });
+    });
+
+    async function loadCSVFile() {
+      try {
+        const response = await fetch("words.csv?t=" + Date.now());
+        if (!response.ok) throw new Error("words.csv 파일을 찾을 수 없습니다.");
+        
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: "array" });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+
+        parseLoadedRows(rows);
+      } catch (err) {
+        console.error("CSV 로드 오류:", err);
+        document.getElementById("question-container").innerHTML = `<div class="word-main" style="font-size:1.1rem; color:#dc2626; padding:15px; text-align:center;">words.csv 파일을 불러오지 못했습니다.<br><span style="font-size:0.85rem; color:#64748b;">GitHub 저장소에 words.csv가 있는지 확인해 주세요.</span></div>`;
+      }
+    }
+
+    function parseLoadedRows(rows) {
+      allWords = rows.map(row => {
+        const cleanRow = {};
+        Object.keys(row).forEach(k => {
+          cleanRow[k.trim().toLowerCase()] = String(row[k]).trim();
+        });
+
+        const getVal = (keys) => {
+          for (let k of keys) {
+            if (cleanRow[k.toLowerCase()] !== undefined) {
+              return cleanRow[k.toLowerCase()];
+            }
+          }
+          return "";
+        };
+
+        return {
+          artikel: getVal(["관사", "artikel"]),
+          wort: getVal(["단어", "wort"]),
+          meaning: getVal(["뜻", "meaning"]),
+          plural: getVal(["복수형", "plural"]),
+          example: getVal(["예문", "example"]),
+          note: getVal(["참고", "note"]),
+          ich: getVal(["ich"]),
+          du: getVal(["du"]),
+          erSieEs: getVal(["er/sie/es", "ersiees"]),
+          ihr: getVal(["ihr"])
+        };
+      }).filter(item => item.wort && item.meaning && item.meaning !== "??" && item.meaning !== "");
+
+      stats = { correct: 0, total: 0 };
+      updateStatusUI();
+      nextQuestion();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+      nextQuestion();
+    }
+
+    function toggleWrongOnly() {
+      wrongOnlyMode = !wrongOnlyMode;
+      updateStatusUI();
+      nextQuestion();
+    }
+
+    function updateStatusUI() {
+      let pool = getFilteredPool();
+      document.getElementById("pool-count").textContent = pool.length;
+      document.getElementById("score-text").textContent = `${stats.correct} /${stats.total}`;
+
+      const wrongBadge = document.getElementById("wrong-filter-badge");
+      if (wrongWordsSet.size > 0) {
+        wrongBadge.classList.remove("hidden");
+        wrongBadge.textContent = `오답(${wrongWordsSet.size})만: ${wrongOnlyMode ? "ON" : "OFF"}`;
+        wrongBadge.style.background = wrongOnlyMode ? "#dc2626" : "#fee2e2";
+        wrongBadge.style.color = wrongOnlyMode ? "#ffffff" : "#dc2626";
+      } else {
+        wrongBadge.classList.add("hidden");
+        wrongOnlyMode = false;
+      }
+    }
+
+    function getFilteredPool() {
+      let pool = allWords;
+      if (currentMode === 'article' || currentMode === 'plural') {
+        pool = allWords.filter(w => w.artikel && ['der', 'die', 'das'].includes(w.artikel.toLowerCase()));
+      } else if (currentMode === 'verb_conj') {
+        pool = allWords.filter(w => w.ich || w.du || w.erSieEs || w.ihr);
+      }
+
+      if (wrongOnlyMode && wrongWordsSet.size > 0) {
+        const filtered = pool.filter(w => wrongWordsSet.has(w.wort));
+        if (filtered.length > 0) pool = filtered;
+      }
+      return pool;
+    }
+
+    function nextQuestion() {
+      answered = false;
+      document.getElementById("feedback-area").classList.add("hidden");
+      document.getElementById("typing-container").classList.add("hidden");
+      document.getElementById("example-area").classList.add("hidden");
+      document.getElementById("note-area").classList.add("hidden");
+
+      let pool = getFilteredPool();
+      if (pool.length === 0) {
+        document.getElementById("question-container").innerHTML = `<div class="word-main" style="font-size:1.1rem; padding:20px; text-align:center;">이 모드에 해당하는 단어가 없습니다!<br><span style="font-size:0.85rem; color:#64748b;">(관사/복수형은 명사만, 동사변화는 동사만 대상이 됩니다)</span></div>`;
+        return;
+      }
+
+      const wordObj = pool[Math.floor(Math.random() * pool.length)];
+      generateQuiz(wordObj);
+      updateStatusUI();
+    }
+
+    function generateQuiz(w) {
+      const isVerb = w.ich || w.du || w.erSieEs || w.ihr;
+
+      if (currentMode === 'word_to_meaning') {
+        const displayWord = w.artikel ? `${w.artikel}${w.wort}` : w.wort;
+        const distractors = allWords.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [w, ...distractors].sort(() => Math.random() - 0.5);
+
+        let html = `
+          <div class
