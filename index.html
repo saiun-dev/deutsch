@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="독어 공부" />
   <meta name="theme-color" content="#1e293b" />
-  <title>독일어 단어 퀴즈</title>
+  <title>독일어 맞춤형 단어 퀴즈</title>
 
   <!-- 엑셀(.xlsx) 및 CSV 파싱 라이브러리 -->
   <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
@@ -47,13 +47,13 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     header {
       background: #1e293b;
       color: white;
-      padding: 16px;
+      padding: 14px 16px;
       border-radius: 16px;
       display: flex;
       justify-content: space-between;
@@ -63,7 +63,7 @@
 
     header h1 {
       margin: 0;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
     }
 
@@ -94,27 +94,29 @@
       display: none !important;
     }
 
-    .mode-tabs {
+    /* 모드 선택 드롭다운 또는 그리드 */
+    .mode-selector {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 6px;
       background: #e2e8f0;
-      padding: 4px;
+      padding: 6px;
       border-radius: 12px;
     }
 
-    .mode-tab {
-      padding: 10px 4px;
+    .mode-btn {
+      padding: 10px 8px;
       border: none;
       background: transparent;
-      border-radius: 9px;
-      font-size: 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--muted);
       cursor: pointer;
+      text-align: center;
     }
 
-    .mode-tab.active {
+    .mode-btn.active {
       background: white;
       color: var(--primary);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -146,30 +148,30 @@
 
     .question-box {
       text-align: center;
-      padding: 20px 10px;
+      padding: 15px 10px;
     }
 
     .word-main {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
-      margin: 8px 0;
+      margin: 6px 0;
       word-break: keep-all;
     }
 
     .word-sub {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--muted);
-      min-height: 22px;
+      min-height: 20px;
       line-height: 1.4;
     }
 
     .tts-btn {
-      margin-top: 10px;
+      margin-top: 8px;
       background: #f1f5f9;
       border: 1px solid var(--border);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
@@ -187,11 +189,11 @@
     .option-btn {
       width: 100%;
       text-align: left;
-      padding: 15px 16px;
+      padding: 14px 16px;
       background: #f8fafc;
       border: 1.5px solid var(--border);
       border-radius: 12px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       color: var(--text);
       cursor: pointer;
@@ -231,7 +233,7 @@
     }
 
     .flashcard {
-      min-height: 210px;
+      min-height: 190px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -242,7 +244,7 @@
       user-select: none;
     }
 
-    .example-box {
+    .info-box {
       margin-top: 10px;
       padding: 12px;
       background: #f8fafc;
@@ -255,7 +257,7 @@
     }
 
     .feedback-msg {
-      margin-top: 12px;
+      margin-top: 10px;
       padding: 12px;
       border-radius: 10px;
       font-weight: 600;
@@ -302,46 +304,37 @@
 <body>
   <div class="app-container">
     <header>
-      <h1>🇩🇪 독어 공부 퀴즈</h1>
+      <h1>🇩🇪 독일어 맞춤형 퀴즈</h1>
       <button class="icon-btn" onclick="loadCSVFile()" title="단어 새로고침">🔄 새로고침</button>
     </header>
 
-    <!-- 모드 선택 탭 -->
-    <div class="mode-tabs">
-      <button class="mode-tab active" id="tab-choice" onclick="setMode('choice')">객관식</button>
-      <button class="mode-tab" id="tab-typing" onclick="setMode('typing')">주관식</button>
-      <button class="mode-tab" id="tab-flash" onclick="setMode('flash')">플래시카드</button>
+    <!-- 모드 선택 탭 (총 7가지 모드) -->
+    <div class="mode-selector">
+      <button class="mode-btn active" onclick="setMode('word_to_meaning')">1. 단어➔뜻</button>
+      <button class="mode-btn" onclick="setMode('meaning_to_word')">2. 뜻➔단어</button>
+      <button class="mode-btn" onclick="setMode('article')">3. 관사 맞추기</button>
+      <button class="mode-btn" onclick="setMode('plural')">4. 복수형 쓰기</button>
+      <button class="mode-btn" onclick="setMode('verb_conj')">5. 동사 인칭변화</button>
+      <button class="mode-btn" onclick="setMode('flashcard')">6. 플래시카드</button>
     </div>
 
     <!-- 진행 상태 표시줄 -->
     <div class="status-bar">
       <div>
-        출제 가능 <span id="total-count" class="badge">0</span>단어
-        <span id="wrong-filter-badge" class="badge badge-wrong hidden" onclick="toggleWrongOnly()">오답만 풀기: OFF</span>
+        대상 <span id="pool-count" class="badge">0</span>개
+        <span id="wrong-filter-badge" class="badge badge-wrong hidden" onclick="toggleWrongOnly()">오답만: OFF</span>
       </div>
       <div>정답률 <strong id="score-text">0 / 0</strong></div>
     </div>
 
     <!-- 퀴즈 메인 카드 -->
     <div id="quiz-card" class="card">
-      <!-- 1. 객관식 모드 -->
-      <div id="view-choice">
-        <div class="question-box">
-          <div class="word-sub" id="choice-info"></div>
-          <div class="word-main" id="choice-word">단어를 불러오는 중...</div>
-          <button class="tts-btn" onclick="speakCurrentWord()">🔊 발음 듣기</button>
-        </div>
-        <div class="options-list" id="options-container"></div>
-      </div>
-
-      <!-- 2. 주관식 모드 -->
-      <div id="view-typing" class="hidden">
-        <div class="question-box">
-          <div class="word-sub">다음 뜻에 해당하는 독일어는?</div>
-          <div class="word-main" id="typing-meaning">뜻</div>
-          <div class="word-sub" id="typing-hint"></div>
-        </div>
-        <input type="text" id="typing-input" placeholder="독일어 입력 (관사 포함 시 띄어쓰기)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <!-- 질문 및 보기 영역 -->
+      <div id="question-container"></div>
+      
+      <!-- 주관식 입력 영역 -->
+      <div id="typing-container" class="hidden" style="margin-top: 10px;">
+        <input type="text" id="typing-input" placeholder="정답을 입력하세요" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
         <div class="umlaut-bar">
           <button type="button" class="umlaut-btn" onclick="insertChar('ä')">ä</button>
           <button type="button" class="umlaut-btn" onclick="insertChar('ö')">ö</button>
@@ -351,24 +344,14 @@
           <button type="button" class="umlaut-btn" onclick="insertChar('Ö')">Ö</button>
           <button type="button" class="umlaut-btn" onclick="insertChar('Ü')">Ü</button>
         </div>
-        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()" style="margin-top: 10px;">정답 확인</button>
+        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()" style="margin-top: 8px;">정답 확인</button>
       </div>
 
-      <!-- 3. 플래시카드 모드 -->
-      <div id="view-flash" class="hidden">
-        <div class="flashcard" onclick="flipFlashcard()">
-          <div class="word-sub" id="flash-side-label">앞면 (터치해서 뜻 보기)</div>
-          <div class="word-main" id="flash-main">단어</div>
-          <div class="word-sub" id="flash-sub"></div>
-          <button class="tts-btn" onclick="event.stopPropagation(); speakCurrentWord();">🔊 발음 듣기</button>
-        </div>
-      </div>
-
-      <!-- 피드백 및 부가정보/예문 영역 -->
+      <!-- 피드백 및 예문/참고 출력 영역 -->
       <div id="feedback-area" class="hidden">
         <div id="feedback-msg" class="feedback-msg"></div>
-        <div id="extra-info-area" class="example-box hidden"></div>
-        <div id="example-area" class="example-box hidden"></div>
+        <div id="example-area" class="info-box hidden"></div>
+        <div id="note-area" class="info-box hidden"></div>
         <button class="btn btn-primary" style="margin-top: 12px;" onclick="nextQuestion()">다음 문제 ➡️</button>
       </div>
     </div>
@@ -378,16 +361,14 @@
     let allWords = [];
     let wrongWordsSet = new Set();
     let wrongOnlyMode = false;
-    let currentMode = "choice";
-    let currentWord = null;
-    let isFlashFlipped = false;
+    let currentMode = "word_to_meaning";
+    let currentQuizData = null; // { wordObj, questionText, correctAnswer, options, type, subInfo }
     let answered = false;
     let stats = { correct: 0, total: 0 };
 
     window.addEventListener("DOMContentLoaded", () => {
-      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words") || "[]");
+      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words_v2") || "[]");
       wrongWordsSet = new Set(savedWrong);
-
       loadCSVFile();
 
       document.getElementById("typing-input").addEventListener("keypress", (e) => {
@@ -398,7 +379,6 @@
       });
     });
 
-    // 같은 폴더의 words.csv 자동 로드
     async function loadCSVFile() {
       try {
         const response = await fetch("words.csv?t=" + Date.now());
@@ -411,56 +391,31 @@
         parseLoadedRows(rows);
       } catch (err) {
         console.error(err);
-        alert("words.csv 파일을 불러오지 못했습니다. GitHub 저장소에 words.csv 파일이 정상적으로 업로드되었는지 확인해 주세요.");
+        alert("words.csv 파일을 불러오지 못했습니다. 저장소에 words.csv가 있는지 확인해 주세요.");
       }
     }
 
     function parseLoadedRows(rows) {
-      const parsed = rows.map(row => {
+      allWords = rows.map(row => {
         const getVal = (keyName) => {
           const foundKey = Object.keys(row).find(k => k.trim().toLowerCase() === keyName.toLowerCase());
           return foundKey ? String(row[foundKey]).trim() : "";
         };
 
-        const artikel = getVal("artikel");
-        const wort = getVal("wort");
-        const meaning = getVal("meaning");
-        const plural = getVal("plural");
-        const example = getVal("example");
-
-        const ich = getVal("ich");
-        const du = getVal("du");
-        const erSieEs = getVal("er/sie/es");
-        const ihr = getVal("ihr");
-
-        const conjList = [];
-        if (ich) conjList.push(`ich ${ich}`);
-        if (du) conjList.push(`du ${du}`);
-        if (erSieEs) conjList.push(`er/sie/es ${erSieEs}`);
-        if (ihr) conjList.push(`ihr ${ihr}`);
-
-        const infoParts = [];
-        if (plural) infoParts.push(`복수형: ${plural}`);
-        if (conjList.length > 0) infoParts.push(`동사변화: ${conjList.join(", ")}`);
-
-        const fullGerman = artikel ? `${artikel} ${wort}` : wort;
-
         return {
-          German: fullGerman.trim(),
-          Meaning: meaning,
-          Info: infoParts.join(" | "),
-          Example: example
+          artikel: getVal("관사") || getVal("artikel"),
+          wort: getVal("단어") || getVal("wort"),
+          meaning: getVal("뜻") || getVal("meaning"),
+          plural: getVal("복수형") || getVal("plural"),
+          example: getVal("예문") || getVal("example"),
+          note: getVal("참고") || getVal("note"),
+          ich: getVal("ich"),
+          du: getVal("du"),
+          erSieEs: getVal("er/sie/es"),
+          ihr: getVal("ihr")
         };
-      }).filter(item => {
-        return item.German && item.Meaning && item.Meaning !== "??";
-      });
+      }).filter(item => item.wort && item.meaning && item.meaning !== "??");
 
-      if (parsed.length < 4) {
-        alert(`유효한 단어가 ${parsed.length}개입니다. 퀴즈를 위해 최소 4개 이상의 단어에 뜻을 채워 주세요.`);
-        return;
-      }
-
-      allWords = parsed;
       stats = { correct: 0, total: 0 };
       updateStatusUI();
       nextQuestion();
@@ -468,10 +423,8 @@
 
     function setMode(mode) {
       currentMode = mode;
-      ["choice", "typing", "flash"].forEach(m => {
-        document.getElementById(`tab-${m}`).classList.toggle("active", m === mode);
-        document.getElementById(`view-${m}`).classList.toggle("hidden", m !== mode);
-      });
+      document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
       nextQuestion();
     }
 
@@ -482,13 +435,14 @@
     }
 
     function updateStatusUI() {
-      document.getElementById("total-count").textContent = allWords.length;
+      let pool = getFilteredPool();
+      document.getElementById("pool-count").textContent = pool.length;
       document.getElementById("score-text").textContent = `${stats.correct} / ${stats.total}`;
 
       const wrongBadge = document.getElementById("wrong-filter-badge");
       if (wrongWordsSet.size > 0) {
         wrongBadge.classList.remove("hidden");
-        wrongBadge.textContent = `오답(${wrongWordsSet.size})만 풀기: ${wrongOnlyMode ? "ON" : "OFF"}`;
+        wrongBadge.textContent = `오답(${wrongWordsSet.size})만: ${wrongOnlyMode ? "ON" : "OFF"}`;
         wrongBadge.style.background = wrongOnlyMode ? "#dc2626" : "#fee2e2";
         wrongBadge.style.color = wrongOnlyMode ? "#ffffff" : "#dc2626";
       } else {
@@ -497,189 +451,139 @@
       }
     }
 
-    function nextQuestion() {
-      answered = false;
-      isFlashFlipped = false;
-      document.getElementById("feedback-area").classList.add("hidden");
-      document.getElementById("extra-info-area").classList.add("hidden");
-      document.getElementById("example-area").classList.add("hidden");
-
+    function getFilteredPool() {
       let pool = allWords;
+      if (currentMode === 'article' || currentMode === 'plural') {
+        pool = allWords.filter(w => w.artikel && ['der', 'die', 'das'].includes(w.artikel.toLowerCase()));
+      } else if (currentMode === 'verb_conj') {
+        pool = allWords.filter(w => w.ich || w.du || w.erSieEs || w.ihr);
+      }
+
       if (wrongOnlyMode && wrongWordsSet.size > 0) {
-        const filtered = allWords.filter(w => wrongWordsSet.has(w.German));
+        const filtered = pool.filter(w => wrongWordsSet.has(w.wort));
         if (filtered.length > 0) pool = filtered;
       }
-
-      currentWord = pool[Math.floor(Math.random() * pool.length)];
-
-      if (currentMode === "choice") renderChoiceQuestion();
-      else if (currentMode === "typing") renderTypingQuestion();
-      else if (currentMode === "flash") renderFlashcard();
+      return pool;
     }
 
-    function renderChoiceQuestion() {
-      document.getElementById("choice-word").textContent = currentWord.German;
-      document.getElementById("choice-info").textContent = "";
+    function nextQuestion() {
+      answered = false;
+      document.getElementById("feedback-area").classList.add("hidden");
+      document.getElementById("typing-container").classList.add("hidden");
+      document.getElementById("example-area").classList.add("hidden");
+      document.getElementById("note-area").classList.add("hidden");
 
-      const distractors = allWords
-        .filter(w => w.Meaning !== currentWord.Meaning)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
-
-      const options = [currentWord, ...distractors].sort(() => Math.random() - 0.5);
-      const container = document.getElementById("options-container");
-      container.innerHTML = "";
-
-      options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.textContent = opt.Meaning;
-        btn.onclick = () => handleChoiceSelect(btn, opt.Meaning === currentWord.Meaning);
-        container.appendChild(btn);
-      });
-    }
-
-    function handleChoiceSelect(selectedBtn, isCorrect) {
-      if (answered) return;
-      answered = true;
-      stats.total++;
-
-      const buttons = document.querySelectorAll(".option-btn");
-      buttons.forEach(btn => {
-        if (btn.textContent === currentWord.Meaning) {
-          btn.classList.add("correct");
-        }
-      });
-
-      if (isCorrect) {
-        stats.correct++;
-        markAsCorrect(currentWord.German);
-        showFeedback(true, `정답입니다! (${currentWord.German} = ${currentWord.Meaning})`);
-      } else {
-        selectedBtn.classList.add("wrong");
-        markAsWrong(currentWord.German);
-        showFeedback(false, `오답입니다. 정답: ${currentWord.Meaning}`);
+      let pool = getFilteredPool();
+      if (pool.length === 0) {
+        document.getElementById("question-container").innerHTML = `<div class="word-main">조건에 맞는 단어가 없습니다!</div>`;
+        return;
       }
+
+      const wordObj = pool[Math.floor(Math.random() * pool.length)];
+      generateQuiz(wordObj);
       updateStatusUI();
     }
 
-    function renderTypingQuestion() {
-      document.getElementById("typing-meaning").textContent = currentWord.Meaning;
-      const hasArticle = /^(der|die|das)\s+/i.test(currentWord.German);
-      document.getElementById("typing-hint").textContent = hasArticle ? "힌트: 정관사(der/die/das) 포함하여 입력" : "";
+    function generateQuiz(w) {
+      const isVerb = w.ich || w.du || w.erSieEs || w.ihr;
+      const isNoun = w.artikel && ['der', 'die', 'das'].includes(w.artikel.toLowerCase());
 
-      const input = document.getElementById("typing-input");
-      input.value = "";
-      input.disabled = false;
-      document.getElementById("check-typing-btn").classList.remove("hidden");
-      setTimeout(() => input.focus(), 100);
-    }
+      if (currentMode === 'word_to_meaning') {
+        // 1. 단어 ➔ 뜻 맞추기 (객관식)
+        const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
+        const distractors = allWords.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [w, ...distractors].sort(() => Math.random() - 0.5);
 
-    function insertChar(char) {
-      const input = document.getElementById("typing-input");
-      if (input.disabled) return;
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const val = input.value;
-      input.value = val.substring(0, start) + char + val.substring(end);
-      input.focus();
-      input.setSelectionRange(start + 1, start + 1);
-    }
+        let html = `
+          <div class="question-box">
+            <div class="word-sub">다음 단어의 뜻은?</div>
+            <div class="word-main">${displayWord}</div>
+            ${isVerb && w.example ? `<div class="info-box" style="text-align:center; margin-top:8px;"><strong>예문:</strong> ${w.example}</div>` : ''}
+            <button class="tts-btn" onclick="speakText('${displayWord.replace(/\//g, '')}')">🔊 발음 듣기</button>
+          </div>
+          <div class="options-list">
+        `;
+        options.forEach(opt => {
+          html += `<button class="option-btn" onclick="handleChoiceAnswer('${opt.meaning}', '${w.meaning}', this)">${opt.meaning}</button>`;
+        });
+        html += `</div>`;
+        document.getElementById("question-container").innerHTML = html;
+        currentQuizData = { wordObj: w, correctAnswer: w.meaning, isVerb: isVerb };
 
-    function checkTypingAnswer() {
-      if (answered) return;
-      const input = document.getElementById("typing-input");
-      const userAns = input.value.trim();
-      if (!userAns) return;
+      } else if (currentMode === 'meaning_to_word') {
+        // 2. 뜻 ➔ 단어 맞추기 (객관식)
+        const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
+        const distractors = allWords.filter(x => x.wort !== w.wort).sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [w, ...distractors].sort(() => Math.random() - 0.5);
 
-      answered = true;
-      stats.total++;
-      input.disabled = true;
-      document.getElementById("check-typing-btn").classList.add("hidden");
+        let html = `
+          <div class="question-box">
+            <div class="word-sub">다음 뜻에 해당하는 독일어는?</div>
+            <div class="word-main">${w.meaning}</div>
+          </div>
+          <div class="options-list">
+        `;
+        options.forEach(opt => {
+          const optDisplay = opt.artikel ? `${opt.artikel} ${opt.wort}` : opt.wort;
+          html += `<button class="option-btn" onclick="handleChoiceAnswer('${optDisplay}', '${displayWord}', this)">${optDisplay}</button>`;
+        });
+        html += `</div>`;
+        document.getElementById("question-container").innerHTML = html;
+        currentQuizData = { wordObj: w, correctAnswer: displayWord, isVerb: isVerb };
 
-      const normalizedTarget = currentWord.German.replace(/\//g, "").toLowerCase();
-      const normalizedUser = userAns.replace(/\//g, "").toLowerCase();
+      } else if (currentMode === 'article') {
+        // 3. 명사 관사 맞추기 (객관식)
+        const options = ['der', 'die', 'das'].sort(() => Math.random() - 0.5);
+        let html = `
+          <div class="question-box">
+            <div class="word-sub">다음 명사의 정관사는?</div>
+            <div class="word-main">___ ${w.wort}</div>
+            <div class="word-sub">(뜻: ${w.meaning})</div>
+          </div>
+          <div class="options-list">
+        `;
+        options.forEach(opt => {
+          html += `<button class="option-btn" onclick="handleChoiceAnswer('${opt}', '${w.artikel.toLowerCase()}', this)">${opt}</button>`;
+        });
+        html += `</div>`;
+        document.getElementById("question-container").innerHTML = html;
+        currentQuizData = { wordObj: w, correctAnswer: w.artikel.toLowerCase(), isVerb: false };
 
-      const isCorrect = normalizedUser === normalizedTarget;
-      if (isCorrect) {
-        stats.correct++;
-        markAsCorrect(currentWord.German);
-        showFeedback(true, `정답입니다! 표기: ${currentWord.German}`);
-      } else {
-        markAsWrong(currentWord.German);
-        showFeedback(false, `틀렸습니다. 정답: ${currentWord.German}`);
-      }
-      speakCurrentWord();
-      updateStatusUI();
-    }
+      } else if (currentMode === 'plural') {
+        // 4. 명사 복수형 쓰기 (주관식)
+        let html = `
+          <div class="question-box">
+            <div class="word-sub">다음 명사의 복수형을 입력하세요</div>
+            <div class="word-main">${w.artikel} ${w.wort}</div>
+            <div class="word-sub">(뜻: ${w.meaning})</div>
+          </div>
+        `;
+        document.getElementById("question-container").innerHTML = html;
+        document.getElementById("typing-container").classList.remove("hidden");
+        document.getElementById("typing-input").value = "";
+        document.getElementById("typing-input").placeholder = "예: die Tische 또는 Tische";
+        setTimeout(() => document.getElementById("typing-input").focus(), 100);
+        currentQuizData = { wordObj: w, correctAnswer: w.plural, type: 'plural' };
 
-    function renderFlashcard() {
-      document.getElementById("flash-side-label").textContent = "앞면 (터치해서 뜻 보기)";
-      document.getElementById("flash-main").textContent = currentWord.German;
-      document.getElementById("flash-sub").textContent = "";
-    }
+      } else if (currentMode === 'verb_conj') {
+        // 5. 동사 인칭 변화 (객관식 또는 주관식 혼용 가능 - 여기선 객관식)
+        const pronouns = [];
+        if (w.ich) pronouns.push({ p: 'ich', v: w.ich });
+        if (w.du) pronouns.push({ p: 'du', v: w.du });
+        if (w.erSieEs) pronouns.push({ p: 'er/sie/es', v: w.erSieEs });
+        if (w.ihr) pronouns.push({ p: 'ihr', v: w.ihr });
 
-    function flipFlashcard() {
-      isFlashFlipped = !isFlashFlipped;
-      if (isFlashFlipped) {
-        document.getElementById("flash-side-label").textContent = "뒷면 (터치해서 단어 보기)";
-        document.getElementById("flash-main").textContent = currentWord.Meaning;
-        document.getElementById("flash-sub").textContent = currentWord.Info || "";
-        document.getElementById("feedback-area").classList.remove("hidden");
-        document.getElementById("feedback-msg").classList.add("hidden");
-        if (currentWord.Example) {
-          const exArea = document.getElementById("example-area");
-          exArea.classList.remove("hidden");
-          exArea.innerHTML = `<strong>예문:</strong> ${currentWord.Example}`;
+        if (pronouns.length === 0) {
+          nextQuestion();
+          return;
         }
-      } else {
-        renderFlashcard();
-      }
-    }
 
-    function showFeedback(isCorrect, text) {
-      const area = document.getElementById("feedback-area");
-      const msg = document.getElementById("feedback-msg");
-      const infoArea = document.getElementById("extra-info-area");
-      const exArea = document.getElementById("example-area");
+        const target = pronouns[Math.floor(Math.random() * pronouns.length)];
+        const distractors = allWords.flatMap(x => [x.ich, x.du, x.erSieEs, x.ihr]).filter(v => v && v !== target.v).sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [target.v, ...distractors].sort(() => Math.random() - 0.5);
 
-      area.classList.remove("hidden");
-      msg.classList.remove("hidden", "feedback-correct", "feedback-wrong");
-      msg.classList.add(isCorrect ? "feedback-correct" : "feedback-wrong");
-      msg.textContent = text;
-
-      if (currentWord.Info) {
-        infoArea.classList.remove("hidden");
-        infoArea.innerHTML = `<strong>문법 정보:</strong> ${currentWord.Info}`;
-      }
-
-      if (currentWord.Example) {
-        exArea.classList.remove("hidden");
-        exArea.innerHTML = `<strong>예문:</strong> ${currentWord.Example}`;
-      }
-    }
-
-    function markAsWrong(germanWord) {
-      wrongWordsSet.add(germanWord);
-      localStorage.setItem("german_wrong_words", JSON.stringify([...wrongWordsSet]));
-    }
-
-    function markAsCorrect(germanWord) {
-      if (wrongWordsSet.has(germanWord)) {
-        wrongWordsSet.delete(germanWord);
-        localStorage.setItem("german_wrong_words", JSON.stringify([...wrongWordsSet]));
-      }
-    }
-
-    function speakCurrentWord() {
-      if (!currentWord || !("speechSynthesis" in window)) return;
-      window.speechSynthesis.cancel();
-      const cleanText = currentWord.German.replace(/\//g, "");
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = "de-DE";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-    }
-  </script>
-</body>
-</html>
+        let html = `
+          <div class="question-box">
+            <div class="word-sub">동사 [${w.wort}] (${w.meaning})의 인칭 변화</div>
+            <div class="word-main"><strong>${target.p}</strong> 통과 형태는?</div>
+            ${w.example ? `<div class="info-box" style="text-align:center; margin-top:8px;"><strong>예문
