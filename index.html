@@ -596,6 +596,7 @@
       </label>
 
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+        <button type="button" class="small-btn" id="btnReloadCsv">words.csv 다시 불러오기</button>
         <button type="button" class="small-btn" id="btnResetDefault">기본 A1 샘플 단어장 복원</button>
         <button type="button" class="small-btn" id="btnResetCooldown">출제 쿨다운 초기화</button>
       </div>
@@ -611,28 +612,17 @@
 
   <script>
     const DEFAULT_WORDS = [
-      { 관사: "der", 단어: "Tisch", 뜻: "탁자, 식탁", 복수형: "-e", 예문: "Die Bücher liegen auf dem Tisch.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "die", 단어: "Lampe", 뜻: "전등, 램프", 복수형: "-n", 예문: "Die Lampe ist neu.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "das", 단어: "Buch", 뜻: "책", 복수형: "-ü, er", 예문: "Ich lese ein interessantes Buch.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "der", 단어: "Apfel", 뜻: "사과", 복수형: "-ä", 예문: "Der Apfel schmeckt süß.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "die", 단어: "Blume", 뜻: "꽃", 복수형: "-n", 예문: "Sie kauft eine schöne Blume.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "das", 단어: "Fenster", 뜻: "창문", 복수형: "Fenster", 예문: "Bitte öffne das Fenster.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "der", 단어: "Bahnhof", 뜻: "기차역", 복수형: "-ö, e", 예문: "Der Zug fährt vom Bahnhof ab.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "die", 단어: "Stadt", 뜻: "도시", 복수형: "-ä, e", 예문: "Regensburg ist eine schöne Stadt.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "das", 단어: "Wasser", 뜻: "물", 복수형: "", 예문: "Ein Glas Wasser, bitte.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
-      { 관사: "", 단어: "gehen", 뜻: "가다, 걷다", 복수형: "", 예문: "Ich gehe heute ins Kino.", 참고: "불규칙동사 (ist gegangen)", ich: "gehe", du: "gehst", "er/sie/es": "geht", ihr: "geht" },
-      { 관사: "", 단어: "haben", 뜻: "가지다, 있다", 복수형: "", 예문: "Wir haben am Montag Zeit.", 참고: "불규칙동사 (hat gehabt)", ich: "habe", du: "hast", "er/sie/es": "hat", ihr: "habt" },
-      { 관사: "", 단어: "sein", 뜻: "~이다, 있다", 복수형: "", 예문: "Du bist mein Freund.", 참고: "불규칙동사 (ist gewesen)", ich: "bin", du: "bist", "er/sie/es": "ist", ihr: "seid" },
-      { 관사: "", 단어: "fahren", 뜻: "(차 등을) 타고 가다", 복수형: "", 예문: "Er fährt mit dem Fahrrad.", 참고: "불규칙동사 (ist/hat gefahren)", ich: "fahre", du: "fährst", "er/sie/es": "fährt", ihr: "fahrt" },
-      { 관사: "", 단어: "sprechen", 뜻: "말하다", 복수형: "", 예문: "Sprichst du ein bisschen Deutsch?", 참고: "불규칙동사 (hat gesprochen)", ich: "spreche", du: "sprichst", "er/sie/es": "spricht", ihr: "sprecht" },
-      { 관사: "", 단어: "nehmen", 뜻: "가지다, 이용하다", 복수형: "", 예문: "Sie nimmt den Kaffee ohne Zucker.", 참고: "불규칙동사 (hat genommen)", ich: "nehme", du: "nimmst", "er/sie/es": "nimmt", ihr: "nehmt" },
-      { 관사: "", 단어: "kaufen", 뜻: "사다", 복수형: "", 예문: "Wir kaufen frisches Brot.", 참고: "규칙동사 (hat gekauft)", ich: "kaufe", du: "kaufst", "er/sie/es": "kauft", ihr: "kauft" }
+      { "관사": "der", "단어": "Daumen", "뜻": "엄지손가락", "복수형": "Daumen", "예문": "Mein rechter Daumen tut weh.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
+      { "관사": "der", "단어": "Zeigefinger", "뜻": "검지손가락", "복수형": "Zeigefinger", "예문": "Sie zeigt mit dem Zeigefinger auf das Bild.", "참고": "둘째 손가락", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
+      { "관사": "", "단어": "ab/holen", "뜻": "데리러 가다, 찾아오다", "복수형": "", "예문": "Ich hole dich um 18 Uhr vom Bahnhof ab.", "참고": "분리동사 (hat abgeholt)", "ich": "hole ab", "du": "holst ab", "er/sie/es": "holt ab", "ihr": "holt ab" },
+      { "관사": "die", "단어": "Bäckerei", "뜻": "빵집, 제과점", "복수형": "Bäckereien", "예문": "Ich kaufe jeden Morgen frische Brötchen in der Bäckerei.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
+      { "관사": "das", "단어": "Buch", "뜻": "책", "복수형": "Bücher", "예문": "Ich lese gerade ein spannendes Buch.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" }
     ];
 
     const STORAGE_KEYS = {
-      WORDS: "de_quiz_words_v3",
-      WRONG: "de_quiz_wrong_v3",
-      HISTORY: "de_quiz_history_v3"
+      WORDS: "de_quiz_words_v4",
+      WRONG: "de_quiz_wrong_v4",
+      HISTORY: "de_quiz_history_v4"
     };
 
     let words = loadWords();
@@ -645,6 +635,7 @@
     let streak = 0;
     let questionCounter = 0;
     let answered = false;
+    let sessionCycleDeck = { article: [], meaning: [], spelling: [], conjugation: [] };
 
     let fallbackAudio = null;
     let germanVoice = null;
@@ -700,28 +691,30 @@
     }
 
     function getCooldownConfig(poolSize) {
-      const cooldownMs = 5 * 60 * 1000;
-      const minGapQuestions = Math.max(1, Math.min(25, Math.min(poolSize - 1, Math.max(8, Math.floor(poolSize * 0.65)))));
+      const cooldownMs = 10 * 60 * 1000;
+      const minGapQuestions = Math.max(1, poolSize - 1);
       return { cooldownMs, minGapQuestions };
     }
 
-    function isWordOnCooldown(item) {
+    function isWordOnCooldown(item, mode = currentMode) {
       const key = getWordKey(item);
       const now = Date.now();
       const { cooldownMs, minGapQuestions } = getCooldownConfig(words.length);
 
       return recentHistory.some(entry => {
         if (entry.key !== key) return false;
+        if (entry.mode && entry.mode !== mode) return false;
         const withinTime = (now - entry.timestamp) < cooldownMs;
         const withinQuestionGap = (questionCounter - entry.qIndex) < minGapQuestions;
         return withinTime || withinQuestionGap;
       });
     }
 
-    function recordWordAsked(item) {
+    function recordWordAsked(item, mode = currentMode) {
       questionCounter += 1;
       recentHistory.push({
         key: getWordKey(item),
+        mode,
         timestamp: Date.now(),
         qIndex: questionCounter
       });
@@ -732,24 +725,40 @@
     function updateCooldownStatusText() {
       const el = document.getElementById("cooldownStatus");
       if (!el) return;
-      const { minGapQuestions } = getCooldownConfig(words.length);
-      el.textContent = `· 5분/최근 ${minGapQuestions}문제 중복방지`;
+      const activePoolLen = getModePool(currentMode).length;
+      const srcTag = el.dataset.sourceLabel ? `[${el.dataset.sourceLabel}] ` : "";
+      el.textContent = `· ${srcTag}관사 ${getModePool("article").length}단어 / 10분·전단어 순회 중복방지 (현재 ${activePoolLen}개)`;
     }
 
-    function pickCandidatePool(candidates) {
-      if (!candidates.length) return [];
-      const fresh = candidates.filter(item => !isWordOnCooldown(item));
-      if (fresh.length > 0) return fresh;
+    function getModePool(mode) {
+      if (mode === "article") {
+        return words.filter(w => ["der", "die", "das"].includes((w["관사"] || "").trim().toLowerCase()));
+      }
+      if (mode === "conjugation") {
+        return words.filter(w => (w["ich"] || w["du"] || w["er/sie/es"] || w["ihr"] || "").trim() !== "");
+      }
+      return words.filter(w => (w["단어"] || "").trim() && (w["뜻"] || "").trim());
+    }
+
+    function pickNextFromCycle(candidates, mode = currentMode) {
+      if (!candidates.length) return null;
+      const fresh = candidates.filter(item => !isWordOnCooldown(item, mode));
+      if (fresh.length > 0) {
+        return pickRandom(fresh);
+      }
 
       const lastSeenMap = new Map();
       recentHistory.forEach(entry => {
-        lastSeenMap.set(entry.key, entry.timestamp);
+        if (!entry.mode || entry.mode === mode) {
+          lastSeenMap.set(entry.key, entry.timestamp);
+        }
       });
-      return [...candidates].sort((a, b) => {
+      const sorted = [...candidates].sort((a, b) => {
         const ta = lastSeenMap.get(getWordKey(a)) || 0;
         const tb = lastSeenMap.get(getWordKey(b)) || 0;
         return ta - tb;
-      }).slice(0, Math.max(1, Math.ceil(candidates.length * 0.3)));
+      });
+      return sorted[0];
     }
 
     function pickRandom(arr) {
@@ -765,7 +774,6 @@
       return copy;
     }
 
-    // 해당 동사의 인칭변화 형태(및 규칙/불규칙 변형 오답)를 생성해 출제 동사 중심 보기를 만듦
     function synthesizeVerbDistractors(target, askPerson, correctConj) {
       const rawInf = (target["단어"] || "").replace(/^\(sich\)\s*/i, "").trim();
       const parts = rawInf.split("/").map(s => s.trim());
@@ -775,7 +783,6 @@
 
       const candidates = new Set();
 
-      // 1) 같은 동사의 다른 인칭 변화형 우선 수집 (예: spreche, spricht, sprecht)
       ["ich", "du", "er/sie/es", "ihr"].forEach(p => {
         const v = (target[p] || "").trim();
         if (v && v.toLowerCase() !== correctConj.toLowerCase()) {
@@ -783,7 +790,6 @@
         }
       });
 
-      // 2) 해당 동사 어간 기반의 규칙/불규칙 변형 오답 생성 (예: sprechst, sprecht, spreche, sprichst)
       let stem = baseInf;
       if (stem.endsWith("eln") || stem.endsWith("ern")) {
         stem = stem.slice(0, -1);
@@ -803,7 +809,6 @@
         const ihrReg = endsWithDental ? `${stem}et` : `${stem}t`;
         const ichReg = `${stem}e`;
 
-        // 모음 교체형(e->i / e->ie / a->ä / o->ö / u->ü) 패턴도 변형 후보에 추가
         const stemVowelI = stem.replace(/e/i, "i");
         const stemVowelIe = stem.replace(/e/i, "ie");
         const stemUmlaut = stem
@@ -962,22 +967,13 @@
         return;
       }
 
-      let pool = [];
-      if (currentMode === "article") {
-        pool = words.filter(w => ["der", "die", "das"].includes((w["관사"] || "").trim().toLowerCase()));
-      } else if (currentMode === "conjugation") {
-        pool = words.filter(w => (w["ich"] || w["du"] || w["er/sie/es"] || w["ihr"] || "").trim() !== "");
-      } else {
-        pool = words.filter(w => (w["단어"] || "").trim() && (w["뜻"] || "").trim());
-      }
-
+      let pool = getModePool(currentMode);
       if (!pool.length) {
         pool = words;
       }
 
-      const candidates = pickCandidatePool(pool);
-      const target = pickRandom(candidates);
-      recordWordAsked(target);
+      const target = pickNextFromCycle(pool, currentMode) || pickRandom(pool);
+      recordWordAsked(target, currentMode);
 
       const qTypeLabel = document.getElementById("qTypeLabel");
       const qMain = document.getElementById("qMain");
@@ -1085,10 +1081,8 @@
 
         qSub.textContent = `${target["뜻"]} · [${askPerson}] 형태를 고르세요`;
 
-        // 출제 동사(예: sprechen)의 다른 인칭형 및 해당 동사 변형 오답을 우선 구성
         const distractors = synthesizeVerbDistractors(target, askPerson, correctConj);
 
-        // 혹시 변형 후보가 3개 미만일 때만 다른 동사 인칭형으로 보충
         if (distractors.length < 3) {
           const existingLower = new Set([correctConj.toLowerCase(), ...distractors.map(d => d.toLowerCase())]);
           const fallbackForms = shuffleArray(
@@ -1338,20 +1332,7 @@
         const wb = XLSX.read(buf, { type: "array" });
         const firstSheet = wb.SheetNames[0];
         const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { defval: "" });
-        const parsed = rows
-          .map(r => ({
-            관사: String(r["관사"] || r["Article"] || "").trim(),
-            단어: String(r["단어"] || r["Word"] || "").trim(),
-            뜻: String(r["뜻"] || r["Meaning"] || "").trim(),
-            복수형: String(r["복수형"] || r["Plural"] || "").trim(),
-            예문: String(r["예문"] || r["Example"] || "").trim(),
-            참고: String(r["참고"] || r["Note"] || "").trim(),
-            ich: String(r["ich"] || "").trim(),
-            du: String(r["du"] || "").trim(),
-            "er/sie/es": String(r["er/sie/es"] || r["er"] || "").trim(),
-            ihr: String(r["ihr"] || "").trim()
-          }))
-          .filter(r => r["단어"] && r["뜻"]);
+        const parsed = parseSheetRowsToWords(rows);
 
         if (parsed.length > 0) {
           words = parsed;
@@ -1370,8 +1351,90 @@
       e.target.value = "";
     });
 
-    saveWrongNotes();
-    buildQuestion();
+    function normalizeWordRecord(r) {
+      return {
+        관사: String(r["관사"] || r["Article"] || "").trim(),
+        단어: String(r["단어"] || r["Word"] || "").trim(),
+        뜻: String(r["뜻"] || r["Meaning"] || "").trim(),
+        복수형: String(r["복수형"] || r["Plural"] || "").trim(),
+        예문: String(r["예문"] || r["Example"] || "").trim(),
+        참고: String(r["참고"] || r["Note"] || "").trim(),
+        ich: String(r["ich"] || "").trim(),
+        du: String(r["du"] || "").trim(),
+        "er/sie/es": String(r["er/sie/es"] || r["er"] || "").trim(),
+        ihr: String(r["ihr"] || "").trim()
+      };
+    }
+
+    function parseSheetRowsToWords(rows) {
+      return (rows || [])
+        .map(normalizeWordRecord)
+        .filter(r => r["단어"] && r["뜻"]);
+    }
+
+    async function loadWordsFromRemoteCsv(url = "./words.csv") {
+      const cacheBustedUrl = `${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`;
+      const res = await fetch(cacheBustedUrl, { cache: "no-store" });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const buf = await res.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array" });
+      const firstSheet = wb.SheetNames[0];
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { defval: "" });
+      const parsed = parseSheetRowsToWords(rows);
+      if (!parsed.length) {
+        throw new Error("Empty or invalid CSV rows");
+      }
+      return parsed;
+    }
+
+    async function initApp() {
+      saveWrongNotes();
+      let sourceLabel = "내장 기본 단어장";
+
+      try {
+        const remoteWords = await loadWordsFromRemoteCsv("./words.csv");
+        words = remoteWords;
+        saveWords();
+        sourceLabel = `words.csv (${remoteWords.length}개)`;
+      } catch (err) {
+        if (Array.isArray(words) && words.length > 0) {
+          sourceLabel = `저장/기본 단어장 (${words.length}개)`;
+        } else {
+          words = [...DEFAULT_WORDS];
+          sourceLabel = `내장 기본 단어장 (${words.length}개)`;
+        }
+      }
+
+      const statusEl = document.getElementById("cooldownStatus");
+      if (statusEl) {
+        statusEl.dataset.sourceLabel = sourceLabel;
+      }
+      buildQuestion();
+    }
+
+    const btnReloadCsv = document.getElementById("btnReloadCsv");
+    if (btnReloadCsv) {
+      btnReloadCsv.addEventListener("click", async () => {
+        try {
+          const remoteWords = await loadWordsFromRemoteCsv("./words.csv");
+          words = remoteWords;
+          saveWords();
+          recentHistory = [];
+          saveRecentHistory();
+          const statusEl = document.getElementById("cooldownStatus");
+          if (statusEl) statusEl.dataset.sourceLabel = `words.csv (${remoteWords.length}개)`;
+          showView("quiz");
+          buildQuestion();
+          alert(`words.csv에서 ${remoteWords.length}개 단어를 불러왔습니다.`);
+        } catch (err) {
+          alert("words.csv를 불러오지 못했습니다. 같은 폴더에 words.csv가 있는지 확인해 주세요.");
+        }
+      });
+    }
+
+    initApp();
   </script>
 </body>
 </html>
