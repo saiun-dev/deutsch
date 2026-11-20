@@ -1014,6 +1014,7 @@
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "option-btn";
+          btn.dataset.choiceValue = `${art} ${target["단어"]}`;
           btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${art} ${target["단어"]}</span>`;
           btn.onclick = () => checkChoiceAnswer(btn, art === correctArt, `${art} ${target["단어"]}`, target);
           optionsArea.appendChild(btn);
@@ -1044,6 +1045,7 @@
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "option-btn";
+          btn.dataset.choiceValue = ch["뜻"];
           btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${ch["뜻"]}</span>`;
           btn.onclick = () => checkChoiceAnswer(btn, isCorrect, target["뜻"], target);
           optionsArea.appendChild(btn);
@@ -1109,6 +1111,7 @@
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "option-btn";
+          btn.dataset.choiceValue = `${askPerson}: ${choiceText}`;
           btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${askPerson} → ${choiceText}</span>`;
           btn.onclick = () => checkChoiceAnswer(btn, choiceText === correctConj, `${askPerson}: ${correctConj}`, target);
           optionsArea.appendChild(btn);
@@ -1129,7 +1132,8 @@
       const allBtns = document.querySelectorAll("#optionsArea .option-btn");
       allBtns.forEach(b => {
         b.disabled = true;
-        if (b.textContent.includes(correctDisplay) || (currentMode === "article" && b.textContent.trim().endsWith(correctDisplay))) {
+        const choiceLabel = (b.dataset.choiceValue || b.textContent || "").trim();
+        if (choiceLabel === correctDisplay) {
           b.classList.add("correct");
         }
       });
