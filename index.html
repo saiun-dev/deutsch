@@ -36,57 +36,103 @@
       padding: 0;
       background-color: var(--bg);
       color: var(--text);
-      display: flex;
-      justify-content: center;
       min-height: 100vh;
     }
 
-    .app-container {
+    /* 1번 요구사항: 퀴즈 종류 선택 창을 축소/분리해 퀴즈 풀이·답·예문 확인 시 스크롤 최소화 */
+    .workspace {
       width: 100%;
-      max-width: 500px;
-      padding: 16px;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .side-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .main-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    /* 가로 화면 또는 태블릿/데스크톱에서 왼쪽 분리 pane 배치 */
+    @media (min-width: 680px), (orientation: landscape) and (max-height: 520px) {
+      .app-shell {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .side-pane {
+        width: 196px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 12px;
+      }
+      .main-pane {
+        flex: 1;
+      }
     }
 
     header {
       background: #1e293b;
       color: white;
-      padding: 14px 16px;
-      border-radius: 16px;
+      padding: 10px 14px;
+      border-radius: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      gap: 8px;
+      box-shadow: 0 3px 6px rgba(15, 23, 42, 0.12);
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.16);
       border: none;
       color: white;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
+      padding: 6px 10px;
+      border-radius: 9px;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .icon-btn:active {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.32);
     }
 
     .card {
       background: var(--card);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
       border: 1px solid var(--border);
     }
 
@@ -94,49 +140,95 @@
       display: none !important;
     }
 
+    .pane-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .pane-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .collapse-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* 아이폰13 세로 화면에서도 한눈에 들어오는 컴팩트 모드 그리드 */
     .mode-selector {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
       background: #e2e8f0;
-      padding: 6px;
-      border-radius: 12px;
+      padding: 4px;
+      border-radius: 11px;
+    }
+
+    @media (min-width: 680px), (orientation: landscape) and (max-height: 520px) {
+      .mode-selector {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
     }
 
     .mode-btn {
-      padding: 10px 8px;
+      padding: 7px 4px;
       border: none;
       background: transparent;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.74rem;
       font-weight: 600;
       color: var(--muted);
       cursor: pointer;
       text-align: center;
+      line-height: 1.25;
+      transition: all 0.15s ease;
+    }
+
+    @media (min-width: 680px), (orientation: landscape) and (max-height: 520px) {
+      .mode-btn {
+        text-align: left;
+        padding: 9px 11px;
+        font-size: 0.82rem;
+      }
     }
 
     .mode-btn.active {
       background: white;
       color: var(--primary);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
     .status-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.78rem;
       color: var(--muted);
-      padding: 0 4px;
+      padding: 0 2px;
     }
 
     .badge {
       background: #dbeafe;
       color: var(--primary-dark);
-      padding: 3px 8px;
+      padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .badge-wrong {
@@ -147,55 +239,104 @@
 
     .question-box {
       text-align: center;
-      padding: 15px 10px;
+      padding: 6px 4px 8px;
+    }
+
+    .q-type-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2px;
     }
 
     .word-main {
-      font-size: 1.6rem;
+      font-size: 1.45rem;
       font-weight: 800;
-      margin: 6px 0;
+      margin: 4px 0;
       word-break: keep-all;
+      line-height: 1.25;
     }
 
     .word-sub {
-      font-size: 0.9rem;
+      font-size: 0.84rem;
       color: var(--muted);
-      min-height: 20px;
-      line-height: 1.4;
+      min-height: 18px;
+      line-height: 1.35;
+    }
+
+    .tts-controls {
+      margin-top: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .tts-btn {
-      margin-top: 8px;
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      padding: 6px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary-dark);
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+    }
+
+    .tts-btn:active {
+      background: #dbeafe;
+    }
+
+    .tts-btn.speaking {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .tts-status {
+      font-size: 0.72rem;
+      color: var(--muted);
     }
 
     .options-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 7px;
+      margin-top: 8px;
     }
 
     .option-btn {
       width: 100%;
       text-align: left;
-      padding: 14px 16px;
+      padding: 10px 13px;
       background: #f8fafc;
       border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-size: 0.95rem;
+      border-radius: 11px;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--text);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .option-idx {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
     }
 
     .option-btn.correct {
@@ -204,567 +345,974 @@
       color: #14532d;
     }
 
+    .option-btn.correct .option-idx {
+      background: var(--success);
+      color: #fff;
+    }
+
     .option-btn.wrong {
       background: #fee2e2;
       border-color: var(--danger);
       color: #7f1d1d;
     }
 
+    .option-btn.wrong .option-idx {
+      background: var(--danger);
+      color: #fff;
+    }
+
     .umlaut-bar {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      margin: 10px 0;
+      gap: 4px;
+      margin: 8px 0;
     }
 
     .umlaut-btn {
-      padding: 10px 0;
+      padding: 8px 0;
       background: #e2e8f0;
       border: none;
       border-radius: 8px;
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       cursor: pointer;
     }
 
-    .flashcard {
-      min-height: 190px;
+    .umlaut-btn:active {
+      background: #cbd5e1;
+    }
+
+    .input-row {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      cursor: pointer;
-      background: linear-gradient(145deg, #ffffff, #f8fafc);
-      user-select: none;
+      gap: 8px;
     }
 
-    .info-box {
-      margin-top: 10px;
-      padding: 12px;
-      background: #f8fafc;
+    .text-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
       border-radius: 10px;
-      font-size: 0.9rem;
-      color: #334155;
-      border-left: 3px solid var(--primary);
-      text-align: left;
-      line-height: 1.5;
-    }
-
-    .feedback-msg {
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 600;
-      text-align: center;
       font-size: 0.95rem;
     }
 
-    .feedback-correct {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .feedback-wrong {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      font-size: 16px;
-      outline: none;
-    }
-    .btn {
-      width: 100%;
-      padding: 13px;
+    .primary-btn {
+      background: var(--primary);
+      color: white;
       border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary-btn:active {
+      background: var(--primary-dark);
+    }
+
+    .feedback-box {
+      margin-top: 10px;
+      padding: 11px 12px;
+      border-radius: 11px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .feedback-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .mini-tts-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+      padding: 3px 9px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .next-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 11px;
+      background: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 11px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .next-btn:active {
+      background: #0f172a;
+    }
+
+    .conj-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .conj-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.8rem;
+    }
+
+    .upload-zone {
+      border: 2px dashed #94a3b8;
       border-radius: 12px;
-      font-size: 1rem;
+      padding: 16px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .wrong-item {
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+    }
+
+    .small-btn {
+      padding: 5px 9px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
+
+    .cooldown-info {
+      font-size: 0.72rem;
+      color: var(--muted);
     }
   </style>
 </head>
 <body>
-  <div class="app-container">
+  <div class="workspace">
     <header>
-      <h1>🇩🇪 독일어 맞춤형 퀴즈</h1>
-      <button class="icon-btn" onclick="loadData()">🔄 새로고침</button>
+      <h1>🇩🇪 독일어 A1 퀴즈</h1>
+      <div class="header-actions">
+        <button class="icon-btn" id="btnWrongNote">오답(<span id="wrongCount">0</span>)</button>
+        <button class="icon-btn" id="btnSettings">단어장/설정</button>
+      </div>
     </header>
 
-    <div class="mode-selector">
-      <button class="mode-btn active" onclick="setMode('word_to_meaning')">1. 단어➔뜻</button>
-      <button class="mode-btn" onclick="setMode('meaning_to_word')">2. 뜻➔단어</button>
-      <button class="mode-btn" onclick="setMode('article')">3. 관사 맞추기</button>
-      <button class="mode-btn" onclick="setMode('plural')">4. 복수형 쓰기</button>
-      <button class="mode-btn" onclick="setMode('verb_conj')">5. 동사 인칭변화</button>
-      <button class="mode-btn" onclick="setMode('flashcard')">6. 플래시카드</button>
-    </div>
-
-    <div class="status-bar">
-      <div>
-        대상 <span id="pool-count" class="badge">0</span>개
-        <span id="wrong-filter-badge" class="badge badge-wrong hidden" onclick="toggleWrongOnly()">오답만: OFF</span>
-      </div>
-      <div>정답률 <strong id="score-text">0 / 0</strong></div>
-    </div>
-
-    <div id="quiz-card" class="card">
-      <div id="question-container">
-        <div class="word-main" style="font-size:1.1rem; padding:20px; text-align:center;">단어장 불러오는 중...</div>
-      </div>
-      
-      <div id="typing-container" class="hidden" style="margin-top: 10px;">
-        <input type="text" id="typing-input" placeholder="정답을 입력하세요 (모르면 빈칸으로 제출)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        <div class="umlaut-bar">
-          <button type="button" class="umlaut-btn" onclick="insertChar('ä')">ä</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('ö')">ö</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('ü')">ü</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('ß')">ß</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('Ä')">Ä</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('Ö')">Ö</button>
-          <button type="button" class="umlaut-btn" onclick="insertChar('Ü')">Ü</button>
+    <div class="app-shell" id="quizShell">
+      <!-- 1번: 퀴즈 종류 선택 분리 Pane (아이폰13 가로/세로 모두 퀴즈 본문 스크롤 최소화) -->
+      <aside class="side-pane" id="modePane">
+        <div class="card" style="padding: 10px;">
+          <div class="pane-header">
+            <span class="pane-title">퀴즈 유형 선택</span>
+            <button type="button" class="collapse-btn" id="btnToggleModeList">접기</button>
+          </div>
+          <div class="mode-selector" id="modeSelector">
+            <button type="button" class="mode-btn active" data-mode="article">관사<br>(der/die/das)</button>
+            <button type="button" class="mode-btn" data-mode="meaning">독→한<br>뜻 맞추기</button>
+            <button type="button" class="mode-btn" data-mode="spelling">한→독<br>단어 쓰기</button>
+            <button type="button" class="mode-btn" data-mode="conjugation">동사<br>인칭변화</button>
+          </div>
         </div>
-        <button class="btn btn-primary" id="check-typing-btn" onclick="checkTypingAnswer()" style="margin-top: 8px;">정답 확인 (모르면 그냥 누르세요)</button>
+      </aside>
+
+      <!-- 메인 퀴즈 영역 -->
+      <main class="main-pane" id="quizView">
+        <div class="status-bar">
+          <div>
+            <span>단어 <strong id="wordPoolCount">0</strong>개</span>
+            <span class="cooldown-info" id="cooldownStatus">· 최근 출제 쿨다운 활성</span>
+          </div>
+          <div>
+            <span class="badge">점수 <span id="scoreVal">0</span></span>
+            <span class="badge" id="streakVal">연속 0</span>
+          </div>
+        </div>
+
+        <div class="card" id="questionCard">
+          <div class="question-box">
+            <div class="q-type-label" id="qTypeLabel">관사 퀴즈</div>
+            <div class="word-main" id="qMain">단어를 불러오는 중...</div>
+            <div class="word-sub" id="qSub"></div>
+            <div class="tts-controls">
+              <button type="button" class="tts-btn" id="btnSpeakWord">🔊 단어 발음</button>
+              <button type="button" class="tts-btn" id="btnSpeakExample" style="display:none;">🔈 예문 발음</button>
+              <span class="tts-status" id="ttsStatus"></span>
+            </div>
+          </div>
+
+          <!-- 객관식 영역 -->
+          <div class="options-list" id="optionsArea"></div>
+
+          <!-- 철자 입력 영역 -->
+          <div id="spellingArea" class="hidden">
+            <div class="umlaut-bar">
+              <button type="button" class="umlaut-btn" data-char="ä">ä</button>
+              <button type="button" class="umlaut-btn" data-char="ö">ö</button>
+              <button type="button" class="umlaut-btn" data-char="ü">ü</button>
+              <button type="button" class="umlaut-btn" data-char="ß">ß</button>
+              <button type="button" class="umlaut-btn" data-char="Ä">Ä</button>
+              <button type="button" class="umlaut-btn" data-char="Ö">Ö</button>
+              <button type="button" class="umlaut-btn" data-char="Ü">Ü</button>
+            </div>
+            <div class="input-row">
+              <input type="text" id="spellingInput" class="text-input" placeholder="독일어 단어를 입력하세요" autocomplete="off" autocapitalize="off" />
+              <button type="button" class="primary-btn" id="btnSubmitSpelling">확인</button>
+            </div>
+          </div>
+
+          <!-- 정답/해설/예문 영역 -->
+          <div id="feedbackArea" class="feedback-box hidden"></div>
+          <button type="button" id="btnNextQuestion" class="next-btn hidden">다음 문제 →</button>
+        </div>
+      </main>
+    </div>
+
+    <!-- 오답노트 뷰 -->
+    <section id="wrongNoteView" class="card hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2 style="margin:0; font-size:1.05rem;">오답노트</h2>
+        <div>
+          <button type="button" class="small-btn" id="btnClearWrong">전체 삭제</button>
+          <button type="button" class="small-btn" id="btnCloseWrong">퀴즈로</button>
+        </div>
+      </div>
+      <div id="wrongList"></div>
+    </section>
+
+    <!-- 단어장/설정 뷰 -->
+    <section id="settingsView" class="card hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2 style="margin:0; font-size:1.05rem;">단어장 불러오기 & 설정</h2>
+        <button type="button" class="small-btn" id="btnCloseSettings">퀴즈로</button>
       </div>
 
-      <div id="feedback-area" class="hidden">
-        <div id="feedback-msg" class="feedback-msg"></div>
-        <div id="example-area" class="info-box hidden"></div>
-        <div id="note-area" class="info-box hidden"></div>
-        <button class="btn btn-primary" style="margin-top: 12px;" onclick="nextQuestion()">다음 문제 ➡️</button>
+      <label class="upload-zone" for="fileInput" style="display:block;">
+        <div style="font-weight:700; margin-bottom:4px;">📂 .xlsx / .csv 단어장 파일 업로드</div>
+        <div style="font-size:0.78rem; color:var(--muted);">관사, 단어, 뜻, 복수형, 예문, 참고, ich/du/er·sie·es/ihr 열 지원</div>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;" />
+      </label>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+        <button type="button" class="small-btn" id="btnResetDefault">기본 A1 샘플 단어장 복원</button>
+        <button type="button" class="small-btn" id="btnResetCooldown">출제 쿨다운 초기화</button>
       </div>
-    </div>
+
+      <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">
+        • <strong>중복 방지 쿨다운:</strong> 한 번 출제된 단어는 일정 문제 수/시간 동안 다시 나오지 않도록 자동 제어됩니다.<br>
+        • <strong>관사 퀴즈 보기 순서:</strong> 항상 <code>1. der</code>, <code>2. die</code>, <code>3. das</code> 순서로 고정됩니다.<br>
+        • <strong>발음 재생:</strong> 브라우저 독일어 음성(<code>de-DE</code>)과 온라인 독일어 TTS 오디오 폴백을 함께 지원합니다.
+      </div>
+    </section>
   </div>
 
   <script>
-    const FALLBACK_WORDS = [
-      { artikel: "der", wort: "Daumen", meaning: "엄지손가락", plural: "Daumen", example: "Mein rechter Daumen tut weh.", note: "", ich: "", du: "", erSieEs: "", ihr: "" },
-      { artikel: "", wort: "schrauben", meaning: "나사를 조이다/풀다", plural: "", example: "Er schraubt das neue Regal selbst zusammen.", note: "", ich: "schraube", du: "schraubst", erSieEs: "schraubt", ihr: "schraubt" }
+    const DEFAULT_WORDS = [
+      { 관사: "der", 단어: "Tisch", 뜻: "탁자, 식탁", 복수형: "-e", 예문: "Die Bücher liegen auf dem Tisch.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "die", 단어: "Lampe", 뜻: "전등, 램프", 복수형: "-n", 예문: "Die Lampe ist neu.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "das", 단어: "Buch", 뜻: "책", 복수형: "-ü, er", 예문: "Ich lese ein interessantes Buch.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "der", 단어: "Apfel", 뜻: "사과", 복수형: "-ä", 예문: "Der Apfel schmeckt süß.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "die", 단어: "Blume", 뜻: "꽃", 복수형: "-n", 예문: "Sie kauft eine schöne Blume.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "das", 단어: "Fenster", 뜻: "창문", 복수형: "Fenster", 예문: "Bitte öffne das Fenster.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "der", 단어: "Bahnhof", 뜻: "기차역", 복수형: "-ö, e", 예문: "Der Zug fährt vom Bahnhof ab.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "die", 단어: "Stadt", 뜻: "도시", 복수형: "-ä, e", 예문: "Regensburg ist eine schöne Stadt.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "das", 단어: "Wasser", 뜻: "물", 복수형: "", 예문: "Ein Glas Wasser, bitte.", 참고: "", ich: "", du: "", "er/sie/es": "", ihr: "" },
+      { 관사: "", 단어: "gehen", 뜻: "가다, 걷다", 복수형: "", 예문: "Ich gehe heute ins Kino.", 참고: "불규칙동사 (ist gegangen)", ich: "gehe", du: "gehst", "er/sie/es": "geht", ihr: "geht" },
+      { 관사: "", 단어: "haben", 뜻: "가지다, 있다", 복수형: "", 예문: "Wir haben am Montag Zeit.", 참고: "불규칙동사 (hat gehabt)", ich: "habe", du: "hast", "er/sie/es": "hat", ihr: "habt" },
+      { 관사: "", 단어: "sein", 뜻: "~이다, 있다", 복수형: "", 예문: "Du bist mein Freund.", 참고: "불규칙동사 (ist gewesen)", ich: "bin", du: "bist", "er/sie/es": "ist", ihr: "seid" },
+      { 관사: "", 단어: "fahren", 뜻: "(차 등을) 타고 가다", 복수형: "", 예문: "Er fährt mit dem Fahrrad.", 참고: "불규칙동사 (ist/hat gefahren)", ich: "fahre", du: "fährst", "er/sie/es": "fährt", ihr: "fahrt" },
+      { 관사: "", 단어: "sprechen", 뜻: "말하다", 복수형: "", 예문: "Sprichst du ein bisschen Deutsch?", 참고: "불규칙동사 (hat gesprochen)", ich: "spreche", du: "sprichst", "er/sie/es": "spricht", ihr: "sprecht" },
+      { 관사: "", 단어: "nehmen", 뜻: "가지다, 이용하다", 복수형: "", 예문: "Sie nimmt den Kaffee ohne Zucker.", 참고: "불규칙동사 (hat genommen)", ich: "nehme", du: "nimmst", "er/sie/es": "nimmt", ihr: "nehmt" },
+      { 관사: "", 단어: "kaufen", 뜻: "사다", 복수형: "", 예문: "Wir kaufen frisches Brot.", 참고: "규칙동사 (hat gekauft)", ich: "kaufe", du: "kaufst", "er/sie/es": "kauft", ihr: "kauft" }
     ];
 
-    let allWords = [];
-    let wrongWordsSet = new Set();
-    let wrongOnlyMode = false;
-    let currentMode = "word_to_meaning";
-    let currentQuizData = null;
+    const STORAGE_KEYS = {
+      WORDS: "de_quiz_words_v2",
+      WRONG: "de_quiz_wrong_v2",
+      HISTORY: "de_quiz_history_v2"
+    };
+
+    let words = loadWords();
+    let wrongNotes = loadWrongNotes();
+    // 3번 요구사항: 최근 출제 이력 (단어 고유키 + 타임스탬프 + 문제번호) 저장
+    let recentHistory = loadRecentHistory();
+
+    let currentMode = "article";
+    let currentQuestion = null;
+    let score = 0;
+    let streak = 0;
+    let questionCounter = 0;
     let answered = false;
-    let stats = { correct: 0, total: 0 };
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedWrong = JSON.parse(localStorage.getItem("german_wrong_words_v14") || "[]");
-      wrongWordsSet = new Set(savedWrong);
-      loadData();
+    // 2번 요구사항: Web Speech API + 온라인 TTS 오디오 폴백 플레이어
+    let fallbackAudio = null;
+    let germanVoice = null;
 
-      document.getElementById("typing-input").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          if (!answered) checkTypingAnswer();
-          else nextQuestion();
-        }
-      });
-    });
-
-    async function loadData() {
+    function loadWords() {
       try {
-        const response = await fetch("words.csv?t=" + Date.now());
-        if (!response.ok) throw new Error("words.csv 로드 실패");
-        
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: "array" });
-        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
-
-        const parsed = rows.map(row => {
-          const cleanRow = {};
-          Object.keys(row).forEach(k => {
-            cleanRow[k.trim().toLowerCase()] = String(row[k]).trim();
-          });
-          const getVal = (keys) => {
-            for (let k of keys) {
-              if (cleanRow[k.toLowerCase()] !== undefined) return cleanRow[k.toLowerCase()];
-            }
-            return "";
-          };
-          return {
-            artikel: getVal(["관사", "artikel"]),
-            wort: getVal(["단어", "wort"]),
-            meaning: getVal(["뜻", "meaning"]),
-            plural: getVal(["복수형", "plural"]),
-            example: getVal(["예문", "example"]),
-            note: getVal(["참고", "note"]),
-            ich: getVal(["ich"]),
-            du: getVal(["du"]),
-            erSieEs: getVal(["er/sie/es", "ersiees"]),
-            ihr: getVal(["ihr"])
-          };
-        }).filter(item => item.wort && item.meaning && item.meaning !== "??" && item.meaning !== "");
-
-        if (parsed.length > 0) {
-          allWords = parsed;
-        } else {
-          allWords = FALLBACK_WORDS;
+        const raw = localStorage.getItem(STORAGE_KEYS.WORDS);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
         }
-      } catch (err) {
-        console.warn("CSV 파일 페치 중단, 백업 데이터 사용:", err);
-        allWords = FALLBACK_WORDS;
-      }
-
-      stats = { correct: 0, total: 0 };
-      updateStatusUI();
-      nextQuestion();
+      } catch (e) {}
+      return [...DEFAULT_WORDS];
     }
 
-    function setMode(mode) {
-      currentMode = mode;
-      document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
-      event.target.classList.add("active");
-      nextQuestion();
+    function saveWords() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.WORDS, JSON.stringify(words));
+      } catch (e) {}
     }
 
-    function toggleWrongOnly() {
-      wrongOnlyMode = !wrongOnlyMode;
-      updateStatusUI();
-      nextQuestion();
-    }
-
-    function updateStatusUI() {
-      let pool = getFilteredPool();
-      document.getElementById("pool-count").textContent = pool.length;
-      document.getElementById("score-text").textContent = `${stats.correct} / ${stats.total}`;
-
-      const wrongBadge = document.getElementById("wrong-filter-badge");
-      if (wrongWordsSet.size > 0) {
-        wrongBadge.classList.remove("hidden");
-        wrongBadge.textContent = `오답(${wrongWordsSet.size})만: ${wrongOnlyMode ? "ON" : "OFF"}`;
-        wrongBadge.style.background = wrongOnlyMode ? "#dc2626" : "#fee2e2";
-        wrongBadge.style.color = wrongOnlyMode ? "#ffffff" : "#dc2626";
-      } else {
-        wrongBadge.classList.add("hidden");
-        wrongOnlyMode = false;
+    function loadWrongNotes() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.WRONG) || "[]");
+      } catch (e) {
+        return [];
       }
     }
 
-    function getFilteredPool() {
-      let pool = allWords;
-      if (currentMode === 'article' || currentMode === 'plural') {
-        pool = allWords.filter(w => w.artikel && ['der', 'die', 'das'].includes(w.artikel.toLowerCase()));
-      } else if (currentMode === 'verb_conj') {
-        pool = allWords.filter(w => w.ich || w.du || w.erSieEs || w.ihr);
-      }
-
-      if (wrongOnlyMode && wrongWordsSet.size > 0) {
-        const filtered = pool.filter(w => wrongWordsSet.has(w.wort));
-        if (filtered.length > 0) pool = filtered;
-      }
-      return pool;
+    function saveWrongNotes() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.WRONG, JSON.stringify(wrongNotes));
+      } catch (e) {}
+      document.getElementById("wrongCount").textContent = wrongNotes.length;
     }
 
-    function nextQuestion() {
+    function loadRecentHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.HISTORY) || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveRecentHistory() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(recentHistory.slice(-120)));
+      } catch (e) {}
+    }
+
+    function getWordKey(item) {
+      return `${(item["관사"] || "").trim().toLowerCase()}|${(item["단어"] || "").trim().toLowerCase()}`;
+    }
+
+    // 3번 요구사항: 일정 시간(기본 5분) 또는 최근 일정 문항(풀 크기의 절반, 최소 8문항, 최대 25문항) 동안 동일 단어 재출제 방지
+    function getCooldownConfig(poolSize) {
+      const cooldownMs = 5 * 60 * 1000; // 5분
+      const minGapQuestions = Math.max(1, Math.min(25, Math.min(poolSize - 1, Math.max(8, Math.floor(poolSize * 0.65)))));
+      return { cooldownMs, minGapQuestions };
+    }
+
+    function isWordOnCooldown(item) {
+      const key = getWordKey(item);
+      const now = Date.now();
+      const { cooldownMs, minGapQuestions } = getCooldownConfig(words.length);
+
+      return recentHistory.some(entry => {
+        if (entry.key !== key) return false;
+        const withinTime = (now - entry.timestamp) < cooldownMs;
+        const withinQuestionGap = (questionCounter - entry.qIndex) < minGapQuestions;
+        return withinTime || withinQuestionGap;
+      });
+    }
+
+    function recordWordAsked(item) {
+      questionCounter += 1;
+      recentHistory.push({
+        key: getWordKey(item),
+        timestamp: Date.now(),
+        qIndex: questionCounter
+      });
+      saveRecentHistory();
+      updateCooldownStatusText();
+    }
+
+    function updateCooldownStatusText() {
+      const el = document.getElementById("cooldownStatus");
+      if (!el) return;
+      const { minGapQuestions } = getCooldownConfig(words.length);
+      el.textContent = `· 5분/최근 ${minGapQuestions}문제 중복방지`;
+    }
+
+    function pickCandidatePool(candidates) {
+      if (!candidates.length) return [];
+      const fresh = candidates.filter(item => !isWordOnCooldown(item));
+      if (fresh.length > 0) return fresh;
+
+      // 모든 후보가 쿨다운 중이면 가장 오래전에 출제된 단어부터 우선 선택
+      const lastSeenMap = new Map();
+      recentHistory.forEach(entry => {
+        lastSeenMap.set(entry.key, entry.timestamp);
+      });
+      return [...candidates].sort((a, b) => {
+        const ta = lastSeenMap.get(getWordKey(a)) || 0;
+        const tb = lastSeenMap.get(getWordKey(b)) || 0;
+        return ta - tb;
+      }).slice(0, Math.max(1, Math.ceil(candidates.length * 0.3)));
+    }
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // 2번 요구사항: 독일어 발음 재생 (Web Speech API + Google Translate TTS 오디오 폴백)
+    function refreshVoices() {
+      if (!("speechSynthesis" in window)) return;
+      const voices = window.speechSynthesis.getVoices() || [];
+      germanVoice =
+        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de-de")) ||
+        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de")) ||
+        null;
+    }
+
+    if ("speechSynthesis" in window) {
+      refreshVoices();
+      window.speechSynthesis.onvoiceschanged = refreshVoices;
+    }
+
+    function setSpeakingState(active, statusText = "") {
+      const wordBtn = document.getElementById("btnSpeakWord");
+      const exBtn = document.getElementById("btnSpeakExample");
+      const statusEl = document.getElementById("ttsStatus");
+      if (wordBtn) wordBtn.classList.toggle("speaking", active);
+      if (exBtn) exBtn.classList.toggle("speaking", active);
+      if (statusEl) statusEl.textContent = statusText;
+    }
+
+    function stopCurrentSpeech() {
+      if ("speechSynthesis" in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+      if (fallbackAudio) {
+        try {
+          fallbackAudio.pause();
+          fallbackAudio.currentTime = 0;
+        } catch (e) {}
+        fallbackAudio = null;
+      }
+      setSpeakingState(false, "");
+    }
+
+    function playFallbackGermanAudio(text) {
+      const cleanText = String(text || "").trim();
+      if (!cleanText) return;
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=de&q=${encodeURIComponent(cleanText)}`;
+
+      if (fallbackAudio) {
+        try { fallbackAudio.pause(); } catch (e) {}
+      }
+      fallbackAudio = new Audio(url);
+      fallbackAudio.playbackRate = 0.95;
+      setSpeakingState(true, "온라인 독일어 음성 재생 중...");
+
+      fallbackAudio.onended = () => setSpeakingState(false, "");
+      fallbackAudio.onerror = () => {
+        setSpeakingState(false, "음성 재생을 지원하지 않는 환경입니다.");
+      };
+      fallbackAudio.play().catch(() => {
+        setSpeakingState(false, "화면을 한 번 터치한 뒤 다시 눌러주세요.");
+      });
+    }
+
+    function speakGerman(text) {
+      const cleanText = String(text || "").replace(/\s*\/\s*/g, " ").trim();
+      if (!cleanText) return;
+
+      stopCurrentSpeech();
+      refreshVoices();
+
+      if ("speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined") {
+        try {
+          const utter = new SpeechSynthesisUtterance(cleanText);
+          utter.lang = "de-DE";
+          if (germanVoice) utter.voice = germanVoice;
+          utter.rate = 0.92;
+          utter.pitch = 1.0;
+
+          let started = false;
+          const fallbackTimer = setTimeout(() => {
+            if (!started) {
+              playFallbackGermanAudio(cleanText);
+            }
+          }, 900);
+
+          utter.onstart = () => {
+            started = true;
+            clearTimeout(fallbackTimer);
+            setSpeakingState(true, germanVoice ? `재생 중 (${germanVoice.name})` : "독일어 발음 재생 중...");
+          };
+          utter.onend = () => {
+            clearTimeout(fallbackTimer);
+            setSpeakingState(false, "");
+          };
+          utter.onerror = () => {
+            clearTimeout(fallbackTimer);
+            playFallbackGermanAudio(cleanText);
+          };
+
+          window.speechSynthesis.speak(utter);
+          return;
+        } catch (e) {
+          playFallbackGermanAudio(cleanText);
+          return;
+        }
+      }
+
+      playFallbackGermanAudio(cleanText);
+    }
+
+    function cleanWordForSpeech(item) {
+      const art = (item["관사"] || "").trim();
+      const w = (item["단어"] || "").replace(/\//g, "").replace(/\(sich\)\s*/i, "").trim();
+      if (art && ["der", "die", "das"].includes(art.toLowerCase())) {
+        return `${art} ${w}`;
+      }
+      return w;
+    }
+
+    function buildQuestion() {
       answered = false;
-      document.getElementById("feedback-area").classList.add("hidden");
-      document.getElementById("typing-container").classList.add("hidden");
-      document.getElementById("example-area").classList.add("hidden");
-      document.getElementById("note-area").classList.add("hidden");
+      stopCurrentSpeech();
+      document.getElementById("feedbackArea").classList.add("hidden");
+      document.getElementById("btnNextQuestion").classList.add("hidden");
 
-      let pool = getFilteredPool();
-      if (pool.length === 0) {
-        document.getElementById("question-container").innerHTML = `<div class="word-main" style="font-size:1.1rem; padding:20px; text-align:center;">이 모드에 해당하는 단어가 없습니다!<br><span style="font-size:0.85rem; color:#64748b;">(관사/복수형은 명사만, 동사변화는 동사만 대상이 됩니다)</span></div>`;
+      document.getElementById("wordPoolCount").textContent = words.length;
+      document.getElementById("scoreVal").textContent = score;
+      document.getElementById("streakVal").textContent = `연속 ${streak}`;
+      updateCooldownStatusText();
+
+      if (!words.length) {
+        document.getElementById("qMain").textContent = "단어가 없습니다.";
         return;
       }
 
-      const wordObj = pool[Math.floor(Math.random() * pool.length)];
-      generateQuiz(wordObj);
-      updateStatusUI();
-    }
+      let pool = [];
+      if (currentMode === "article") {
+        pool = words.filter(w => ["der", "die", "das"].includes((w["관사"] || "").trim().toLowerCase()));
+      } else if (currentMode === "conjugation") {
+        pool = words.filter(w => (w["ich"] || w["du"] || w["er/sie/es"] || w["ihr"] || "").trim() !== "");
+      } else {
+        pool = words.filter(w => (w["단어"] || "").trim() && (w["뜻"] || "").trim());
+      }
 
-    function generateQuiz(w) {
-      const isVerb = w.ich || w.du || w.erSieEs || w.ihr;
+      if (!pool.length) {
+        pool = words;
+      }
 
-      if (currentMode === 'word_to_meaning') {
-        const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
-        const distractors = allWords.filter(x => x.meaning !== w.meaning).sort(() => Math.random() - 0.5).slice(0, 3);
-        const options = [w, ...distractors].sort(() => Math.random() - 0.5);
+      const candidates = pickCandidatePool(pool);
+      const target = pickRandom(candidates);
+      recordWordAsked(target);
 
-        let html = `
-          <div class="question-box">
-            <div class="word-sub">다음 단어의 뜻은?</div>
-            <div class="word-main">${displayWord}</div>
-            ${isVerb && w.example ? `<div class="info-box" style="text-align:center; margin-top:8px;"><strong>예문:</strong> ${w.example}</div>` : ''}
-            <button class="tts-btn" onclick="speakText('${displayWord.replace(/\//g, '')}')">🔊 발음 듣기</button>
-          </div>
-          <div class="options-list">
-        `;
-        options.forEach(opt => {
-          html += `<button class="option-btn" onclick="handleChoiceAnswer('${opt.meaning}', '${w.meaning}', this)">${opt.meaning}</button>`;
+      const qTypeLabel = document.getElementById("qTypeLabel");
+      const qMain = document.getElementById("qMain");
+      const qSub = document.getElementById("qSub");
+      const optionsArea = document.getElementById("optionsArea");
+      const spellingArea = document.getElementById("spellingArea");
+      const btnSpeakWord = document.getElementById("btnSpeakWord");
+      const btnSpeakExample = document.getElementById("btnSpeakExample");
+
+      optionsArea.innerHTML = "";
+      optionsArea.classList.add("hidden");
+      spellingArea.classList.add("hidden");
+
+      const wordSpeechText = cleanWordForSpeech(target);
+      btnSpeakWord.onclick = () => speakGerman(wordSpeechText);
+
+      if (target["예문"]) {
+        btnSpeakExample.style.display = "inline-flex";
+        btnSpeakExample.onclick = () => speakGerman(target["예문"]);
+      } else {
+        btnSpeakExample.style.display = "none";
+      }
+
+      if (currentMode === "article") {
+        // 4번 요구사항: 관사 퀴즈에서 der, die, das의 위치가 항상 1번째, 2번째, 3번째로 고정
+        const correctArt = (target["관사"] || "").trim().toLowerCase();
+        qTypeLabel.textContent = "관사 퀴즈 (der / die / das)";
+        qMain.textContent = `___ ${target["단어"]}`;
+        qSub.textContent = `뜻: ${target["뜻"]}${target["복수형"] ? ` · 복수: ${target["복수형"]}` : ""}`;
+
+        const fixedArticles = ["der", "die", "das"];
+        optionsArea.classList.remove("hidden");
+
+        fixedArticles.forEach((art, idx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn";
+          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${art} ${target["단어"]}</span>`;
+          btn.onclick = () => checkChoiceAnswer(btn, art === correctArt, `${art} ${target["단어"]}`, target);
+          optionsArea.appendChild(btn);
         });
-        html += `</div>`;
-        document.getElementById("question-container").innerHTML = html;
-        currentQuizData = { wordObj: w, correctAnswer: w.meaning };
 
-      } else if (currentMode === 'meaning_to_word') {
-        const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
-        const distractors = allWords.filter(x => x.wort !== w.wort).sort(() => Math.random() - 0.5).slice(0, 3);
-        const options = [w, ...distractors].sort(() => Math.random() - 0.5);
+        currentQuestion = {
+          mode: "article",
+          target,
+          answerText: `${correctArt} ${target["단어"]}`
+        };
+      } else if (currentMode === "meaning") {
+        qTypeLabel.textContent = "독일어 → 한국어 뜻 맞추기";
+        const artPrefix = ["der", "die", "das"].includes((target["관사"] || "").trim().toLowerCase())
+          ? `${target["관사"].trim()} `
+          : "";
+        qMain.textContent = `${artPrefix}${target["단어"]}`;
+        qSub.textContent = target["복수형"] ? `복수형: ${target["복수형"]}` : "";
 
-        let html = `
-          <div class="question-box">
-            <div class="word-sub">다음 뜻에 해당하는 독일어는?</div>
-            <div class="word-main">${w.meaning}</div>
-          </div>
-          <div class="options-list">
-        `;
-        options.forEach(opt => {
-          const optDisplay = opt.artikel ? `${opt.artikel} ${opt.wort}` : opt.wort;
-          html += `<button class="option-btn" onclick="handleChoiceAnswer('${optDisplay}', '${displayWord}', this)">${optDisplay}</button>`;
+        const distractors = shuffleArray(
+          words.filter(w => getWordKey(w) !== getWordKey(target) && (w["뜻"] || "").trim())
+        ).slice(0, 3);
+
+        const choices = shuffleArray([target, ...distractors]);
+        optionsArea.classList.remove("hidden");
+
+        choices.forEach((ch, idx) => {
+          const isCorrect = getWordKey(ch) === getWordKey(target);
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn";
+          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${ch["뜻"]}</span>`;
+          btn.onclick = () => checkChoiceAnswer(btn, isCorrect, target["뜻"], target);
+          optionsArea.appendChild(btn);
         });
-        html += `</div>`;
-        document.getElementById("question-container").innerHTML = html;
-        currentQuizData = { wordObj: w, correctAnswer: displayWord };
 
-      } else if (currentMode === 'article') {
-        const options = ['der', 'die', 'das'].sort(() => Math.random() - 0.5);
-        let html = `
-          <div class="question-box">
-            <div class="word-sub">다음 명사의 정관사는?</div>
-            <div class="word-main">___ ${w.wort}</div>
-            <div class="word-sub">(뜻: ${w.meaning})</div>
-          </div>
-          <div class="options-list">
-        `;
-        options.forEach(opt => {
-          html += `<button class="option-btn" onclick="handleChoiceAnswer('${opt}', '${w.artikel.toLowerCase()}', this)">${opt}</button>`;
+        currentQuestion = {
+          mode: "meaning",
+          target,
+          answerText: target["뜻"]
+        };
+      } else if (currentMode === "spelling") {
+        qTypeLabel.textContent = "한국어 → 독일어 단어 쓰기";
+        qMain.textContent = target["뜻"];
+        const artHint = ["der", "die", "das"].includes((target["관사"] || "").trim().toLowerCase())
+          ? `관사 힌트: ${target["관사"].trim()}`
+          : "";
+        qSub.textContent = artHint;
+
+        spellingArea.classList.remove("hidden");
+        const input = document.getElementById("spellingInput");
+        input.value = "";
+        setTimeout(() => input.focus(), 50);
+
+        const cleanExpected = (target["단어"] || "").replace(/\//g, "").trim();
+        currentQuestion = {
+          mode: "spelling",
+          target,
+          answerText: cleanExpected
+        };
+      } else if (currentMode === "conjugation") {
+        qTypeLabel.textContent = "동사 현재형 인칭변화";
+        qMain.textContent = target["단어"];
+        qSub.textContent = `뜻: ${target["뜻"]}${target["참고"] ? ` (${target["참고"]})` : ""}`;
+
+        const persons = ["ich", "du", "er/sie/es", "ihr"].filter(p => (target[p] || "").trim() !== "");
+        const askPerson = pickRandom(persons);
+        const correctConj = (target[askPerson] || "").trim();
+
+        qSub.textContent = `${target["뜻"]} · [${askPerson}] 형태를 고르세요`;
+
+        const otherForms = words
+          .flatMap(w => ["ich", "du", "er/sie/es", "ihr"].map(p => (w[p] || "").trim()))
+          .filter(v => v && v.toLowerCase() !== correctConj.toLowerCase());
+
+        const distractors = shuffleArray([...new Set(otherForms)]).slice(0, 3);
+        const choices = shuffleArray([correctConj, ...distractors]);
+
+        optionsArea.classList.remove("hidden");
+        choices.forEach((choiceText, idx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn";
+          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${askPerson} → ${choiceText}</span>`;
+          btn.onclick = () => checkChoiceAnswer(btn, choiceText === correctConj, `${askPerson}: ${correctConj}`, target);
+          optionsArea.appendChild(btn);
         });
-        html += `</div>`;
-        document.getElementById("question-container").innerHTML = html;
-        currentQuizData = { wordObj: w, correctAnswer: w.artikel.toLowerCase() };
 
-      } else if (currentMode === 'plural') {
-        let html = `
-          <div class="question-box">
-            <div class="word-sub">다음 명사의 복수형을 입력하세요</div>
-            <div class="word-main">${w.artikel} ${w.wort}</div>
-            <div class="word-sub">(뜻: ${w.meaning})</div>
-          </div>
-        `;
-        document.getElementById("question-container").innerHTML = html;
-        document.getElementById("typing-container").classList.remove("hidden");
-        document.getElementById("typing-input").value = "";
-        document.getElementById("typing-input").disabled = false;
-        document.getElementById("check-typing-btn").classList.remove("hidden");
-        document.getElementById("typing-input").placeholder = "예: die Tische 또는 Tische (모르면 빈칸으로 제출)";
-        setTimeout(() => document.getElementById("typing-input").focus(), 100);
-        currentQuizData = { wordObj: w, correctAnswer: w.plural };
-
-      } else if (currentMode === 'verb_conj') {
-        const pronouns = [];
-        if (w.ich) pronouns.push({ p: 'ich', v: w.ich });
-        if (w.du) pronouns.push({ p: 'du', v: w.du });
-        if (w.erSieEs) pronouns.push({ p: 'er/sie/es', v: w.erSieEs });
-        if (w.ihr) pronouns.push({ p: 'ihr', v: w.ihr });
-
-        if (pronouns.length === 0) {
-          nextQuestion();
-          return;
-        }
-
-        const target = pronouns[Math.floor(Math.random() * pronouns.length)];
-        
-        // [엄격 개선] 오직 "현재 동사무늬"의 다른 인칭 변화 형태들만 오답 후보로 사용
-        let possibleDistractors = [w.ich, w.du, w.erSieEs, w.ihr].filter(v => v && v !== "" && v !== target.v);
-
-        // 만약 해당 동사의 등록된 형태가 부족하다면, 같은 동사의 어근을 활용해 헷갈리는 오답 형태를 자동 생성하여 채움
-        const baseStem = w.wort.replace(/\/|en$|n$/g, '');
-        const fallbackPool = [baseStem + 'e', baseStem + 'st', baseStem + 't', baseStem + 'en'];
-        
-        for (let cand of fallbackPool) {
-          if (possibleDistractors.length < 3 && cand !== target.v && !possibleDistractors.includes(cand)) {
-            possibleDistractors.push(cand);
-          }
-        }
-
-        const distractors = possibleDistractors.sort(() => Math.random() - 0.5).slice(0, 3);
-        const options = [target.v, ...distractors].sort(() => Math.random() - 0.5);
-
-        let html = `
-          <div class="question-box">
-            <div class="word-sub">동사 [${w.wort}] (${w.meaning})의 인칭 변화</div>
-            <div class="word-main"><strong>${target.p}</strong> 형태는?</div>
-            ${w.example ? `<div class="info-box" style="text-align:center; margin-top:8px;"><strong>예문:</strong> ${w.example}</div>` : ''}
-          </div>
-          <div class="options-list">
-        `;
-        options.forEach(opt => {
-          html += `<button class="option-btn" onclick="handleChoiceAnswer('${opt}', '${target.v}', this)">${opt}</button>`;
-        });
-        html += `</div>`;
-        document.getElementById("question-container").innerHTML = html;
-        currentQuizData = { wordObj: w, correctAnswer: target.v };
-
-      } else if (currentMode === 'flashcard') {
-        const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
-        let html = `
-          <div class="flashcard" onclick="flipFlashcardCard()">
-            <div class="word-sub" id="fc-label">앞면 (터치해서 뜻/정보 보기)</div>
-            <div class="word-main" id="fc-main">${displayWord}</div>
-            <div class="word-sub" id="fc-sub"></div>
-            <button class="tts-btn" onclick="event.stopPropagation(); speakText('${displayWord.replace(/\//g, '')}')">🔊 발음 듣기</button>
-          </div>
-        `;
-        document.getElementById("question-container").innerHTML = html;
-        currentQuizData = { wordObj: w, flipped: false };
+        currentQuestion = {
+          mode: "conjugation",
+          target,
+          answerText: `${askPerson}: ${correctConj}`
+        };
       }
     }
 
-    function handleChoiceAnswer(selectedVal, correctVal, btnElement) {
+    function checkChoiceAnswer(btnEl, isCorrect, correctDisplay, target) {
       if (answered) return;
       answered = true;
-      stats.total++;
 
-      const isCorrect = selectedVal.trim().toLowerCase() === correctVal.trim().toLowerCase();
-      const buttons = document.querySelectorAll(".option-btn");
-      buttons.forEach(b => {
-        if (b.textContent.trim().toLowerCase() === correctVal.trim().toLowerCase()) {
+      const allBtns = document.querySelectorAll("#optionsArea .option-btn");
+      allBtns.forEach(b => {
+        b.disabled = true;
+        if (b.textContent.includes(correctDisplay) || (currentMode === "article" && b.textContent.trim().endsWith(correctDisplay))) {
           b.classList.add("correct");
         }
       });
 
       if (isCorrect) {
-        stats.correct++;
-        markAsCorrect(currentQuizData.wordObj.wort);
-        showFeedback(true, "정답입니다! 🎉");
+        btnEl.classList.add("correct");
+        score += 10;
+        streak += 1;
       } else {
-        btnElement.classList.add("wrong");
-        markAsWrong(currentQuizData.wordObj.wort);
-        showFeedback(false, `오답입니다. 정답: ${correctVal}`);
+        btnEl.classList.add("wrong");
+        streak = 0;
+        addWrongNote(target, currentMode, correctDisplay);
       }
-      updateStatusUI();
+
+      showFeedback(isCorrect, correctDisplay, target);
     }
 
-    function checkTypingAnswer() {
-      if (answered) return;
-      const userVal = document.getElementById("typing-input").value.trim();
+    function checkSpellingAnswer() {
+      if (answered || !currentQuestion) return;
+      const input = document.getElementById("spellingInput");
+      const userVal = input.value.trim();
+      if (!userVal) return;
 
       answered = true;
-      stats.total++;
-      document.getElementById("typing-input").disabled = true;
-      document.getElementById("check-typing-btn").classList.add("hidden");
-
-      const correctVal = currentQuizData.correctAnswer;
-      const isCorrect = userVal !== "" && userVal.toLowerCase() === correctVal.toLowerCase();
+      const expected = currentQuestion.answerText;
+      const isCorrect = userVal.toLowerCase() === expected.toLowerCase();
 
       if (isCorrect) {
-        stats.correct++;
-        markAsCorrect(currentQuizData.wordObj.wort);
-        showFeedback(true, "정답입니다! 🎉");
+        score += 15;
+        streak += 1;
       } else {
-        markAsWrong(currentQuizData.wordObj.wort);
-        const msgText = userVal === "" ? `모름 (정답: ${correctVal})` : `틀렸습니다. 정답: ${correctVal}`;
-        showFeedback(false, msgText);
+        streak = 0;
+        addWrongNote(currentQuestion.target, "spelling", expected);
       }
-      updateStatusUI();
+
+      showFeedback(isCorrect, expected, currentQuestion.target);
     }
 
-    function flipFlashcardCard() {
-      const w = currentQuizData.wordObj;
-      currentQuizData.flipped = !currentQuizData.flipped;
-      
-      const displayWord = w.artikel ? `${w.artikel} ${w.wort}` : w.wort;
-      if (currentQuizData.flipped) {
-        document.getElementById("fc-label").textContent = "뒷면 (뜻 및 정보)";
-        document.getElementById("fc-main").textContent = w.meaning;
-        let subText = [];
-        if (w.plural) subText.push(`복수형: ${w.plural}`);
-        if (w.ich) subText.push(`변화: ich ${w.ich}, du ${w.du}`);
-        document.getElementById("fc-sub").textContent = subText.join(" | ");
-
-        const area = document.getElementById("feedback-area");
-        area.classList.remove("hidden");
-        document.getElementById("feedback-msg").classList.add("hidden");
-
-        if (w.example) {
-          const ex = document.getElementById("example-area");
-          ex.classList.remove("hidden");
-          ex.innerHTML = `<strong>예문:</strong> ${w.example}`;
-        }
-        if (w.note) {
-          const nt = document.getElementById("note-area");
-          nt.classList.remove("hidden");
-          nt.innerHTML = `<strong>참고:</strong> ${w.note}`;
-        }
+    function addWrongNote(target, mode, correctAnswer) {
+      const key = getWordKey(target);
+      const existing = wrongNotes.find(w => w.key === key && w.mode === mode);
+      if (existing) {
+        existing.count += 1;
+        existing.timestamp = Date.now();
       } else {
-        document.getElementById("fc-label").textContent = "앞면 (터치해서 뜻/정보 보기)";
-        document.getElementById("fc-main").textContent = displayWord;
-        document.getElementById("fc-sub").textContent = "";
-        document.getElementById("feedback-area").classList.add("hidden");
-        document.getElementById("example-area").classList.add("hidden");
-        document.getElementById("note-area").classList.add("hidden");
+        wrongNotes.push({
+          key,
+          mode,
+          단어: target["단어"],
+          관사: target["관사"],
+          뜻: target["뜻"],
+          정답: correctAnswer,
+          예문: target["예문"] || "",
+          count: 1,
+          timestamp: Date.now()
+        });
       }
+      saveWrongNotes();
     }
 
-    function showFeedback(isCorrect, text) {
-      const w = currentQuizData.wordObj;
-      const area = document.getElementById("feedback-area");
-      const msg = document.getElementById("feedback-msg");
-      const exArea = document.getElementById("example-area");
-      const noteArea = document.getElementById("note-area");
+    function showFeedback(isCorrect, correctDisplay, target) {
+      document.getElementById("scoreVal").textContent = score;
+      document.getElementById("streakVal").textContent = `연속 ${streak}`;
 
-      area.classList.remove("hidden");
-      msg.classList.remove("hidden", "feedback-correct", "feedback-wrong");
-      msg.classList.add(isCorrect ? "feedback-correct" : "feedback-wrong");
-      msg.textContent = text;
+      const fb = document.getElementById("feedbackArea");
+      const exText = target["예문"] ? target["예문"] : "";
+      const hasConj = target["ich"] || target["du"] || target["er/sie/es"] || target["ihr"];
 
-      const isVerb = w.ich || w.du || w.erSieEs || w.ihr;
-      if (w.example && !isVerb) {
-        exArea.classList.remove("hidden");
-        exArea.innerHTML = `<strong>예문:</strong> ${w.example}`;
+      let conjHtml = "";
+      if (hasConj) {
+        conjHtml = `
+          <div class="conj-grid">
+            <div class="conj-item"><strong>ich:</strong> ${target["ich"] || "-"}</div>
+            <div class="conj-item"><strong>du:</strong> ${target["du"] || "-"}</div>
+            <div class="conj-item"><strong>er/sie/es:</strong> ${target["er/sie/es"] || "-"}</div>
+            <div class="conj-item"><strong>ihr:</strong> ${target["ihr"] || "-"}</div>
+          </div>
+        `;
       }
 
-      if (w.note) {
-        noteArea.classList.remove("hidden");
-        noteArea.innerHTML = `<strong>참고:</strong> ${w.note}`;
+      const speechSentence = exText || cleanWordForSpeech(target);
+
+      fb.innerHTML = `
+        <div class="feedback-head">
+          <strong style="color:${isCorrect ? "var(--success)" : "var(--danger)"};">
+            ${isCorrect ? "정답입니다! 🎉" : `오답 · 정답: ${correctDisplay}`}
+          </strong>
+          <button type="button" class="mini-tts-btn" id="btnFeedbackSpeak">🔊 듣기</button>
+        </div>
+        <div><strong>뜻:</strong> ${target["뜻"] || "-"}${target["복수형"] ? ` · <strong>복수:</strong> ${target["복수형"]}` : ""}</div>
+        ${exText ? `<div style="margin-top:4px;"><strong>예문:</strong> ${exText}</div>` : ""}
+        ${target["참고"] ? `<div style="margin-top:3px; color:var(--muted);"><strong>참고:</strong> ${target["참고"]}</div>` : ""}
+        ${conjHtml}
+      `;
+      fb.classList.remove("hidden");
+
+      const fbSpeakBtn = document.getElementById("btnFeedbackSpeak");
+      if (fbSpeakBtn) {
+        fbSpeakBtn.onclick = () => speakGerman(speechSentence);
       }
+
+      document.getElementById("btnNextQuestion").classList.remove("hidden");
     }
 
-    function insertChar(char) {
-      const input = document.getElementById("typing-input");
-      if (input.disabled) return;
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      const val = input.value;
-      input.value = val.substring(0, start) + char + val.substring(end);
-      input.focus();
-      input.setSelectionRange(start + 1, start + 1);
-    }
+    // 이벤트 바인딩
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentMode = btn.dataset.mode;
+        buildQuestion();
+      });
+    });
 
-    function markAsWrong(wort) {
-      wrongWordsSet.add(wort);
-      localStorage.setItem("german_wrong_words_v14", JSON.stringify([...wrongWordsSet]));
-    }
+    document.getElementById("btnToggleModeList").addEventListener("click", (e) => {
+      const selector = document.getElementById("modeSelector");
+      const isHidden = selector.classList.toggle("hidden");
+      e.target.textContent = isHidden ? "펼치기" : "접기";
+    });
 
-    function markAsCorrect(wort) {
-      if (wrongWordsSet.has(wort)) {
-        wrongWordsSet.delete(wort);
-        localStorage.setItem("german_wrong_words_v14", JSON.stringify([...wrongWordsSet]));
+    document.querySelectorAll(".umlaut-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const input = document.getElementById("spellingInput");
+        const start = input.selectionStart ?? input.value.length;
+        const end = input.selectionEnd ?? input.value.length;
+        const ch = btn.dataset.char;
+        input.value = input.value.slice(0, start) + ch + input.value.slice(end);
+        input.focus();
+        input.setSelectionRange(start + ch.length, start + ch.length);
+      });
+    });
+
+    document.getElementById("btnSubmitSpelling").addEventListener("click", checkSpellingAnswer);
+    document.getElementById("spellingInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        if (!answered) checkSpellingAnswer();
+        else buildQuestion();
       }
+    });
+
+    document.getElementById("btnNextQuestion").addEventListener("click", buildQuestion);
+
+    // 화면 전환
+    function showView(viewName) {
+      stopCurrentSpeech();
+      document.getElementById("quizShell").classList.toggle("hidden", viewName !== "quiz");
+      document.getElementById("wrongNoteView").classList.toggle("hidden", viewName !== "wrong");
+      document.getElementById("settingsView").classList.toggle("hidden", viewName !== "settings");
+      if (viewName === "wrong") renderWrongNote();
     }
 
-    function speakText(text) {
-      if (!text || !("speechSynthesis" in window)) return;
-      window.speechSynthesis.cancel();
-      const cleanText = text.replace(/\//g, "").replace(/^(der|die|das)\s+/i, "");
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = "de-DE";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
+    document.getElementById("btnWrongNote").addEventListener("click", () => showView("wrong"));
+    document.getElementById("btnSettings").addEventListener("click", () => showView("settings"));
+    document.getElementById("btnCloseWrong").addEventListener("click", () => showView("quiz"));
+    document.getElementById("btnCloseSettings").addEventListener("click", () => showView("quiz"));
+
+    function renderWrongNote() {
+      const list = document.getElementById("wrongList");
+      if (!wrongNotes.length) {
+        list.innerHTML = `<div style="color:var(--muted); padding:12px 0;">저장된 오답이 없습니다.</div>`;
+        return;
+      }
+      list.innerHTML = wrongNotes
+        .slice()
+        .reverse()
+        .map((item, idx) => `
+          <div class="wrong-item">
+            <div>
+              <div><strong>${item["관사"] ? item["관사"] + " " : ""}${item["단어"]}</strong> · ${item["뜻"]}</div>
+              <div style="font-size:0.76rem; color:var(--muted);">정답: ${item["정답"]} (오답 ${item["count"]}회)</div>
+            </div>
+            <button type="button" class="small-btn" onclick="speakGerman('${String(item["단어"] || "").replace(/'/g, "")}')">🔊</button>
+          </div>
+        `).join("");
     }
+
+    document.getElementById("btnClearWrong").addEventListener("click", () => {
+      wrongNotes = [];
+      saveWrongNotes();
+      renderWrongNote();
+    });
+
+    document.getElementById("btnResetDefault").addEventListener("click", () => {
+      words = [...DEFAULT_WORDS];
+      saveWords();
+      recentHistory = [];
+      saveRecentHistory();
+      showView("quiz");
+      buildQuestion();
+    });
+
+    document.getElementById("btnResetCooldown").addEventListener("click", () => {
+      recentHistory = [];
+      saveRecentHistory();
+      updateCooldownStatusText();
+      alert("출제 쿨다운 이력이 초기화되었습니다.");
+    });
+
+    // 엑셀(.xlsx) / CSV 업로드
+    document.getElementById("fileInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const buf = await file.arrayBuffer();
+        const wb = XLSX.read(buf, { type: "array" });
+        const firstSheet = wb.SheetNames[0];
+        const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { defval: "" });
+        const parsed = rows
+          .map(r => ({
+            관사: String(r["관사"] || r["Article"] || "").trim(),
+            단어: String(r["단어"] || r["Word"] || "").trim(),
+            뜻: String(r["뜻"] || r["Meaning"] || "").trim(),
+            복수형: String(r["복수형"] || r["Plural"] || "").trim(),
+            예문: String(r["예문"] || r["Example"] || "").trim(),
+            참고: String(r["참고"] || r["Note"] || "").trim(),
+            ich: String(r["ich"] || "").trim(),
+            du: String(r["du"] || "").trim(),
+            "er/sie/es": String(r["er/sie/es"] || r["er"] || "").trim(),
+            ihr: String(r["ihr"] || "").trim()
+          }))
+          .filter(r => r["단어"] && r["뜻"]);
+
+        if (parsed.length > 0) {
+          words = parsed;
+          saveWords();
+          recentHistory = [];
+          saveRecentHistory();
+          showView("quiz");
+          buildQuestion();
+          alert(`총 ${parsed.length}개 단어를 불러왔습니다.`);
+        } else {
+          alert("단어와 뜻 열을 인식하지 못했습니다.");
+        }
+      } catch (err) {
+        alert("파일을 읽는 중 오류가 발생했습니다.");
+      }
+      e.target.value = "";
+    });
+
+    // 초기 실행
+    saveWrongNotes();
+    buildQuestion();
   </script>
 </body>
 </html>
