@@ -39,7 +39,6 @@
       min-height: 100vh;
     }
 
-    /* 1번 요구사항: 퀴즈 종류 선택 창을 축소/분리해 퀴즈 풀이·답·예문 확인 시 스크롤 최소화 */
     .workspace {
       width: 100%;
       max-width: 960px;
@@ -69,7 +68,6 @@
       min-width: 0;
     }
 
-    /* 가로 화면 또는 태블릿/데스크톱에서 왼쪽 분리 pane 배치 */
     @media (min-width: 680px), (orientation: landscape) and (max-height: 520px) {
       .app-shell {
         flex-direction: row;
@@ -165,7 +163,6 @@
       cursor: pointer;
     }
 
-    /* 아이폰13 세로 화면에서도 한눈에 들어오는 컴팩트 모드 그리드 */
     .mode-selector {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -229,12 +226,6 @@
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.75rem;
-    }
-
-    .badge-wrong {
-      background: #fee2e2;
-      color: var(--danger);
-      cursor: pointer;
     }
 
     .question-box {
@@ -518,7 +509,6 @@
     </header>
 
     <div class="app-shell" id="quizShell">
-      <!-- 1번: 퀴즈 종류 선택 분리 Pane (아이폰13 가로/세로 모두 퀴즈 본문 스크롤 최소화) -->
       <aside class="side-pane" id="modePane">
         <div class="card" style="padding: 10px;">
           <div class="pane-header">
@@ -534,7 +524,6 @@
         </div>
       </aside>
 
-      <!-- 메인 퀴즈 영역 -->
       <main class="main-pane" id="quizView">
         <div class="status-bar">
           <div>
@@ -559,10 +548,8 @@
             </div>
           </div>
 
-          <!-- 객관식 영역 -->
           <div class="options-list" id="optionsArea"></div>
 
-          <!-- 철자 입력 영역 -->
           <div id="spellingArea" class="hidden">
             <div class="umlaut-bar">
               <button type="button" class="umlaut-btn" data-char="ä">ä</button>
@@ -579,14 +566,12 @@
             </div>
           </div>
 
-          <!-- 정답/해설/예문 영역 -->
           <div id="feedbackArea" class="feedback-box hidden"></div>
           <button type="button" id="btnNextQuestion" class="next-btn hidden">다음 문제 →</button>
         </div>
       </main>
     </div>
 
-    <!-- 오답노트 뷰 -->
     <section id="wrongNoteView" class="card hidden">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h2 style="margin:0; font-size:1.05rem;">오답노트</h2>
@@ -598,7 +583,6 @@
       <div id="wrongList"></div>
     </section>
 
-    <!-- 단어장/설정 뷰 -->
     <section id="settingsView" class="card hidden">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <h2 style="margin:0; font-size:1.05rem;">단어장 불러오기 & 설정</h2>
@@ -619,6 +603,7 @@
       <div style="font-size:0.82rem; color:var(--muted); line-height:1.5;">
         • <strong>중복 방지 쿨다운:</strong> 한 번 출제된 단어는 일정 문제 수/시간 동안 다시 나오지 않도록 자동 제어됩니다.<br>
         • <strong>관사 퀴즈 보기 순서:</strong> 항상 <code>1. der</code>, <code>2. die</code>, <code>3. das</code> 순서로 고정됩니다.<br>
+        • <strong>동사 인칭변화 보기:</strong> 출제된 동사의 인칭변화 형태(및 해당 동사의 변형 오답)를 우선 구성해 실제 변형 차이를 비교할 수 있습니다.<br>
         • <strong>발음 재생:</strong> 브라우저 독일어 음성(<code>de-DE</code>)과 온라인 독일어 TTS 오디오 폴백을 함께 지원합니다.
       </div>
     </section>
@@ -645,14 +630,13 @@
     ];
 
     const STORAGE_KEYS = {
-      WORDS: "de_quiz_words_v2",
-      WRONG: "de_quiz_wrong_v2",
-      HISTORY: "de_quiz_history_v2"
+      WORDS: "de_quiz_words_v3",
+      WRONG: "de_quiz_wrong_v3",
+      HISTORY: "de_quiz_history_v3"
     };
 
     let words = loadWords();
     let wrongNotes = loadWrongNotes();
-    // 3번 요구사항: 최근 출제 이력 (단어 고유키 + 타임스탬프 + 문제번호) 저장
     let recentHistory = loadRecentHistory();
 
     let currentMode = "article";
@@ -662,7 +646,6 @@
     let questionCounter = 0;
     let answered = false;
 
-    // 2번 요구사항: Web Speech API + 온라인 TTS 오디오 폴백 플레이어
     let fallbackAudio = null;
     let germanVoice = null;
 
@@ -716,9 +699,8 @@
       return `${(item["관사"] || "").trim().toLowerCase()}|${(item["단어"] || "").trim().toLowerCase()}`;
     }
 
-    // 3번 요구사항: 일정 시간(기본 5분) 또는 최근 일정 문항(풀 크기의 절반, 최소 8문항, 최대 25문항) 동안 동일 단어 재출제 방지
     function getCooldownConfig(poolSize) {
-      const cooldownMs = 5 * 60 * 1000; // 5분
+      const cooldownMs = 5 * 60 * 1000;
       const minGapQuestions = Math.max(1, Math.min(25, Math.min(poolSize - 1, Math.max(8, Math.floor(poolSize * 0.65)))));
       return { cooldownMs, minGapQuestions };
     }
@@ -759,7 +741,6 @@
       const fresh = candidates.filter(item => !isWordOnCooldown(item));
       if (fresh.length > 0) return fresh;
 
-      // 모든 후보가 쿨다운 중이면 가장 오래전에 출제된 단어부터 우선 선택
       const lastSeenMap = new Map();
       recentHistory.forEach(entry => {
         lastSeenMap.set(entry.key, entry.timestamp);
@@ -784,7 +765,73 @@
       return copy;
     }
 
-    // 2번 요구사항: 독일어 발음 재생 (Web Speech API + Google Translate TTS 오디오 폴백)
+    // 해당 동사의 인칭변화 형태(및 규칙/불규칙 변형 오답)를 생성해 출제 동사 중심 보기를 만듦
+    function synthesizeVerbDistractors(target, askPerson, correctConj) {
+      const rawInf = (target["단어"] || "").replace(/^\(sich\)\s*/i, "").trim();
+      const parts = rawInf.split("/").map(s => s.trim());
+      const isSep = parts.length === 2 && parts[0] && parts[1];
+      const baseInf = isSep ? parts[1] : rawInf.replace(/\//g, "").trim();
+      const prefix = isSep ? parts[0] : "";
+
+      const candidates = new Set();
+
+      // 1) 같은 동사의 다른 인칭 변화형 우선 수집 (예: spreche, spricht, sprecht)
+      ["ich", "du", "er/sie/es", "ihr"].forEach(p => {
+        const v = (target[p] || "").trim();
+        if (v && v.toLowerCase() !== correctConj.toLowerCase()) {
+          candidates.add(v);
+        }
+      });
+
+      // 2) 해당 동사 어간 기반의 규칙/불규칙 변형 오답 생성 (예: sprechst, sprecht, spreche, sprichst)
+      let stem = baseInf;
+      if (stem.endsWith("eln") || stem.endsWith("ern")) {
+        stem = stem.slice(0, -1);
+      } else if (stem.endsWith("en")) {
+        stem = stem.slice(0, -2);
+      } else if (stem.endsWith("n")) {
+        stem = stem.slice(0, -1);
+      }
+
+      const joinWithPrefix = (form) => (prefix ? `${form} ${prefix}` : form).trim();
+
+      if (stem) {
+        const endsWithSibilant = /[szßx]$/.test(stem);
+        const endsWithDental = /[dt]$/.test(stem);
+        const duReg = endsWithSibilant ? `${stem}t` : `${stem}st`;
+        const erReg = endsWithDental ? `${stem}et` : `${stem}t`;
+        const ihrReg = endsWithDental ? `${stem}et` : `${stem}t`;
+        const ichReg = `${stem}e`;
+
+        // 모음 교체형(e->i / e->ie / a->ä / o->ö / u->ü) 패턴도 변형 후보에 추가
+        const stemVowelI = stem.replace(/e/i, "i");
+        const stemVowelIe = stem.replace(/e/i, "ie");
+        const stemUmlaut = stem
+          .replace(/a/i, "ä")
+          .replace(/o/i, "ö")
+          .replace(/u/i, "ü");
+
+        [
+          joinWithPrefix(ichReg),
+          joinWithPrefix(duReg),
+          joinWithPrefix(erReg),
+          joinWithPrefix(ihrReg),
+          joinWithPrefix(`${stemVowelI}st`),
+          joinWithPrefix(`${stemVowelI}t`),
+          joinWithPrefix(`${stemVowelIe}st`),
+          joinWithPrefix(`${stemVowelIe}t`),
+          joinWithPrefix(`${stemUmlaut}st`),
+          joinWithPrefix(`${stemUmlaut}t`)
+        ].forEach(variant => {
+          if (variant && variant.toLowerCase() !== correctConj.toLowerCase()) {
+            candidates.add(variant);
+          }
+        });
+      }
+
+      return shuffleArray([...candidates]).slice(0, 3);
+    }
+
     function refreshVoices() {
       if (!("speechSynthesis" in window)) return;
       const voices = window.speechSynthesis.getVoices() || [];
@@ -955,7 +1002,6 @@
       }
 
       if (currentMode === "article") {
-        // 4번 요구사항: 관사 퀴즈에서 der, die, das의 위치가 항상 1번째, 2번째, 3번째로 고정
         const correctArt = (target["관사"] || "").trim().toLowerCase();
         qTypeLabel.textContent = "관사 퀴즈 (der / die / das)";
         qMain.textContent = `___ ${target["단어"]}`;
@@ -1030,7 +1076,6 @@
       } else if (currentMode === "conjugation") {
         qTypeLabel.textContent = "동사 현재형 인칭변화";
         qMain.textContent = target["단어"];
-        qSub.textContent = `뜻: ${target["뜻"]}${target["참고"] ? ` (${target["참고"]})` : ""}`;
 
         const persons = ["ich", "du", "er/sie/es", "ihr"].filter(p => (target[p] || "").trim() !== "");
         const askPerson = pickRandom(persons);
@@ -1038,11 +1083,25 @@
 
         qSub.textContent = `${target["뜻"]} · [${askPerson}] 형태를 고르세요`;
 
-        const otherForms = words
-          .flatMap(w => ["ich", "du", "er/sie/es", "ihr"].map(p => (w[p] || "").trim()))
-          .filter(v => v && v.toLowerCase() !== correctConj.toLowerCase());
+        // 출제 동사(예: sprechen)의 다른 인칭형 및 해당 동사 변형 오답을 우선 구성
+        const distractors = synthesizeVerbDistractors(target, askPerson, correctConj);
 
-        const distractors = shuffleArray([...new Set(otherForms)]).slice(0, 3);
+        // 혹시 변형 후보가 3개 미만일 때만 다른 동사 인칭형으로 보충
+        if (distractors.length < 3) {
+          const existingLower = new Set([correctConj.toLowerCase(), ...distractors.map(d => d.toLowerCase())]);
+          const fallbackForms = shuffleArray(
+            words
+              .filter(w => getWordKey(w) !== getWordKey(target))
+              .flatMap(w => ["ich", "du", "er/sie/es", "ihr"].map(p => (w[p] || "").trim()))
+              .filter(v => v && !existingLower.has(v.toLowerCase()))
+          );
+          for (const f of fallbackForms) {
+            if (distractors.length >= 3) break;
+            distractors.push(f);
+            existingLower.add(f.toLowerCase());
+          }
+        }
+
         const choices = shuffleArray([correctConj, ...distractors]);
 
         optionsArea.classList.remove("hidden");
@@ -1175,7 +1234,6 @@
       document.getElementById("btnNextQuestion").classList.remove("hidden");
     }
 
-    // 이벤트 바인딩
     document.querySelectorAll(".mode-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
@@ -1213,7 +1271,6 @@
 
     document.getElementById("btnNextQuestion").addEventListener("click", buildQuestion);
 
-    // 화면 전환
     function showView(viewName) {
       stopCurrentSpeech();
       document.getElementById("quizShell").classList.toggle("hidden", viewName !== "quiz");
@@ -1236,7 +1293,7 @@
       list.innerHTML = wrongNotes
         .slice()
         .reverse()
-        .map((item, idx) => `
+        .map((item) => `
           <div class="wrong-item">
             <div>
               <div><strong>${item["관사"] ? item["관사"] + " " : ""}${item["단어"]}</strong> · ${item["뜻"]}</div>
@@ -1269,7 +1326,6 @@
       alert("출제 쿨다운 이력이 초기화되었습니다.");
     });
 
-    // 엑셀(.xlsx) / CSV 업로드
     document.getElementById("fileInput").addEventListener("change", async (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -1310,7 +1366,6 @@
       e.target.value = "";
     });
 
-    // 초기 실행
     saveWrongNotes();
     buildQuestion();
   </script>
