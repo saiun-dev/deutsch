@@ -297,6 +297,22 @@
       border-color: var(--primary);
     }
 
+    .secondary-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .secondary-btn:active {
+      background: #e2e8f0;
+    }
+
     .tts-status {
       font-size: 0.72rem;
       color: var(--muted);
@@ -408,22 +424,6 @@
 
     .primary-btn:active {
       background: var(--primary-dark);
-    }
-
-    .secondary-btn {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .secondary-btn:active {
-      background: #e2e8f0;
     }
 
     .feedback-box {
@@ -638,161 +638,2452 @@
 
   <script>
     const DEFAULT_WORDS = [
-      { "관사": "der", "단어": "Daumen", "뜻": "엄지손가락", "복수형": "Daumen", "예문": "Mein rechter Daumen tut weh.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
-      { "관사": "der", "단어": "Zeigefinger", "뜻": "검지손가락", "복수형": "Zeigefinger", "예문": "Sie zeigt mit dem Zeigefinger auf das Bild.", "참고": "둘째 손가락", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
-      { "관사": "", "단어": "ab/holen", "뜻": "데리러 가다, 찾아오다", "복수형": "", "예문": "Ich hole dich um 18 Uhr vom Bahnhof ab.", "참고": "분리동사 (hat abgeholt)", "ich": "hole ab", "du": "holst ab", "er/sie/es": "holt ab", "ihr": "holt ab" },
-      { "관사": "die", "단어": "Bäckerei", "뜻": "빵집, 제과점", "복수형": "Bäckereien", "예문": "Ich kaufe jeden Morgen frische Brötchen in der Bäckerei.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" },
-      { "관사": "das", "단어": "Buch", "뜻": "책", "복수형": "Bücher", "예문": "Ich lese gerade ein spannendes Buch.", "참고": "", "ich": "", "du": "", "er/sie/es": "", "ihr": "" }
+      {
+        "관사": "der",
+        "단어": "Daumen",
+        "뜻": "엄지손가락",
+        "복수형": "Daumen",
+        "예문": "Mein rechter Daumen tut weh.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Zeigefinger",
+        "뜻": "검지손가락",
+        "복수형": "Zeigefinger",
+        "예문": "Sie zeigt mit dem Zeigefinger auf das Bild.",
+        "참고": "둘째 손가락",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Mittelfinger",
+        "뜻": "중지손가락",
+        "복수형": "Mittelfinger",
+        "예문": "Der Mittelfinger ist der längste Finger.",
+        "참고": "가운데 손가락",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Ringfinger",
+        "뜻": "약지손가락",
+        "복수형": "Ringfinger",
+        "예문": "Er trägt den Ehering am Ringfinger.",
+        "참고": "넷째 손가락",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "ab/holen",
+        "뜻": "데리러 가다, 찾아오다",
+        "복수형": "",
+        "예문": "Ich hole dich um 18 Uhr vom Bahnhof ab.",
+        "참고": "분리동사 (hat abgeholt)",
+        "ich": "hole ab",
+        "du": "holst ab",
+        "er/sie/es": "holt ab",
+        "ihr": "holt ab"
+      },
+      {
+        "관사": "",
+        "단어": "alleinerziehend",
+        "뜻": "편부모의, 홀로 아이를 키우는",
+        "복수형": "",
+        "예문": "Sie ist alleinerziehend und hat zwei Kinder.",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Altfahrzeug",
+        "뜻": "폐차, 노후 차량",
+        "복수형": "Altfahrzeuge",
+        "예문": "Das Altfahrzeug wird fachgerecht recycelt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "an/ziehen",
+        "뜻": "(옷을) 입다, 신다",
+        "복수형": "",
+        "예문": "Es ist kalt, zieh bitte deine Jacke an!",
+        "참고": "분리동사 (hat angezogen)",
+        "ich": "ziehe an",
+        "du": "ziehst an",
+        "er/sie/es": "zieht an",
+        "ihr": "zieht an"
+      },
+      {
+        "관사": "",
+        "단어": "anfangen",
+        "뜻": "시작하다",
+        "복수형": "",
+        "예문": "Der Deutschkurs fängt um 18:30 Uhr an.",
+        "참고": "분리동사 (hat angefangen)",
+        "ich": "fange an",
+        "du": "fängst an",
+        "er/sie/es": "fängt an",
+        "ihr": "fangt an"
+      },
+      {
+        "관사": "",
+        "단어": "angenehm",
+        "뜻": "쾌적한, 기분 좋은, 괜찮은",
+        "복수형": "",
+        "예문": "Das Wetter heute ist sehr angenehm.",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "auf/räumen",
+        "뜻": "정리하다, 치우다",
+        "복수형": "",
+        "예문": "Ich muss am Wochenende mein Zimmer aufräumen.",
+        "참고": "분리동사 (hat aufgeräumt)",
+        "ich": "räume auf",
+        "du": "räumst auf",
+        "er/sie/es": "räumt auf",
+        "ihr": "räumt auf"
+      },
+      {
+        "관사": "der",
+        "단어": "Aufzug",
+        "뜻": "엘리베이터",
+        "복수형": "Aufzüge",
+        "예문": "Wir nehmen den Aufzug in den dritten Stock.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "aus/ziehen",
+        "뜻": "(옷을) 벗다 / 이사 나가다",
+        "복수형": "",
+        "예문": "Bitte ziehen Sie im Haus die Schuhe aus.",
+        "참고": "분리동사 (hat/ist ausgezogen)",
+        "ich": "ziehe aus",
+        "du": "ziehst aus",
+        "er/sie/es": "zieht aus",
+        "ihr": "zieht aus"
+      },
+      {
+        "관사": "",
+        "단어": "außerhalb",
+        "뜻": "~의 밖에, 외곽에",
+        "복수형": "",
+        "예문": "Wir wohnen etwas außerhalb der Stadt.",
+        "참고": "전치사(+2격) / 부사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Bäckerei",
+        "뜻": "빵집, 제과점",
+        "복수형": "Bäckereien",
+        "예문": "Ich kaufe jeden Morgen frische Brötchen in der Bäckerei.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "basteln",
+        "뜻": "공작하다, 손으로 만들다",
+        "복수형": "",
+        "예문": "Die Kinder basteln eine Laterne aus Papier.",
+        "참고": "규칙동사 (hat gebastelt)",
+        "ich": "bastle / bastele",
+        "du": "bastelst",
+        "er/sie/es": "bastelt",
+        "ihr": "bastelt"
+      },
+      {
+        "관사": "",
+        "단어": "beide",
+        "뜻": "둘 다, 양쪽의",
+        "복수형": "",
+        "예문": "Beide Filme sind sehr interessant.",
+        "참고": "대명사 / 관형사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "bestimmt",
+        "뜻": "분명히, 틀림없이 / 특정한",
+        "복수형": "",
+        "예문": "Er kommt bestimmt pünktlich zum Treffen.",
+        "참고": "부사 / 형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "Bestimmter (bestimmt)",
+        "뜻": "특정한 (남성 1격 형태)",
+        "복수형": "",
+        "예문": "Ein bestimmter Artikel steht vor einem bekannten Nomen.",
+        "참고": "형용사 어미변화형 (원형: bestimmt)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Beutel",
+        "뜻": "봉투, 주머니, 파우치",
+        "복수형": "Beutel",
+        "예문": "Hast du einen Beutel für den Einkauf dabei?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "bewölkt",
+        "뜻": "구름이 낀, 흐린",
+        "복수형": "",
+        "예문": "Es ist bewölkt, aber es regnet nicht.",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Birne",
+        "뜻": "전구 / 배(과일)",
+        "복수형": "Birnen",
+        "예문": "Die Birne in der Lampe ist kaputt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Brot",
+        "뜻": "빵",
+        "복수형": "Brote",
+        "예문": "Zum Frühstück esse ich gern Brot mit Käse.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Bruder",
+        "뜻": "남자형제 (형, 오빠, 남동생)",
+        "복수형": "Brüder",
+        "예문": "Mein jüngerer Bruder wohnt noch in Korea.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Buch",
+        "뜻": "책",
+        "복수형": "Bücher",
+        "예문": "Ich lese gerade ein spannendes Buch.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Chicken",
+        "뜻": "닭고기, 치킨 (외래어)",
+        "복수형": "Chickens",
+        "예문": "Zum Mittagessen gibt es heute gebratenes Chicken mit Reis.",
+        "참고": "독일어로는 주로 das Hähnchen 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "dabei",
+        "뜻": "함께, 지니고, 그 자리에서",
+        "복수형": "",
+        "예문": "Ich habe leider kein Bargeld dabei.",
+        "참고": "부사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "doof",
+        "뜻": "바보 같은, 멍청한, 짜증나는",
+        "복수형": "",
+        "예문": "Das Wetter heute ist wirklich doof.",
+        "참고": "형용사 (구어체)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Ehefrau",
+        "뜻": "아내, 부인",
+        "복수형": "Ehefrauen",
+        "예문": "Seine Ehefrau arbeitet als Ärztin im Krankenhaus.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Ehemann",
+        "뜻": "남편",
+        "복수형": "Ehemänner",
+        "예문": "Ihr Ehemann kocht am Wochenende sehr gern.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "ergänzen",
+        "뜻": "보충하다, 채워 넣다",
+        "복수형": "",
+        "예문": "Bitte ergänzen Sie die fehlenden Wörter im Text.",
+        "참고": "규칙동사 (hat ergänzt)",
+        "ich": "ergänze",
+        "du": "ergänzt",
+        "er/sie/es": "ergänzt",
+        "ihr": "ergänzt"
+      },
+      {
+        "관사": "",
+        "단어": "essen",
+        "뜻": "먹다",
+        "복수형": "",
+        "예문": "Wir essen abends meistens zusammen zu Hause.",
+        "참고": "불규칙동사 (hat gegessen)",
+        "ich": "esse",
+        "du": "isst",
+        "er/sie/es": "isst",
+        "ihr": "esst"
+      },
+      {
+        "관사": "das",
+        "단어": "Essen",
+        "뜻": "음식, 식사",
+        "복수형": "Essen",
+        "예문": "Das Essen in diesem Restaurant schmeckt ausgezeichnet.",
+        "참고": "동사가 명사가 되면 das",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "fahren",
+        "뜻": "(차 등을) 타고 가다, 운전하다",
+        "복수형": "",
+        "예문": "Wir fahren im Sommer mit dem Auto nach Spanien.",
+        "참고": "불규칙동사 (ist/hat gefahren)",
+        "ich": "fahre",
+        "du": "fährst",
+        "er/sie/es": "fährt",
+        "ihr": "fahrt"
+      },
+      {
+        "관사": "das",
+        "단어": "Feminin",
+        "뜻": "여성형 (문법)",
+        "복수형": "Feminina",
+        "예문": "Das Wort „die Tasche“ ist ein Femininum.",
+        "참고": "문법 용어로 관사는 das (여성명사는 die)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Fenster",
+        "뜻": "창문",
+        "복수형": "Fenster",
+        "예문": "Kannst du bitte das Fenster öffnen? Es ist warm.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Finger",
+        "뜻": "손가락",
+        "복수형": "Finger",
+        "예문": "Der Mensch hat fünf Finger an jeder Hand.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Flasche",
+        "뜻": "병",
+        "복수형": "Flaschen",
+        "예문": "Ich kaufe eine Flasche Wasser im Supermarkt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Fleisch",
+        "뜻": "고기",
+        "복수형": "Fleische (보통 단수만 사용)",
+        "예문": "Er isst kein Fleisch, weil er Vegetarier ist.",
+        "참고": "물질명사로 보통 복수형 미사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Fotograf",
+        "뜻": "사진작가 (남성)",
+        "복수형": "Fotografen",
+        "예문": "Der Fotograf macht schöne Bilder von der Hochzeit.",
+        "참고": "약변화 명사 (n-Deklination)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Fotografin",
+        "뜻": "사진작가 (여성)",
+        "복수형": "Fotografinnen",
+        "예문": "Die Fotografin arbeitet für eine bekannte Zeitung.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Friseur",
+        "뜻": "미용사 (남성)",
+        "복수형": "Friseure",
+        "예문": "Ich gehe morgen Nachmittag zum Friseur.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Friseurin",
+        "뜻": "미용사 (여성)",
+        "복수형": "Friseurinnen",
+        "예문": "Meine Friseurin schneidet die Haare immer sehr gut.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Frühstück",
+        "뜻": "아침 식사",
+        "복수형": "Frühstücke",
+        "예문": "Was isst du normalerweise zum Frühstück?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "ganz",
+        "뜻": "아주, 매우 / 전체의, 온",
+        "복수형": "",
+        "예문": "Der Film war ganz gut, aber etwas zu lang.",
+        "참고": "부사 / 형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Garten",
+        "뜻": "정원, 마당",
+        "복수형": "Gärten",
+        "예문": "Im Sommer sitzen wir oft im Garten.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Geburt",
+        "뜻": "출생, 탄생",
+        "복수형": "Geburten",
+        "예문": "Herzlichen Glückwunsch zur Geburt eures Kindes!",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Geburtstag",
+        "뜻": "생일",
+        "복수형": "Geburtstage",
+        "예문": "Wann hast du Geburtstag? – Am zehnten April.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Geheimnis",
+        "뜻": "비밀",
+        "복수형": "Geheimnisse",
+        "예문": "Kannst du ein Geheimnis für dich behalten?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "gelaufen (원형: laufen)",
+        "뜻": "달렸다, 걸었다 (laufen의 과거분사)",
+        "복수형": "",
+        "예문": "Wir sind gestern fünf Kilometer im Park gelaufen.",
+        "참고": "laufen의 과거분사 (Partizip II)",
+        "ich": "laufe",
+        "du": "läufst",
+        "er/sie/es": "läuft",
+        "ihr": "lauft"
+      },
+      {
+        "관사": "der",
+        "단어": "Geldbeutel",
+        "뜻": "지갑",
+        "복수형": "Geldbeutel",
+        "예문": "Ich habe meinen Geldbeutel zu Hause vergessen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "genügt (원형: genügen)",
+        "뜻": "충분하다 (genügen의 3인칭 단수)",
+        "복수형": "",
+        "예문": "Danke, das genügt mir vollkommen.",
+        "참고": "원형 genügen (규칙동사)",
+        "ich": "genüge",
+        "du": "genügst",
+        "er/sie/es": "genügt",
+        "ihr": "genügt"
+      },
+      {
+        "관사": "das",
+        "단어": "Geschäft",
+        "뜻": "가게, 상점 / 사업",
+        "복수형": "Geschäfte",
+        "예문": "Die Geschäfte in Deutschland sind sonntags geschlossen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die (Pl.)",
+        "단어": "Geschwister",
+        "뜻": "형제자매",
+        "복수형": "Geschwister (복수명사)",
+        "예문": "Hast du Geschwister? – Ja, einen Bruder und eine Schwester.",
+        "참고": "항상 복수로 쓰이는 명사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Gewürz",
+        "뜻": "향신료, 양념",
+        "복수형": "Gewürze",
+        "예문": "Pfeffer und Zimt sind bekannte Gewürze.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Hauptspeise",
+        "뜻": "메인 요리, 주요리",
+        "복수형": "Hauptspeisen",
+        "예문": "Als Hauptspeise nehme ich das Steak mit Kartoffeln.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Hauptstadt",
+        "뜻": "수도",
+        "복수형": "Hauptstädte",
+        "예문": "Berlin ist die Hauptstadt von Deutschland.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Haus",
+        "뜻": "집, 주택",
+        "복수형": "Häuser",
+        "예문": "Meine Eltern wohnen in einem kleinen Haus.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Heft",
+        "뜻": "공책, 노트",
+        "복수형": "Hefte",
+        "예문": "Schreib die neuen Wörter bitte in dein Heft!",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Himmel",
+        "뜻": "하늘",
+        "복수형": "Himmel",
+        "예문": "Heute ist der Himmel ganz blau und ohne Wolken.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Hotelführer",
+        "뜻": "호텔 안내서 / 호텔 매니저",
+        "복수형": "Hotelführer",
+        "예문": "Im Hotelführer finden wir gute Unterkünfte in Spanien.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Ingwer",
+        "뜻": "생강",
+        "복수형": "Ingwer",
+        "예문": "Ich trinke bei Erkältung gern Tee mit frischem Ingwer.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Jahr",
+        "뜻": "해, 년",
+        "복수형": "Jahre",
+        "예문": "Ich lebe seit drei Jahren in Regensburg.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "jeden Tag",
+        "뜻": "매일",
+        "복수형": "",
+        "예문": "Ich lerne jeden Tag dreißig Minuten Deutsch.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Kleinfinger",
+        "뜻": "새끼손가락",
+        "복수형": "Kleinfinger",
+        "예문": "Der Kleinfinger ist der kleinste Finger der Hand.",
+        "참고": "일상에서는 주로 der kleine Finger 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Klima",
+        "뜻": "기후, 분위기",
+        "복수형": "Klimata / Klimate",
+        "예문": "Das Klima am Mittelmeer ist im Herbst sehr mild.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Knoblauch",
+        "뜻": "마늘",
+        "복수형": "Knoblauche",
+        "예문": "Für dieses Rezept brauchen wir viel Knoblauch.",
+        "참고": "보통 단수형으로만 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Krankenhaus",
+        "뜻": "병원",
+        "복수형": "Krankenhäuser",
+        "예문": "Mein Freund liegt nach dem Unfall im Krankenhaus.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Küche",
+        "뜻": "부엌, 주방 / 요리",
+        "복수형": "Küchen",
+        "예문": "Wir kochen heute Abend zusammen in der Küche.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Kurs",
+        "뜻": "강좌, 코스, 수업",
+        "복수형": "Kurse",
+        "예문": "Mein Deutschkurs findet zweimal pro Woche statt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "lachen",
+        "뜻": "웃다",
+        "복수형": "",
+        "예문": "Wir haben über den Witz sehr viel gelacht.",
+        "참고": "규칙동사 (hat gelacht)",
+        "ich": "lache",
+        "du": "lachst",
+        "er/sie/es": "lacht",
+        "ihr": "lacht"
+      },
+      {
+        "관사": "die",
+        "단어": "Lage",
+        "뜻": "위치, 입지 / 상황",
+        "복수형": "Lagen",
+        "예문": "Das Hotel hat eine sehr gute Lage direkt am Bahnhof.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Lager",
+        "뜻": "창고, 저장소 / 캠프",
+        "복수형": "Lager",
+        "예문": "Die neuen Waren liegen noch im Lager.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "laufen",
+        "뜻": "달리다, 걷다, 작동하다",
+        "복수형": "",
+        "예문": "Er läuft jeden Morgen eine Stunde im Park.",
+        "참고": "불규칙동사 (ist gelaufen)",
+        "ich": "laufe",
+        "du": "läufst",
+        "er/sie/es": "läuft",
+        "ihr": "lauft"
+      },
+      {
+        "관사": "das",
+        "단어": "Leben",
+        "뜻": "삶, 인생, 생활",
+        "복수형": "Leben",
+        "예문": "Das Leben in einer neuen Stadt ist am Anfang spannend.",
+        "참고": "동사가 명사가 되면 das",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "lesen",
+        "뜻": "읽다",
+        "복수형": "",
+        "예문": "Abends lese ich vor dem Schlafen oft Zeitung.",
+        "참고": "불규칙동사 (hat gelesen)",
+        "ich": "lese",
+        "du": "liest",
+        "er/sie/es": "liest",
+        "ihr": "lest"
+      },
+      {
+        "관사": "das",
+        "단어": "Lineal",
+        "뜻": "자 (문구류)",
+        "복수형": "Lineale",
+        "예문": "Zeichne die Linie bitte mit einem Lineal!",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Los",
+        "뜻": "제비, 복권 / 운명",
+        "복수형": "",
+        "예문": "Jetzt geht es los! Wir fahren ab.",
+        "참고": "관용구: Es geht los! (시작한다!)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Maskulin",
+        "뜻": "남성형 (문법)",
+        "복수형": "Maskulina",
+        "예문": "„Der Tisch“ ist ein Nomen im Maskulinum.",
+        "참고": "문법 용어로 관사는 das (남성명사는 der)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Mutter",
+        "뜻": "너트(나사) / 어머니",
+        "복수형": "Muttern (너트) / Mütter (어머니)",
+        "예문": "Für diese Schraube brauche ich die passende Mutter.",
+        "참고": "뜻에 따라 복수형이 다름 (너트: Muttern)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die (Pl.)",
+        "단어": "Nachrichten",
+        "뜻": "뉴스, 소식 (단수: die Nachricht)",
+        "복수형": "Nachrichten",
+        "예문": "Ich sehe jeden Abend um 20 Uhr die Nachrichten.",
+        "참고": "단수 die Nachricht (메시지/소식)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Nachspeise",
+        "뜻": "후식, 디저트",
+        "복수형": "Nachspeisen",
+        "예문": "Möchten Sie noch einen Kuchen als Nachspeise?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Name",
+        "뜻": "이름",
+        "복수형": "Namen",
+        "예문": "Wie ist Ihr Name, bitte?",
+        "참고": "약변화 명사 (n-Deklination)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Neutrum",
+        "뜻": "중성형 (문법)",
+        "복수형": "Neutra",
+        "예문": "Das Wort „das Kind“ ist ein Neutrum.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Ort",
+        "뜻": "장소, 곳, 마을",
+        "복수형": "Orte",
+        "예문": "Regensburg ist ein sehr schöner Ort an der Donau.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Papier",
+        "뜻": "종이, 서류",
+        "복수형": "Papiere",
+        "예문": "Hast du ein Blatt Papier und einen Stift für mich?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Quatsch",
+        "뜻": "헛소리, 말도 안 되는 소리",
+        "복수형": "Quatsche (보통 단수만 사용)",
+        "예문": "Red keinen Quatsch, das stimmt doch gar nicht!",
+        "참고": "보통 단수형으로만 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Ratte",
+        "뜻": "쥐 (큰 쥐)",
+        "복수형": "Ratten",
+        "예문": "Im alten Keller haben wir eine Ratte gesehen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "raus",
+        "뜻": "밖으로 (heraus/hinaus의 줄임말)",
+        "복수형": "",
+        "예문": "Komm schnell raus, die Sonne scheint!",
+        "참고": "부사 (구어체)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "raus/gehen",
+        "뜻": "밖에 나가다",
+        "복수형": "",
+        "예문": "Wollen wir heute Abend zusammen rausgehen?",
+        "참고": "분리동사 (ist rausgegangen)",
+        "ich": "gehe raus",
+        "du": "gehst raus",
+        "er/sie/es": "geht raus",
+        "ihr": "geht raus"
+      },
+      {
+        "관사": "der",
+        "단어": "Regen",
+        "뜻": "비",
+        "복수형": "Regen (보통 단수만 사용)",
+        "예문": "Bei diesem starken Regen bleibe ich lieber zu Hause.",
+        "참고": "보통 단수형으로만 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "scheinen",
+        "뜻": "빛나다, 비추다 / ~인 것 같다",
+        "복수형": "",
+        "예문": "Die Sonne scheint heute den ganzen Tag.",
+        "참고": "불규칙동사 (hat geschienen)",
+        "ich": "scheine",
+        "du": "scheinst",
+        "er/sie/es": "scheint",
+        "ihr": "scheint"
+      },
+      {
+        "관사": "die",
+        "단어": "Schere",
+        "뜻": "가위",
+        "복수형": "Scheren",
+        "예문": "Kannst du mir bitte die Schere geben?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "schiefgehen",
+        "뜻": "잘못되다, 실패하다",
+        "복수형": "",
+        "예문": "Keine Sorge, es wird schon nichts schiefgehen.",
+        "참고": "분리동사 (ist schiefgegangen)",
+        "ich": "gehe schief",
+        "du": "gehst schief",
+        "er/sie/es": "geht schief",
+        "ihr": "geht schief"
+      },
+      {
+        "관사": "",
+        "단어": "schiefgelaufen (원형: schiefgehen)",
+        "뜻": "잘못되었다 (schiefgehen의 과거분사)",
+        "복수형": "",
+        "예문": "Leider ist bei der Planung etwas schiefgelaufen.",
+        "참고": "schiefgehen의 과거분사 (Partizip II)",
+        "ich": "gehe schief",
+        "du": "gehst schief",
+        "er/sie/es": "geht schief",
+        "ihr": "geht schief"
+      },
+      {
+        "관사": "der",
+        "단어": "Schlüssel",
+        "뜻": "열쇠",
+        "복수형": "Schlüssel",
+        "예문": "Ich finde meinen Hausschlüssel nicht mehr.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Schnee",
+        "뜻": "눈 (기상)",
+        "복수형": "Schneemassen (보통 단수만 사용)",
+        "예문": "Im Winter liegt in Bayern oft viel Schnee.",
+        "참고": "예: der Schneemann (눈사람)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "schneien",
+        "뜻": "눈이 오다",
+        "복수형": "",
+        "예문": "Es schneit und es ist sehr kalt draußen.",
+        "참고": "비인칭 동사 (주로 es schneit로 사용)",
+        "ich": "schneie",
+        "du": "schneist",
+        "er/sie/es": "schneit",
+        "ihr": "schneit"
+      },
+      {
+        "관사": "der",
+        "단어": "Schrank",
+        "뜻": "장롱, 찬장, 캐비닛",
+        "복수형": "Schränke",
+        "예문": "Die Teller stehen oben im Schrank.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Schraube",
+        "뜻": "나사, 볼트",
+        "복수형": "Schrauben",
+        "예문": "Diese Schraube ist locker, wir müssen sie festziehen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "schrauben",
+        "뜻": "나사를 조이다/풀다",
+        "복수형": "",
+        "예문": "Er schraubt das neue Regal selbst zusammen.",
+        "참고": "규칙동사 (hat geschraubt)",
+        "ich": "schraube",
+        "du": "schraubst",
+        "er/sie/es": "schraubt",
+        "ihr": "schraubt"
+      },
+      {
+        "관사": "die",
+        "단어": "Schwester",
+        "뜻": "여자형제 (언니, 누나, 여동생)",
+        "복수형": "Schwestern",
+        "예문": "Meine Schwester besucht mich nächsten Monat in Deutschland.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "setzen",
+        "뜻": "(자리에) 앉히다, 놓다 / (재귀) 앉다",
+        "복수형": "",
+        "예문": "Bitte setzen Sie sich auf diesen Stuhl!",
+        "참고": "규칙동사 / 타동사·재귀동사 (hat gesetzt)",
+        "ich": "setze",
+        "du": "setzt",
+        "er/sie/es": "setzt",
+        "ihr": "setzt"
+      },
+      {
+        "관사": "",
+        "단어": "sitzen",
+        "뜻": "앉아 있다",
+        "복수형": "",
+        "예문": "Wir sitzen im Café und trinken einen Kaffee.",
+        "참고": "불규칙동사 / 자동사 (hat gesessen)",
+        "ich": "sitze",
+        "du": "sitzt",
+        "er/sie/es": "sitzt",
+        "ihr": "sitzt"
+      },
+      {
+        "관사": "",
+        "단어": "sonst",
+        "뜻": "그 밖에, 그렇지 않으면",
+        "복수형": "",
+        "예문": "Haben Sie sonst noch einen Wunsch?",
+        "참고": "부사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Spaß",
+        "뜻": "재미, 즐거움",
+        "복수형": "Späße",
+        "예문": "Viel Spaß im Urlaub in Spanien!",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Stadtmitte",
+        "뜻": "시내 중심가, 도심",
+        "복수형": "Stadtmitten",
+        "예문": "Wir treffen uns um 15 Uhr in der Stadtmitte.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Stimme",
+        "뜻": "목소리, 음성 / 투표",
+        "복수형": "Stimmen",
+        "예문": "Sie hat eine sehr schöne Stimme zum Singen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "stimmt (원형: stimmen)",
+        "뜻": "맞다, 옳다 (stimmen의 3인칭 단수)",
+        "복수형": "",
+        "예문": "Das stimmt! Die Rechnung ist völlig richtig.",
+        "참고": "원형 stimmen (규칙동사)",
+        "ich": "stimme",
+        "du": "stimmst",
+        "er/sie/es": "stimmt",
+        "ihr": "stimmt"
+      },
+      {
+        "관사": "der",
+        "단어": "Student",
+        "뜻": "대학생 (남성)",
+        "복수형": "Studenten (원본: Studenter 수정)",
+        "예문": "Er ist Student und studiert Maschinenbau.",
+        "참고": "약변화 명사: 복수형은 Studenten",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Studentin",
+        "뜻": "대학생 (여성)",
+        "복수형": "Studentinnen",
+        "예문": "Die Studentin lernt für ihre Prüfung in der Bibliothek.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Suppe",
+        "뜻": "수프, 국",
+        "복수형": "Suppen",
+        "예문": "Bei kaltem Wetter esse ich gern eine heiße Suppe.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Tag",
+        "뜻": "낮, 하루, 날",
+        "복수형": "Tage",
+        "예문": "Guten Tag! Wie geht es Ihnen heute?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Tastatur",
+        "뜻": "키보드, 자판",
+        "복수형": "Tastaturen",
+        "예문": "Ich brauche eine neue Tastatur für meinen Computer.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "das",
+        "단어": "Taxi",
+        "뜻": "택시",
+        "복수형": "Taxis",
+        "예문": "Wir nehmen ein Taxi zum Flughafen, weil wir viel Gepäck haben.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Taste",
+        "뜻": "키, 버튼, 건반",
+        "복수형": "Tasten",
+        "예문": "Drücken Sie bitte die grüne Taste zum Starten.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Traube",
+        "뜻": "포도",
+        "복수형": "Trauben",
+        "예문": "Diese roten Trauben sind sehr süß.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Traumfrau",
+        "뜻": "이상형의 여성, 꿈에 그리던 여성",
+        "복수형": "Traumfrauen",
+        "예문": "Er hat endlich seine Traumfrau kennengelernt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "um/ziehen",
+        "뜻": "이사하다 / 옷을 갈아입다",
+        "복수형": "",
+        "예문": "Nächsten Monat ziehen wir in eine neue Wohnung um.",
+        "참고": "분리동사 (이사: ist umgezogen / 환복: hat sich umgezogen)",
+        "ich": "ziehe um",
+        "du": "ziehst um",
+        "er/sie/es": "zieht um",
+        "ihr": "zieht um"
+      },
+      {
+        "관사": "die",
+        "단어": "Umfrage",
+        "뜻": "설문조사, 여론조사",
+        "복수형": "Umfragen",
+        "예문": "Können Sie bitte kurz an unserer Umfrage teilnehmen?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "umkreisen",
+        "뜻": "동그라미를 치다, 선회하다, 둘러싸다",
+        "복수형": "",
+        "예문": "Bitte umkreisen Sie die richtige Antwort auf dem Blatt.",
+        "참고": "비분리동사 (hat umkreist)",
+        "ich": "umkreise",
+        "du": "umkreist",
+        "er/sie/es": "umkreist",
+        "ihr": "umkreist"
+      },
+      {
+        "관사": "der",
+        "단어": "Umzug",
+        "뜻": "이사, 행렬",
+        "복수형": "Umzüge",
+        "예문": "Der Umzug war anstrengend, aber jetzt ist alles fertig.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "unangenehm",
+        "뜻": "불쾌한, 불편한, 거북한",
+        "복수형": "",
+        "예문": "Das Gespräch mit dem Chef war mir sehr unangenehm.",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "unbestimmter (unbestimmt)",
+        "뜻": "불특정한, 부정(관사)의 (남성 1격)",
+        "복수형": "",
+        "예문": "„Ein“ und „eine“ sind unbestimmte Artikel.",
+        "참고": "형용사 어미변화형 (원형: unbestimmt)",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "ungefähr",
+        "뜻": "대략, 약",
+        "복수형": "",
+        "예문": "Ich brauche ungefähr zwei Stunden für die Fahrt.",
+        "참고": "부사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Unterschied",
+        "뜻": "차이, 차이점",
+        "복수형": "Unterschiede",
+        "예문": "Was ist der Unterschied zwischen „setzen“ und „sitzen“?",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "unterziehen",
+        "뜻": "(시험·검사 등을) 받게 하다 / (옷을) 속에 껴입다",
+        "복수형": "",
+        "예문": "Er muss sich einer medizinischen Untersuchung unterziehen.",
+        "참고": "참고: 청소하다는 putzen / 비분리동사 (hat unterzogen)",
+        "ich": "unterziehe",
+        "du": "unterziehst",
+        "er/sie/es": "unterzieht",
+        "ihr": "unterzieht"
+      },
+      {
+        "관사": "",
+        "단어": "usw. (und so weiter)",
+        "뜻": "등등 (기타 등등)",
+        "복수형": "",
+        "예문": "Wir brauchen Obst, Gemüse, Milch, Brot usw.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "vegetarisch",
+        "뜻": "채식의, 채식주의의",
+        "복수형": "",
+        "예문": "Gibt es hier auch vegetarische Gerichte auf der Speisekarte?",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "verbinden",
+        "뜻": "연결하다, 잇다 / 붕대를 감다",
+        "복수형": "",
+        "예문": "Können Sie mich bitte mit Herrn Müller verbinden?",
+        "참고": "비분리동사 (hat verbunden)",
+        "ich": "verbinde",
+        "du": "verbindest",
+        "er/sie/es": "verbindet",
+        "ihr": "verbindet"
+      },
+      {
+        "관사": "",
+        "단어": "vergleichen",
+        "뜻": "비교하다",
+        "복수형": "",
+        "예문": "Vor dem Kauf sollte man die Preise genau vergleichen.",
+        "참고": "비분리동사 (hat verglichen)",
+        "ich": "vergleiche",
+        "du": "vergleichst",
+        "er/sie/es": "vergleicht",
+        "ihr": "vergleicht"
+      },
+      {
+        "관사": "der",
+        "단어": "Verkäufer",
+        "뜻": "판매원 (남성)",
+        "복수형": "Verkäufer",
+        "예문": "Der Verkäufer im Laden war sehr freundlich.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Verkäuferin",
+        "뜻": "판매원 (여성)",
+        "복수형": "Verkäuferinnen",
+        "예문": "Ich frage die Verkäuferin nach dem Preis.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "verwitwet",
+        "뜻": "사별한 (과부/홀아비가 된)",
+        "복수형": "",
+        "예문": "Meine Nachbarin ist seit fünf Jahren verwitwet.",
+        "참고": "형용사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Vorspeise",
+        "뜻": "전채 요리, 에피타이저",
+        "복수형": "Vorspeisen",
+        "예문": "Als Vorspeise bestellen wir eine Tomatensuppe.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "wenig",
+        "뜻": "적은, 조금의",
+        "복수형": "",
+        "예문": "Ich habe heute leider nur wenig Zeit.",
+        "참고": "형용사 / 부사",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Werkstatt",
+        "뜻": "정비소, 작업장, 공방",
+        "복수형": "Werkstätten",
+        "예문": "Mein Auto ist zur Reparatur in der Werkstatt.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "",
+        "단어": "werden",
+        "뜻": "~이 되다 / (미래·수동 조동사)",
+        "복수형": "",
+        "예문": "Mein Sohn möchte später Arzt werden.",
+        "참고": "",
+        "ich": "werde",
+        "du": "wirst",
+        "er/sie/es": "wird",
+        "ihr": "werdet"
+      },
+      {
+        "관사": "das",
+        "단어": "Wetter",
+        "뜻": "날씨",
+        "복수형": "Wetter (보통 단수만 사용)",
+        "예문": "Wie wird das Wetter morgen? – Es soll regnen.",
+        "참고": "보통 단수형으로만 사용",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Würfel",
+        "뜻": "주사위 / 정육면체, 깍둑썰기 조각",
+        "복수형": "Würfel",
+        "예문": "Zum Spielen brauchen wir zwei Würfel.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "der",
+        "단어": "Zeh",
+        "뜻": "발가락",
+        "복수형": "Zehen",
+        "예문": "Ich habe mir den großen Zeh gestoßen.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      },
+      {
+        "관사": "die",
+        "단어": "Zwiebel",
+        "뜻": "양파",
+        "복수형": "Zwiebeln",
+        "예문": "Für die Soße schneide ich zwei Zwiebeln klein.",
+        "참고": "",
+        "ich": "",
+        "du": "",
+        "er/sie/es": "",
+        "ihr": ""
+      }
     ];
 
     const STORAGE_KEYS = {
       WORDS: "de_quiz_words_v4",
       WRONG: "de_quiz_wrong_v4",
-      HISTORY: "de_quiz_history_v4"
+      SCORE: "de_quiz_score_v4",
+      STREAK: "de_quiz_streak_v4",
+      HISTORY: "de_quiz_history_v4",
+      MODE_COLLAPSED: "de_quiz_mode_collapsed_v1"
     };
 
-    let words = loadWords();
-    let wrongNotes = loadWrongNotes();
-    let recentHistory = loadRecentHistory();
+    const COOLDOWN_QUESTIONS = 14;
+    const COOLDOWN_MINUTES = 12;
 
-    let currentMode = "article";
-    let currentQuestion = null;
+    let words = [];
+    let wrongList = [];
     let score = 0;
     let streak = 0;
-    let questionCounter = 0;
+    let currentMode = "article";
+    let currentQuestion = null;
     let answered = false;
+    let questionCounter = 0;
+    let recentHistory = {};
+    let selectedVoice = null;
+    let activeAudio = null;
+    let activeSpeakToken = 0;
+    let audioCtx = null;
 
-    let fallbackAudio = null;
-    let germanVoice = null;
+    function isIOSDevice() {
+      const ua = navigator.userAgent || "";
+      const platform = navigator.platform || "";
+      return /iP(hone|ad|od)/i.test(ua) ||
+        (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    }
 
-    function loadWords() {
+    function unlockAudioContext() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEYS.WORDS);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!audioCtx) {
+          audioCtx = new AudioContextClass();
         }
-      } catch (e) {}
-      return [...DEFAULT_WORDS];
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume().catch(() => {});
+        }
+        const buffer = audioCtx.createBuffer(1, 1, 22050);
+        const src = audioCtx.createBufferSource();
+        src.buffer = buffer;
+        src.connect(audioCtx.destination);
+        src.start(0);
+      } catch (_) {}
     }
 
-    function saveWords() {
-      try {
-        localStorage.setItem(STORAGE_KEYS.WORDS, JSON.stringify(words));
-      } catch (e) {}
+    function setPronunciationButtonsEnabled(enabled) {
+      [
+        document.getElementById("btnSpeakWord"),
+        document.getElementById("btnSpeakExample"),
+        ...document.querySelectorAll(".mini-tts-btn")
+      ].forEach((btn) => {
+        if (!btn) return;
+        if (enabled) {
+          btn.disabled = false;
+          btn.classList.remove("locked");
+        } else {
+          btn.disabled = true;
+          btn.classList.add("locked");
+        }
+      });
     }
 
-    function loadWrongNotes() {
+    function initModePaneCollapse() {
+      const btn = document.getElementById("btnToggleModeList");
+      const selector = document.getElementById("modeSelector");
+      const saved = localStorage.getItem(STORAGE_KEYS.MODE_COLLAPSED) === "true";
+
+      function applyState(collapsed) {
+        selector.classList.toggle("hidden", collapsed);
+        btn.textContent = collapsed ? "펼치기" : "접기";
+      }
+
+      applyState(saved);
+      btn.addEventListener("click", () => {
+        const nextCollapsed = !selector.classList.contains("hidden");
+        localStorage.setItem(STORAGE_KEYS.MODE_COLLAPSED, String(nextCollapsed));
+        applyState(nextCollapsed);
+      });
+    }
+
+    function loadState() {
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEYS.WRONG) || "[]");
-      } catch (e) {
-        return [];
+        const savedWords = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORDS));
+        words = Array.isArray(savedWords) && savedWords.length ? savedWords : [...DEFAULT_WORDS];
+      } catch {
+        words = [...DEFAULT_WORDS];
+      }
+
+      try {
+        const savedWrong = JSON.parse(localStorage.getItem(STORAGE_KEYS.WRONG));
+        wrongList = Array.isArray(savedWrong) ? savedWrong : [];
+      } catch {
+        wrongList = [];
+      }
+
+      score = Number(localStorage.getItem(STORAGE_KEYS.SCORE) || 0);
+      streak = Number(localStorage.getItem(STORAGE_KEYS.STREAK) || 0);
+
+      try {
+        const rawHist = localStorage.getItem(STORAGE_KEYS.HISTORY);
+        if (rawHist) {
+          const parsed = JSON.parse(rawHist);
+          if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+            questionCounter = Number(parsed.counter || 0);
+            recentHistory = parsed.items && typeof parsed.items === "object" ? parsed.items : {};
+          }
+        }
+      } catch {
+        questionCounter = 0;
+        recentHistory = {};
       }
     }
 
-    function saveWrongNotes() {
-      try {
-        localStorage.setItem(STORAGE_KEYS.WRONG, JSON.stringify(wrongNotes));
-      } catch (e) {}
-      document.getElementById("wrongCount").textContent = wrongNotes.length;
-    }
-
-    function loadRecentHistory() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEYS.HISTORY) || "[]");
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveRecentHistory() {
-      try {
-        localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify(recentHistory.slice(-120)));
-      } catch (e) {}
+    function saveState() {
+      localStorage.setItem(STORAGE_KEYS.WORDS, JSON.stringify(words));
+      localStorage.setItem(STORAGE_KEYS.WRONG, JSON.stringify(wrongList));
+      localStorage.setItem(STORAGE_KEYS.SCORE, String(score));
+      localStorage.setItem(STORAGE_KEYS.STREAK, String(streak));
+      localStorage.setItem(STORAGE_KEYS.HISTORY, JSON.stringify({
+        counter: questionCounter,
+        items: recentHistory
+      }));
     }
 
     function getWordKey(item) {
-      return `${(item["관사"] || "").trim().toLowerCase()}|${(item["단어"] || "").trim().toLowerCase()}`;
+      return `${(item["관사"] || "").trim()}|${(item["단어"] || "").trim()}|${(item["뜻"] || "").trim()}`;
     }
 
-    function getCooldownConfig(poolSize) {
-      const cooldownMs = 10 * 60 * 1000;
-      const minGapQuestions = Math.max(1, poolSize - 1);
-      return { cooldownMs, minGapQuestions };
-    }
-
-    function isWordOnCooldown(item, mode = currentMode) {
-      const key = getWordKey(item);
+    function pruneExpiredHistory() {
       const now = Date.now();
-      const { cooldownMs, minGapQuestions } = getCooldownConfig(words.length);
+      const maxAgeMs = COOLDOWN_MINUTES * 60 * 1000;
+      const cleaned = {};
 
-      return recentHistory.some(entry => {
-        if (entry.key !== key) return false;
-        if (entry.mode && entry.mode !== mode) return false;
-        const withinTime = (now - entry.timestamp) < cooldownMs;
-        const withinQuestionGap = (questionCounter - entry.qIndex) < minGapQuestions;
-        return withinTime || withinQuestionGap;
-      });
+      for (const [key, entry] of Object.entries(recentHistory)) {
+        if (!entry || typeof entry !== "object") continue;
+        const ageMs = now - Number(entry.timestamp || 0);
+        const qDiff = questionCounter - Number(entry.qIndex || 0);
+        if (ageMs <= maxAgeMs && qDiff <= COOLDOWN_QUESTIONS * 2) {
+          cleaned[key] = entry;
+        }
+      }
+      recentHistory = cleaned;
     }
 
-    function recordWordAsked(item, mode = currentMode) {
+    function isWordOnCooldown(item) {
+      const key = getWordKey(item);
+      const entry = recentHistory[key];
+      if (!entry) return false;
+
+      const now = Date.now();
+      const elapsedMin = (now - Number(entry.timestamp || 0)) / 60000;
+      const questionsAgo = questionCounter - Number(entry.qIndex || 0);
+
+      return questionsAgo < COOLDOWN_QUESTIONS || elapsedMin < COOLDOWN_MINUTES;
+    }
+
+    function markWordShown(item) {
       questionCounter += 1;
-      recentHistory.push({
-        key: getWordKey(item),
-        mode,
-        timestamp: Date.now(),
-        qIndex: questionCounter
-      });
-      saveRecentHistory();
-      updateCooldownStatusText();
+      const key = getWordKey(item);
+      recentHistory[key] = {
+        qIndex: questionCounter,
+        timestamp: Date.now()
+      };
+      pruneExpiredHistory();
+      saveState();
+      updateCooldownUI();
     }
 
-    function updateCooldownStatusText() {
+    function updateCooldownUI() {
+      pruneExpiredHistory();
+      const activeCount = words.filter(w => isWordOnCooldown(w)).length;
       const el = document.getElementById("cooldownStatus");
-      if (!el) return;
-      const activePoolLen = getModePool(currentMode).length;
-      const srcTag = el.dataset.sourceLabel ? `[${el.dataset.sourceLabel}] ` : "";
-      el.textContent = `· ${srcTag}관사 ${getModePool("article").length}단어 / 10분·전단어 순회 중복방지 (현재 ${activePoolLen}개)`;
+      if (el) {
+        el.textContent = `· 쿨다운 ${activeCount}개 (${COOLDOWN_QUESTIONS}문제/${COOLDOWN_MINUTES}분)`;
+      }
     }
 
-    function extractArticle(val) {
-      const m = String(val || "").trim().toLowerCase().match(/\b(der|die|das)\b/);
-      return m ? m[1] : "";
+    function pickNonRepeatingWord(pool) {
+      if (!pool.length) return null;
+      pruneExpiredHistory();
+
+      const freshPool = pool.filter(item => !isWordOnCooldown(item));
+      if (freshPool.length > 0) {
+        return freshPool[Math.floor(Math.random() * freshPool.length)];
+      }
+
+      const sortedByOldest = [...pool].sort((a, b) => {
+        const ea = recentHistory[getWordKey(a)] || { qIndex: -999999, timestamp: 0 };
+        const eb = recentHistory[getWordKey(b)] || { qIndex: -999999, timestamp: 0 };
+        if (ea.qIndex !== eb.qIndex) return ea.qIndex - eb.qIndex;
+        return ea.timestamp - eb.timestamp;
+      });
+
+      const candidateSlice = sortedByOldest.slice(0, Math.min(3, sortedByOldest.length));
+      return candidateSlice[Math.floor(Math.random() * candidateSlice.length)];
     }
 
-    function getModePool(mode) {
-      if (mode === "article") {
-        return words.filter(w => Boolean(extractArticle(w["관사"])));
-      }
-      if (mode === "conjugation") {
-        return words.filter(w => (w["ich"] || w["du"] || w["er/sie/es"] || w["ihr"] || "").trim() !== "");
-      }
-      return words.filter(w => (w["단어"] || "").trim() && (w["뜻"] || "").trim());
+    function initVoices() {
+      if (!("speechSynthesis" in window)) return;
+      const voices = window.speechSynthesis.getVoices() || [];
+      selectedVoice =
+        voices.find(v => v.lang && v.lang.toLowerCase() === "de-de") ||
+        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de")) ||
+        null;
     }
 
-    function pickNextFromCycle(candidates, mode = currentMode) {
-      if (!candidates.length) return null;
-      const fresh = candidates.filter(item => !isWordOnCooldown(item, mode));
-      if (fresh.length > 0) {
-        return pickRandom(fresh);
-      }
+    if ("speechSynthesis" in window) {
+      initVoices();
+      window.speechSynthesis.onvoiceschanged = initVoices;
+    }
 
-      const lastSeenMap = new Map();
-      recentHistory.forEach(entry => {
-        if (!entry.mode || entry.mode === mode) {
-          lastSeenMap.set(entry.key, entry.timestamp);
+    function cleanSpeechText(text) {
+      return String(text || "")
+        .replace(/\([^)]*\)/g, " ")
+        .replace(/\//g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function stopSpeaking() {
+      activeSpeakToken += 1;
+      if ("speechSynthesis" in window) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch (_) {}
+      }
+      if (activeAudio) {
+        try {
+          activeAudio.pause();
+          activeAudio.currentTime = 0;
+        } catch (_) {}
+        activeAudio = null;
+      }
+      document.querySelectorAll(".tts-btn.speaking").forEach(btn => btn.classList.remove("speaking"));
+    }
+
+    function playFallbackGermanAudio(spokenText, statusEl, buttonEl, token) {
+      const encoded = encodeURIComponent(spokenText);
+      const urls = [
+        `https://translate.google.com/translate_tts?ie=UTF-8&q=${encoded}&tl=de&client=tw-ob`,
+        `https://dict.leo.org/tts/de/audio/${encoded}`
+      ];
+
+      let idx = 0;
+
+      const tryNext = () => {
+        if (token !== activeSpeakToken) return;
+        if (idx >= urls.length) {
+          if (buttonEl) buttonEl.classList.remove("speaking");
+          if (statusEl) statusEl.textContent = "이 기기에서 독일어 음성을 재생할 수 없습니다";
+          return;
+        }
+
+        const audio = new Audio();
+        audio.setAttribute("playsinline", "");
+        audio.setAttribute("webkit-playsinline", "");
+        audio.preload = "auto";
+        audio.src = urls[idx++];
+        activeAudio = audio;
+
+        audio.onplay = () => {
+          if (token !== activeSpeakToken) return;
+          if (buttonEl) buttonEl.classList.add("speaking");
+          if (statusEl) statusEl.textContent = "독일어 오디오 재생 중...";
+        };
+
+        audio.onended = () => {
+          if (token !== activeSpeakToken) return;
+          if (buttonEl) buttonEl.classList.remove("speaking");
+          if (statusEl) statusEl.textContent = "";
+          activeAudio = null;
+        };
+
+        audio.onerror = () => {
+          if (token !== activeSpeakToken) return;
+          tryNext();
+        };
+
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {
+            if (token !== activeSpeakToken) return;
+            tryNext();
+          });
+        }
+      };
+
+      tryNext();
+    }
+
+    function speakGerman(text, buttonEl = null) {
+      const spokenText = cleanSpeechText(text);
+      const statusEl = document.getElementById("ttsStatus");
+      if (!spokenText) return;
+
+      unlockAudioContext();
+      stopSpeaking();
+      const token = activeSpeakToken;
+
+      const hasSpeech = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+      const ios = isIOSDevice();
+
+      if (hasSpeech) {
+        if (!selectedVoice) initVoices();
+
+        if (ios) {
+          try {
+            window.speechSynthesis.resume();
+          } catch (_) {}
+        }
+
+        const utter = new SpeechSynthesisUtterance(spokenText);
+        utter.lang = selectedVoice?.lang || "de-DE";
+        if (selectedVoice) utter.voice = selectedVoice;
+        utter.rate = ios ? 0.92 : 0.95;
+        utter.pitch = 1.0;
+
+        let started = false;
+        let settled = false;
+
+        const fallbackTimer = setTimeout(() => {
+          if (token !== activeSpeakToken || started || settled) return;
+          settled = true;
+          try { window.speechSynthesis.cancel(); } catch (_) {}
+          playFallbackGermanAudio(spokenText, statusEl, buttonEl, token);
+        }, ios ? 450 : 900);
+
+        utter.onstart = () => {
+          if (token !== activeSpeakToken) return;
+          started = true;
+          clearTimeout(fallbackTimer);
+          if (buttonEl) buttonEl.classList.add("speaking");
+          if (statusEl) statusEl.textContent = `발음 재생 중 (${utter.lang})`;
+        };
+
+        utter.onend = () => {
+          if (token !== activeSpeakToken) return;
+          settled = true;
+          clearTimeout(fallbackTimer);
+          if (buttonEl) buttonEl.classList.remove("speaking");
+          if (statusEl) statusEl.textContent = "";
+        };
+
+        utter.onerror = (e) => {
+          if (token !== activeSpeakToken || settled) return;
+          clearTimeout(fallbackTimer);
+          if (buttonEl) buttonEl.classList.remove("speaking");
+          if (e && e.error === "interrupted") {
+            settled = true;
+            if (statusEl) statusEl.textContent = "";
+            return;
+          }
+          settled = true;
+          playFallbackGermanAudio(spokenText, statusEl, buttonEl, token);
+        };
+
+        try {
+          window.speechSynthesis.speak(utter);
+          if (ios) {
+            setTimeout(() => {
+              if (token === activeSpeakToken && !started && !settled) {
+                try { window.speechSynthesis.resume(); } catch (_) {}
+              }
+            }, 120);
+          }
+        } catch (_) {
+          clearTimeout(fallbackTimer);
+          if (!settled) {
+            settled = true;
+            playFallbackGermanAudio(spokenText, statusEl, buttonEl, token);
+          }
+        }
+      } else {
+        playFallbackGermanAudio(spokenText, statusEl, buttonEl, token);
+      }
+    }
+
+    function normalizeArticle(raw) {
+      const v = (raw || "").trim().toLowerCase();
+      if (v.startsWith("der")) return "der";
+      if (v.startsWith("die")) return "die";
+      if (v.startsWith("das")) return "das";
+      return "";
+    }
+
+    function hasConjugation(item) {
+      return Boolean(
+        (item["ich"] || "").trim() ||
+        (item["du"] || "").trim() ||
+        (item["er/sie/es"] || "").trim() ||
+        (item["ihr"] || "").trim()
+      );
+    }
+
+    function getDisplayWordForSpeech(item) {
+      const art = normalizeArticle(item["관사"]);
+      const word = (item["단어"] || "").trim();
+      return art ? `${art} ${word}` : word;
+    }
+
+    function updateHeaderStats() {
+      document.getElementById("wordPoolCount").textContent = words.length;
+      document.getElementById("wrongCount").textContent = wrongList.length;
+      document.getElementById("scoreVal").textContent = score;
+      document.getElementById("streakVal").textContent = `연속 ${streak}`;
+      updateCooldownUI();
+    }
+
+    function getVerbWrongOptions(item, correctForm, personLabel) {
+      const wordRaw = (item["단어"] || "").trim();
+      const baseClean = wordRaw.replace(/\(.*?\)/g, "").trim();
+      const sepParts = baseClean.includes("/") ? baseClean.split("/").map(s => s.trim()) : null;
+      const stemBase = sepParts ? sepParts[1] : baseClean;
+      const prefix = sepParts ? sepParts[0] : "";
+
+      const candidates = new Set();
+
+      ["ich", "du", "er/sie/es", "ihr"].forEach((p) => {
+        const val = (item[p] || "").trim();
+        if (val && val !== correctForm) {
+          candidates.add(val);
         }
       });
-      const sorted = [...candidates].sort((a, b) => {
-        const ta = lastSeenMap.get(getWordKey(a)) || 0;
-        const tb = lastSeenMap.get(getWordKey(b)) || 0;
-        return ta - tb;
-      });
-      return sorted[0];
+
+      const rootNoEn = stemBase.endsWith("en")
+        ? stemBase.slice(0, -2)
+        : stemBase.endsWith("n")
+          ? stemBase.slice(0, -1)
+          : stemBase;
+
+      const umlautRoot = rootNoEn
+        .replace(/a/g, "ä")
+        .replace(/o/g, "ö")
+        .replace(/u/g, "ü");
+
+      const synthForms = [
+        `${rootNoEn}e`,
+        `${rootNoEn}st`,
+        `${rootNoEn}t`,
+        `${rootNoEn}et`,
+        `${umlautRoot}st`,
+        `${umlautRoot}t`
+      ].map(f => (prefix ? `${f} ${prefix}` : f));
+
+      for (const sf of synthForms) {
+        if (candidates.size >= 3) break;
+        if (sf && sf.trim() !== correctForm) {
+          candidates.add(sf.trim());
+        }
+      }
+
+      const otherVerbs = words.filter(w => hasConjugation(w) && w !== item);
+      for (const ov of shuffleArray(otherVerbs)) {
+        if (candidates.size >= 3) break;
+        const pVal = (ov[personLabel] || ov["du"] || ov["er/sie/es"] || ov["ich"] || "").trim();
+        if (pVal && pVal !== correctForm) {
+          candidates.add(pVal);
+        }
+      }
+
+      return Array.from(candidates).slice(0, 3);
     }
 
-    function pickRandom(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
+    function buildQuestion() {
+      stopSpeaking();
+      answered = false;
+      setPronunciationButtonsEnabled(true);
+      document.getElementById("feedbackArea").classList.add("hidden");
+      document.getElementById("feedbackArea").innerHTML = "";
+      document.getElementById("btnNextQuestion").classList.add("hidden");
+      document.getElementById("ttsStatus").textContent = "";
+
+      const optionsArea = document.getElementById("optionsArea");
+      const spellingArea = document.getElementById("spellingArea");
+      const btnSpeakWord = document.getElementById("btnSpeakWord");
+      const btnSpeakExample = document.getElementById("btnSpeakExample");
+
+      optionsArea.innerHTML = "";
+      spellingArea.classList.add("hidden");
+
+      let pool = words;
+      if (currentMode === "article") {
+        pool = words.filter(w => normalizeArticle(w["관사"]) !== "");
+      } else if (currentMode === "conjugation") {
+        pool = words.filter(w => hasConjugation(w));
+      }
+
+      if (!pool.length) {
+        document.getElementById("qTypeLabel").textContent = "알림";
+        document.getElementById("qMain").textContent = "해당 유형에 맞는 단어가 없습니다.";
+        document.getElementById("qSub").textContent = "단어장/설정에서 파일을 불러오거나 다른 유형을 선택하세요.";
+        btnSpeakExample.style.display = "none";
+        return;
+      }
+
+      const item = pickNonRepeatingWord(pool);
+      markWordShown(item);
+
+      const wordText = (item["단어"] || "").trim();
+      const meaningText = (item["뜻"] || "").trim();
+      const pluralText = (item["복수형"] || "").trim();
+      const exampleText = (item["예문"] || "").trim();
+      const noteText = (item["참고"] || "").trim();
+
+      btnSpeakWord.onclick = () => speakGerman(getDisplayWordForSpeech(item), btnSpeakWord);
+
+      if (exampleText) {
+        btnSpeakExample.style.display = "inline-flex";
+        btnSpeakExample.onclick = () => speakGerman(exampleText, btnSpeakExample);
+      } else {
+        btnSpeakExample.style.display = "none";
+        btnSpeakExample.onclick = null;
+      }
+
+      if (currentMode === "article") {
+        const correctArt = normalizeArticle(item["관사"]);
+        document.getElementById("qTypeLabel").textContent = "관사 맞추기 (1. der / 2. die / 3. das)";
+        document.getElementById("qMain").textContent = wordText;
+        document.getElementById("qSub").textContent = `뜻: ${meaningText}${pluralText ? ` · 복수: ${pluralText}` : ""}`;
+
+        const fixedArticles = ["der", "die", "das"];
+        currentQuestion = {
+          mode: "article",
+          item,
+          answer: correctArt,
+          displayAnswer: `${correctArt} ${wordText}`,
+          note: noteText
+        };
+
+        renderOptionButtons(fixedArticles, correctArt);
+
+      } else if (currentMode === "meaning") {
+        document.getElementById("qTypeLabel").textContent = "독일어 → 한국어 뜻 맞추기";
+        const art = normalizeArticle(item["관사"]);
+        document.getElementById("qMain").textContent = art ? `${art} ${wordText}` : wordText;
+        document.getElementById("qSub").textContent = noteText ? `참고: ${noteText}` : "";
+
+        const distractors = pickDistractors(
+          words.filter(w => w !== item && (w["뜻"] || "").trim()),
+          w => (w["뜻"] || "").trim(),
+          3
+        );
+        const choices = shuffleArray([meaningText, ...distractors]);
+
+        currentQuestion = {
+          mode: "meaning",
+          item,
+          answer: meaningText,
+          displayAnswer: meaningText,
+          note: noteText
+        };
+
+        renderOptionButtons(choices, meaningText);
+
+      } else if (currentMode === "spelling") {
+        document.getElementById("qTypeLabel").textContent = "한국어 → 독일어 단어 쓰기";
+        document.getElementById("qMain").textContent = meaningText;
+        const art = normalizeArticle(item["관사"]);
+        document.getElementById("qSub").textContent = art ? `힌트: 관사 '${art}' 명사` : (noteText ? `힌트: ${noteText}` : "");
+
+        spellingArea.classList.remove("hidden");
+        const input = document.getElementById("spellingInput");
+        input.value = "";
+        input.focus();
+
+        currentQuestion = {
+          mode: "spelling",
+          item,
+          answer: wordText,
+          displayAnswer: getDisplayWordForSpeech(item),
+          note: noteText
+        };
+
+      } else if (currentMode === "conjugation") {
+        const persons = ["ich", "du", "er/sie/es", "ihr"].filter(p => (item[p] || "").trim());
+        const chosenPerson = persons[Math.floor(Math.random() * persons.length)];
+        const correctForm = (item[chosenPerson] || "").trim();
+
+        document.getElementById("qTypeLabel").textContent = "동사 현재 인칭변화";
+        document.getElementById("qMain").textContent = `${wordText}  →  ${chosenPerson}`;
+        document.getElementById("qSub").textContent = `뜻: ${meaningText}`;
+
+        const distractors = getVerbWrongOptions(item, correctForm, chosenPerson);
+        const choices = shuffleArray([correctForm, ...distractors]);
+
+        currentQuestion = {
+          mode: "conjugation",
+          item,
+          person: chosenPerson,
+          answer: correctForm,
+          displayAnswer: `${chosenPerson} ${correctForm}`,
+          note: noteText
+        };
+
+        renderOptionButtons(choices, correctForm);
+      }
+    }
+
+    function renderOptionButtons(choices, correctAnswer) {
+      const optionsArea = document.getElementById("optionsArea");
+      optionsArea.innerHTML = "";
+
+      choices.forEach((choice, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${escapeHtml(choice)}</span>`;
+        btn.addEventListener("click", () => handleChoiceAnswer(choice, correctAnswer, btn));
+        optionsArea.appendChild(btn);
+      });
+    }
+
+    function handleChoiceAnswer(selected, correctAnswer, clickedBtn) {
+      if (answered || !currentQuestion) return;
+      answered = true;
+      setPronunciationButtonsEnabled(false);
+
+      const allBtns = document.querySelectorAll(".option-btn");
+      allBtns.forEach(b => {
+        b.disabled = true;
+        const txt = b.querySelector("span:last-child")?.textContent;
+        if (txt === correctAnswer) {
+          b.classList.add("correct");
+        }
+      });
+
+      const isCorrect = selected === correctAnswer;
+      if (!isCorrect && clickedBtn) {
+        clickedBtn.classList.add("wrong");
+      }
+
+      finalizeAnswer(isCorrect, selected);
+    }
+
+    function handleSpellingSubmit(giveUp = false) {
+      if (answered || !currentQuestion || currentQuestion.mode !== "spelling") return;
+      const input = document.getElementById("spellingInput");
+      const userVal = input.value.trim();
+
+      if (!giveUp && !userVal) {
+        input.focus();
+        return;
+      }
+
+      answered = true;
+      setPronunciationButtonsEnabled(false);
+
+      const normalizeForCompare = (s) =>
+        s.trim().toLowerCase().replace(/^(der|die|das)\s+/i, "").replace(/\s+/g, " ");
+
+      const isCorrect = !giveUp && normalizeForCompare(userVal) === normalizeForCompare(currentQuestion.answer);
+      finalizeAnswer(isCorrect, giveUp ? "(정답 보기)" : userVal);
+    }
+
+    function finalizeAnswer(isCorrect, userAnswer) {
+      if (isCorrect) {
+        score += 10;
+        streak += 1;
+      } else {
+        streak = 0;
+        addWrongNote(currentQuestion, userAnswer);
+      }
+
+      saveState();
+      updateHeaderStats();
+      showFeedback(isCorrect, userAnswer);
+      document.getElementById("btnNextQuestion").classList.remove("hidden");
+    }
+
+    function addWrongNote(q, userAnswer) {
+      const item = q.item;
+      const entry = {
+        id: Date.now() + Math.random(),
+        mode: q.mode,
+        word: item["단어"] || "",
+        article: item["관사"] || "",
+        meaning: item["뜻"] || "",
+        correct: q.displayAnswer,
+        userAnswer,
+        example: item["예문"] || "",
+        ich: item["ich"] || "",
+        du: item["du"] || "",
+        erSieEs: item["er/sie/es"] || "",
+        ihr: item["ihr"] || ""
+      };
+      wrongList.unshift(entry);
+      if (wrongList.length > 200) wrongList.pop();
+    }
+
+    function showFeedback(isCorrect, userAnswer) {
+      const box = document.getElementById("feedbackArea");
+      const item = currentQuestion.item;
+      const example = (item["예문"] || "").trim();
+      const note = (item["참고"] || "").trim();
+      const plural = (item["복수형"] || "").trim();
+      const speechTarget = getDisplayWordForSpeech(item);
+
+      let conjHtml = "";
+      if (hasConjugation(item)) {
+        conjHtml = `
+          <div class="conj-grid">
+            <div class="conj-item"><strong>ich:</strong> ${escapeHtml(item["ich"] || "-")}</div>
+            <div class="conj-item"><strong>du:</strong> ${escapeHtml(item["du"] || "-")}</div>
+            <div class="conj-item"><strong>er/sie/es:</strong> ${escapeHtml(item["er/sie/es"] || "-")}</div>
+            <div class="conj-item"><strong>ihr:</strong> ${escapeHtml(item["ihr"] || "-")}</div>
+          </div>
+        `;
+      }
+
+      box.innerHTML = `
+        <div class="feedback-head">
+          <div style="font-weight:800; color:${isCorrect ? "var(--success)" : "var(--danger)"};">
+            ${isCorrect ? "정답입니다! (+10점)" : `오답 · 내 답: ${escapeHtml(userAnswer || "-")} / 정답: ${escapeHtml(currentQuestion.displayAnswer)}`}
+          </div>
+          <button type="button" class="mini-tts-btn" id="btnFeedbackSpeak">🔊 듣기</button>
+        </div>
+        <div><strong>단어:</strong> ${escapeHtml(speechTarget)} · <strong>뜻:</strong> ${escapeHtml(item["뜻"] || "")}${plural ? ` · <strong>복수:</strong> ${escapeHtml(plural)}` : ""}</div>
+        ${example ? `<div style="margin-top:4px;"><strong>예문:</strong> ${escapeHtml(example)}</div>` : ""}
+        ${note ? `<div style="margin-top:4px; color:var(--muted);"><strong>참고:</strong> ${escapeHtml(note)}</div>` : ""}
+        ${conjHtml}
+      `;
+      box.classList.remove("hidden");
+
+      const fbBtn = document.getElementById("btnFeedbackSpeak");
+      if (fbBtn) {
+        fbBtn.addEventListener("click", () => {
+          speakGerman(example ? `${speechTarget}. ${example}` : speechTarget, fbBtn);
+        });
+      }
+    }
+
+    function pickDistractors(pool, extractor, count) {
+      const values = Array.from(new Set(pool.map(extractor).filter(Boolean)));
+      return shuffleArray(values).slice(0, count);
     }
 
     function shuffleArray(arr) {
@@ -804,729 +3095,250 @@
       return copy;
     }
 
-    function synthesizeVerbDistractors(target, askPerson, correctConj) {
-      const rawInf = (target["단어"] || "").replace(/^\(sich\)\s*/i, "").trim();
-      const parts = rawInf.split("/").map(s => s.trim());
-      const isSep = parts.length === 2 && parts[0] && parts[1];
-      const baseInf = isSep ? parts[1] : rawInf.replace(/\//g, "").trim();
-      const prefix = isSep ? parts[0] : "";
-
-      const candidates = new Set();
-
-      ["ich", "du", "er/sie/es", "ihr"].forEach(p => {
-        const v = (target[p] || "").trim();
-        if (v && v.toLowerCase() !== correctConj.toLowerCase()) {
-          candidates.add(v);
-        }
-      });
-
-      let stem = baseInf;
-      if (stem.endsWith("eln") || stem.endsWith("ern")) {
-        stem = stem.slice(0, -1);
-      } else if (stem.endsWith("en")) {
-        stem = stem.slice(0, -2);
-      } else if (stem.endsWith("n")) {
-        stem = stem.slice(0, -1);
-      }
-
-      const joinWithPrefix = (form) => (prefix ? `${form} ${prefix}` : form).trim();
-
-      if (stem) {
-        const endsWithSibilant = /[szßx]$/.test(stem);
-        const endsWithDental = /[dt]$/.test(stem);
-        const duReg = endsWithSibilant ? `${stem}t` : `${stem}st`;
-        const erReg = endsWithDental ? `${stem}et` : `${stem}t`;
-        const ihrReg = endsWithDental ? `${stem}et` : `${stem}t`;
-        const ichReg = `${stem}e`;
-
-        const stemVowelI = stem.replace(/e/i, "i");
-        const stemVowelIe = stem.replace(/e/i, "ie");
-        const stemUmlaut = stem
-          .replace(/a/i, "ä")
-          .replace(/o/i, "ö")
-          .replace(/u/i, "ü");
-
-        [
-          joinWithPrefix(ichReg),
-          joinWithPrefix(duReg),
-          joinWithPrefix(erReg),
-          joinWithPrefix(ihrReg),
-          joinWithPrefix(`${stemVowelI}st`),
-          joinWithPrefix(`${stemVowelI}t`),
-          joinWithPrefix(`${stemVowelIe}st`),
-          joinWithPrefix(`${stemVowelIe}t`),
-          joinWithPrefix(`${stemUmlaut}st`),
-          joinWithPrefix(`${stemUmlaut}t`)
-        ].forEach(variant => {
-          if (variant && variant.toLowerCase() !== correctConj.toLowerCase()) {
-            candidates.add(variant);
-          }
-        });
-      }
-
-      return shuffleArray([...candidates]).slice(0, 3);
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
-    function refreshVoices() {
-      if (!("speechSynthesis" in window)) return;
-      const voices = window.speechSynthesis.getVoices() || [];
-      germanVoice =
-        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de-de")) ||
-        voices.find(v => v.lang && v.lang.toLowerCase().startsWith("de")) ||
-        null;
-    }
+    function parseRowsToWords(rows) {
+      if (!Array.isArray(rows) || !rows.length) return [];
 
-    if ("speechSynthesis" in window) {
-      refreshVoices();
-      window.speechSynthesis.onvoiceschanged = refreshVoices;
-    }
-
-    function setSpeakingState(active, statusText = "") {
-      const wordBtn = document.getElementById("btnSpeakWord");
-      const exBtn = document.getElementById("btnSpeakExample");
-      const statusEl = document.getElementById("ttsStatus");
-      if (wordBtn) wordBtn.classList.toggle("speaking", active);
-      if (exBtn) exBtn.classList.toggle("speaking", active);
-      if (statusEl) statusEl.textContent = statusText;
-    }
-
-    function stopCurrentSpeech() {
-      if ("speechSynthesis" in window) {
-        try { window.speechSynthesis.cancel(); } catch (e) {}
-      }
-      if (fallbackAudio) {
-        try {
-          fallbackAudio.pause();
-          fallbackAudio.currentTime = 0;
-        } catch (e) {}
-        fallbackAudio = null;
-      }
-      setSpeakingState(false, "");
-    }
-
-    function playFallbackGermanAudio(text) {
-      const cleanText = String(text || "").trim();
-      if (!cleanText) return;
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=de&q=${encodeURIComponent(cleanText)}`;
-
-      if (fallbackAudio) {
-        try { fallbackAudio.pause(); } catch (e) {}
-      }
-      fallbackAudio = new Audio(url);
-      fallbackAudio.playbackRate = 0.95;
-      setSpeakingState(true, "온라인 독일어 음성 재생 중...");
-
-      fallbackAudio.onended = () => setSpeakingState(false, "");
-      fallbackAudio.onerror = () => {
-        setSpeakingState(false, "음성 재생을 지원하지 않는 환경입니다.");
-      };
-      fallbackAudio.play().catch(() => {
-        setSpeakingState(false, "화면을 한 번 터치한 뒤 다시 눌러주세요.");
-      });
-    }
-
-    function speakGerman(text) {
-      const cleanText = String(text || "").replace(/\s*\/\s*/g, " ").trim();
-      if (!cleanText) return;
-
-      stopCurrentSpeech();
-      refreshVoices();
-
-      if ("speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined") {
-        try {
-          const utter = new SpeechSynthesisUtterance(cleanText);
-          utter.lang = "de-DE";
-          if (germanVoice) utter.voice = germanVoice;
-          utter.rate = 0.92;
-          utter.pitch = 1.0;
-
-          let started = false;
-          const fallbackTimer = setTimeout(() => {
-            if (!started) {
-              playFallbackGermanAudio(cleanText);
+      return rows
+        .map((r) => {
+          const getCol = (keys) => {
+            for (const k of keys) {
+              if (r[k] !== undefined && r[k] !== null && String(r[k]).trim() !== "") {
+                return String(r[k]).trim();
+              }
             }
-          }, 900);
-
-          utter.onstart = () => {
-            started = true;
-            clearTimeout(fallbackTimer);
-            setSpeakingState(true, germanVoice ? `재생 중 (${germanVoice.name})` : "독일어 발음 재생 중...");
-          };
-          utter.onend = () => {
-            clearTimeout(fallbackTimer);
-            setSpeakingState(false, "");
-          };
-          utter.onerror = () => {
-            clearTimeout(fallbackTimer);
-            playFallbackGermanAudio(cleanText);
+            return "";
           };
 
-          window.speechSynthesis.speak(utter);
-          return;
-        } catch (e) {
-          playFallbackGermanAudio(cleanText);
-          return;
-        }
-      }
+          const word = getCol(["단어", "word", "독일어", "German"]);
+          const meaning = getCol(["뜻", "meaning", "의미", "한국어", "Korean"]);
+          if (!word || !meaning) return null;
 
-      playFallbackGermanAudio(cleanText);
+          return {
+            "관사": getCol(["관사", "article"]),
+            "단어": word,
+            "뜻": meaning,
+            "복수형": getCol(["복수형", "복수", "plural"]),
+            "예문": getCol(["예문", "example"]),
+            "참고": getCol(["참고", "메모", "note"]),
+            "ich": getCol(["ich"]),
+            "du": getCol(["du"]),
+            "er/sie/es": getCol(["er/sie/es", "er_sie_es", "er/sie", "er"]),
+            "ihr": getCol(["ihr"])
+          };
+        })
+        .filter(Boolean);
     }
 
-    function cleanWordForSpeech(item) {
-      const art = extractArticle(item["관사"]);
-      const w = (item["단어"] || "").replace(/\//g, "").replace(/\(sich\)\s*/i, "").trim();
-      if (art) {
-        return `${art} ${w}`;
-      }
-      return w;
-    }
+    function handleFileUpload(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+          const parsed = parseRowsToWords(rows);
 
-    function setPronunciationButtonsEnabled(enabled, target = null) {
-      const wordBtn = document.getElementById("btnSpeakWord");
-      const exBtn = document.getElementById("btnSpeakExample");
-      const statusEl = document.getElementById("ttsStatus");
-
-      if (wordBtn) {
-        wordBtn.disabled = !enabled;
-        wordBtn.classList.toggle("locked", !enabled);
-      }
-      if (exBtn) {
-        const hasExample = Boolean(target && target["예문"]);
-        exBtn.style.display = hasExample ? "inline-flex" : "none";
-        exBtn.disabled = !enabled || !hasExample;
-        exBtn.classList.toggle("locked", !enabled);
-      }
-      if (statusEl && !enabled) {
-        statusEl.textContent = "정답 확인 후 발음 듣기 가능";
-      } else if (statusEl && enabled && statusEl.textContent === "정답 확인 후 발음 듣기 가능") {
-        statusEl.textContent = "";
-      }
-    }
-
-    function buildQuestion() {
-      answered = false;
-      stopCurrentSpeech();
-      document.getElementById("feedbackArea").classList.add("hidden");
-      document.getElementById("btnNextQuestion").classList.add("hidden");
-
-      document.getElementById("wordPoolCount").textContent = words.length;
-      document.getElementById("scoreVal").textContent = score;
-      document.getElementById("streakVal").textContent = `연속 ${streak}`;
-      updateCooldownStatusText();
-
-      if (!words.length) {
-        document.getElementById("qMain").textContent = "단어가 없습니다.";
-        return;
-      }
-
-      let pool = getModePool(currentMode);
-      if (!pool.length) {
-        pool = words;
-      }
-
-      const target = pickNextFromCycle(pool, currentMode) || pickRandom(pool);
-      recordWordAsked(target, currentMode);
-
-      const qTypeLabel = document.getElementById("qTypeLabel");
-      const qMain = document.getElementById("qMain");
-      const qSub = document.getElementById("qSub");
-      const optionsArea = document.getElementById("optionsArea");
-      const spellingArea = document.getElementById("spellingArea");
-      const btnSpeakWord = document.getElementById("btnSpeakWord");
-      const btnSpeakExample = document.getElementById("btnSpeakExample");
-
-      optionsArea.innerHTML = "";
-      optionsArea.classList.add("hidden");
-      spellingArea.classList.add("hidden");
-
-      const wordSpeechText = cleanWordForSpeech(target);
-      btnSpeakWord.onclick = () => {
-        if (!answered) return;
-        speakGerman(wordSpeechText);
-      };
-
-      if (target["예문"]) {
-        btnSpeakExample.onclick = () => {
-          if (!answered) return;
-          speakGerman(target["예문"]);
-        };
-      }
-      setPronunciationButtonsEnabled(false, target);
-
-      if (currentMode === "article") {
-        const rawArt = String(target["관사"] || "").trim().toLowerCase();
-        const artMatch = rawArt.match(/\b(der|die|das)\b/);
-        const correctArt = artMatch ? artMatch[1] : "";
-        qTypeLabel.textContent = "관사 퀴즈 (der / die / das)";
-        qMain.textContent = `___ ${target["단어"]}`;
-        qSub.textContent = `뜻: ${target["뜻"]}${target["복수형"] ? ` · 복수: ${target["복수형"]}` : ""}`;
-
-        const fixedArticles = ["der", "die", "das"];
-        optionsArea.classList.remove("hidden");
-
-        const rightAnswerLabel = correctArt ? `${correctArt} ${target["단어"]}` : "";
-
-        fixedArticles.forEach((art, idx) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "option-btn";
-          btn.dataset.choiceValue = `${art} ${target["단어"]}`;
-          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${art} ${target["단어"]}</span>`;
-          btn.onclick = () => checkChoiceAnswer(btn, correctArt !== "" && art === correctArt, rightAnswerLabel, target);
-          optionsArea.appendChild(btn);
-        });
-
-        currentQuestion = {
-          mode: "article",
-          target,
-          answerText: rightAnswerLabel
-        };
-      } else if (currentMode === "meaning") {
-        qTypeLabel.textContent = "독일어 → 한국어 뜻 맞추기";
-        const artPrefix = ["der", "die", "das"].includes((target["관사"] || "").trim().toLowerCase())
-          ? `${target["관사"].trim()} `
-          : "";
-        qMain.textContent = `${artPrefix}${target["단어"]}`;
-        qSub.textContent = target["복수형"] ? `복수형: ${target["복수형"]}` : "";
-
-        const distractors = shuffleArray(
-          words.filter(w => getWordKey(w) !== getWordKey(target) && (w["뜻"] || "").trim())
-        ).slice(0, 3);
-
-        const choices = shuffleArray([target, ...distractors]);
-        optionsArea.classList.remove("hidden");
-
-        choices.forEach((ch, idx) => {
-          const isCorrect = getWordKey(ch) === getWordKey(target);
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "option-btn";
-          btn.dataset.choiceValue = ch["뜻"];
-          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${ch["뜻"]}</span>`;
-          btn.onclick = () => checkChoiceAnswer(btn, isCorrect, target["뜻"], target);
-          optionsArea.appendChild(btn);
-        });
-
-        currentQuestion = {
-          mode: "meaning",
-          target,
-          answerText: target["뜻"]
-        };
-      } else if (currentMode === "spelling") {
-        qTypeLabel.textContent = "한국어 → 독일어 단어 쓰기";
-        qMain.textContent = target["뜻"];
-        const artHint = ["der", "die", "das"].includes((target["관사"] || "").trim().toLowerCase())
-          ? `관사 힌트: ${target["관사"].trim()}`
-          : "";
-        qSub.textContent = artHint;
-
-        spellingArea.classList.remove("hidden");
-        const input = document.getElementById("spellingInput");
-        const submitBtn = document.getElementById("btnSubmitSpelling");
-        const skipBtn = document.getElementById("btnSkipSpelling");
-        input.disabled = false;
-        if (submitBtn) submitBtn.disabled = false;
-        if (skipBtn) skipBtn.disabled = false;
-        input.value = "";
-        setTimeout(() => input.focus(), 50);
-
-        const cleanExpected = (target["단어"] || "").replace(/\//g, "").trim();
-        currentQuestion = {
-          mode: "spelling",
-          target,
-          answerText: cleanExpected
-        };
-      } else if (currentMode === "conjugation") {
-        qTypeLabel.textContent = "동사 현재형 인칭변화";
-        qMain.textContent = target["단어"];
-
-        const persons = ["ich", "du", "er/sie/es", "ihr"].filter(p => (target[p] || "").trim() !== "");
-        const askPerson = pickRandom(persons);
-        const correctConj = (target[askPerson] || "").trim();
-
-        qSub.textContent = `${target["뜻"]} · [${askPerson}] 형태를 고르세요`;
-
-        const distractors = synthesizeVerbDistractors(target, askPerson, correctConj);
-
-        if (distractors.length < 3) {
-          const existingLower = new Set([correctConj.toLowerCase(), ...distractors.map(d => d.toLowerCase())]);
-          const fallbackForms = shuffleArray(
-            words
-              .filter(w => getWordKey(w) !== getWordKey(target))
-              .flatMap(w => ["ich", "du", "er/sie/es", "ihr"].map(p => (w[p] || "").trim()))
-              .filter(v => v && !existingLower.has(v.toLowerCase()))
-          );
-          for (const f of fallbackForms) {
-            if (distractors.length >= 3) break;
-            distractors.push(f);
-            existingLower.add(f.toLowerCase());
+          if (!parsed.length) {
+            alert("유효한 '단어'와 '뜻' 열을 찾지 못했습니다.");
+            return;
           }
+
+          words = parsed;
+          recentHistory = {};
+          questionCounter = 0;
+          saveState();
+          updateHeaderStats();
+          alert(`${parsed.length}개 단어를 불러왔습니다.`);
+          switchView("quiz");
+          buildQuestion();
+        } catch (err) {
+          alert("파일을 읽는 중 오류가 발생했습니다: " + err.message);
         }
-
-        const choices = shuffleArray([correctConj, ...distractors]);
-
-        optionsArea.classList.remove("hidden");
-        choices.forEach((choiceText, idx) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "option-btn";
-          btn.dataset.choiceValue = `${askPerson}: ${choiceText}`;
-          btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${askPerson} → ${choiceText}</span>`;
-          btn.onclick = () => checkChoiceAnswer(btn, choiceText === correctConj, `${askPerson}: ${correctConj}`, target);
-          optionsArea.appendChild(btn);
-        });
-
-        currentQuestion = {
-          mode: "conjugation",
-          target,
-          answerText: `${askPerson}: ${correctConj}`
-        };
-      }
+      };
+      reader.readAsArrayBuffer(file);
     }
 
-    function checkChoiceAnswer(btnEl, isCorrect, correctDisplay, target) {
-      if (answered) return;
-      answered = true;
+    async function loadWordsCsvIfExists(showAlertOnFail = false) {
+      try {
+        const res = await fetch("./words.csv", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const text = await res.text();
+        const workbook = XLSX.read(text, { type: "string" });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+        const parsed = parseRowsToWords(rows);
 
-      const allBtns = document.querySelectorAll("#optionsArea .option-btn");
-      allBtns.forEach(b => {
-        b.disabled = true;
-        const choiceLabel = (b.dataset.choiceValue || b.textContent || "").trim();
-        if (choiceLabel === correctDisplay) {
-          b.classList.add("correct");
+        if (parsed.length) {
+          words = parsed;
+          recentHistory = {};
+          questionCounter = 0;
+          saveState();
+          updateHeaderStats();
+          if (showAlertOnFail) {
+            alert(`words.csv에서 ${parsed.length}개 단어를 불러왔습니다.`);
+          }
+          return true;
         }
-      });
-
-      if (isCorrect) {
-        btnEl.classList.add("correct");
-        score += 10;
-        streak += 1;
-      } else {
-        btnEl.classList.add("wrong");
-        streak = 0;
-        addWrongNote(target, currentMode, correctDisplay);
+      } catch (_) {
+        if (showAlertOnFail) {
+          alert("같은 폴더에 words.csv 파일이 없거나 읽을 수 없습니다. 기본 A1 단어장을 사용합니다.");
+        }
       }
-
-      showFeedback(isCorrect, correctDisplay, target);
+      return false;
     }
 
-    function checkSpellingAnswer() {
-      if (answered || !currentQuestion) return;
-      const input = document.getElementById("spellingInput");
-      const userVal = input.value.trim();
-      if (!userVal) return;
-
-      answered = true;
-      input.disabled = true;
-      const submitBtn = document.getElementById("btnSubmitSpelling");
-      const skipBtn = document.getElementById("btnSkipSpelling");
-      if (submitBtn) submitBtn.disabled = true;
-      if (skipBtn) skipBtn.disabled = true;
-
-      const expected = currentQuestion.answerText;
-      const isCorrect = userVal.toLowerCase() === expected.toLowerCase();
-
-      if (isCorrect) {
-        score += 15;
-        streak += 1;
-      } else {
-        streak = 0;
-        addWrongNote(currentQuestion.target, "spelling", expected);
-      }
-
-      showFeedback(isCorrect, expected, currentQuestion.target);
-    }
-
-    function revealSpellingAnswer() {
-      if (answered || !currentQuestion) return;
-      answered = true;
-      const input = document.getElementById("spellingInput");
-      const submitBtn = document.getElementById("btnSubmitSpelling");
-      const skipBtn = document.getElementById("btnSkipSpelling");
-      if (input) input.disabled = true;
-      if (submitBtn) submitBtn.disabled = true;
-      if (skipBtn) skipBtn.disabled = true;
-
-      streak = 0;
-      const expected = currentQuestion.answerText;
-      addWrongNote(currentQuestion.target, "spelling", expected);
-      showFeedback(false, expected, currentQuestion.target, true);
-    }
-
-    function addWrongNote(target, mode, correctAnswer) {
-      const key = getWordKey(target);
-      const existing = wrongNotes.find(w => w.key === key && w.mode === mode);
-      if (existing) {
-        existing.count += 1;
-        existing.timestamp = Date.now();
-      } else {
-        wrongNotes.push({
-          key,
-          mode,
-          단어: target["단어"],
-          관사: target["관사"],
-          뜻: target["뜻"],
-          정답: correctAnswer,
-          예문: target["예문"] || "",
-          count: 1,
-          timestamp: Date.now()
-        });
-      }
-      saveWrongNotes();
-    }
-
-    function showFeedback(isCorrect, correctDisplay, target, skipped = false) {
-      document.getElementById("scoreVal").textContent = score;
-      document.getElementById("streakVal").textContent = `연속 ${streak}`;
-      setPronunciationButtonsEnabled(true, target);
-
-      const fb = document.getElementById("feedbackArea");
-      const exText = target["예문"] ? target["예문"] : "";
-      const hasConj = target["ich"] || target["du"] || target["er/sie/es"] || target["ihr"];
-
-      let conjHtml = "";
-      if (hasConj) {
-        conjHtml = `
-          <div class="conj-grid">
-            <div class="conj-item"><strong>ich:</strong> ${target["ich"] || "-"}</div>
-            <div class="conj-item"><strong>du:</strong> ${target["du"] || "-"}</div>
-            <div class="conj-item"><strong>er/sie/es:</strong> ${target["er/sie/es"] || "-"}</div>
-            <div class="conj-item"><strong>ihr:</strong> ${target["ihr"] || "-"}</div>
-          </div>
-        `;
-      }
-
-      const speechSentence = exText || cleanWordForSpeech(target);
-      const statusTitle = isCorrect
-        ? "정답입니다! 🎉"
-        : (skipped ? `정답 확인 · 정답: ${correctDisplay}` : `오답 · 정답: ${correctDisplay}`);
-
-      fb.innerHTML = `
-        <div class="feedback-head">
-          <strong style="color:${isCorrect ? "var(--success)" : "var(--danger)"};">
-            ${statusTitle}
-          </strong>
-          <button type="button" class="mini-tts-btn" id="btnFeedbackSpeak">🔊 듣기</button>
-        </div>
-        <div><strong>뜻:</strong> ${target["뜻"] || "-"}${target["복수형"] ? ` · <strong>복수:</strong> ${target["복수형"]}` : ""}</div>
-        ${exText ? `<div style="margin-top:4px;"><strong>예문:</strong> ${exText}</div>` : ""}
-        ${target["참고"] ? `<div style="margin-top:3px; color:var(--muted);"><strong>참고:</strong> ${target["참고"]}</div>` : ""}
-        ${conjHtml}
-      `;
-      fb.classList.remove("hidden");
-
-      const fbSpeakBtn = document.getElementById("btnFeedbackSpeak");
-      if (fbSpeakBtn) {
-        fbSpeakBtn.onclick = () => speakGerman(speechSentence);
-      }
-
-      document.getElementById("btnNextQuestion").classList.remove("hidden");
-    }
-
-    document.querySelectorAll(".mode-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentMode = btn.dataset.mode;
-        buildQuestion();
-      });
-    });
-
-    document.getElementById("btnToggleModeList").addEventListener("click", (e) => {
-      const selector = document.getElementById("modeSelector");
-      const isHidden = selector.classList.toggle("hidden");
-      e.target.textContent = isHidden ? "펼치기" : "접기";
-    });
-
-    document.querySelectorAll(".umlaut-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const input = document.getElementById("spellingInput");
-        const start = input.selectionStart ?? input.value.length;
-        const end = input.selectionEnd ?? input.value.length;
-        const ch = btn.dataset.char;
-        input.value = input.value.slice(0, start) + ch + input.value.slice(end);
-        input.focus();
-        input.setSelectionRange(start + ch.length, start + ch.length);
-      });
-    });
-
-    document.getElementById("btnSubmitSpelling").addEventListener("click", checkSpellingAnswer);
-    document.getElementById("btnSkipSpelling").addEventListener("click", revealSpellingAnswer);
-    document.getElementById("spellingInput").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        if (!answered) checkSpellingAnswer();
-        else buildQuestion();
-      }
-    });
-
-    document.getElementById("btnNextQuestion").addEventListener("click", buildQuestion);
-
-    function showView(viewName) {
-      stopCurrentSpeech();
+    function switchView(viewName) {
+      stopSpeaking();
       document.getElementById("quizShell").classList.toggle("hidden", viewName !== "quiz");
       document.getElementById("wrongNoteView").classList.toggle("hidden", viewName !== "wrong");
       document.getElementById("settingsView").classList.toggle("hidden", viewName !== "settings");
-      if (viewName === "wrong") renderWrongNote();
-    }
 
-    document.getElementById("btnWrongNote").addEventListener("click", () => showView("wrong"));
-    document.getElementById("btnSettings").addEventListener("click", () => showView("settings"));
-    document.getElementById("btnCloseWrong").addEventListener("click", () => showView("quiz"));
-    document.getElementById("btnCloseSettings").addEventListener("click", () => showView("quiz"));
+      if (viewName === "wrong") {
+        renderWrongNote();
+      }
+    }
 
     function renderWrongNote() {
-      const list = document.getElementById("wrongList");
-      if (!wrongNotes.length) {
-        list.innerHTML = `<div style="color:var(--muted); padding:12px 0;">저장된 오답이 없습니다.</div>`;
+      const container = document.getElementById("wrongList");
+      if (!wrongList.length) {
+        container.innerHTML = `<div style="color:var(--muted); font-size:0.85rem; padding:12px 0;">아직 기록된 오답이 없습니다.</div>`;
         return;
       }
-      list.innerHTML = wrongNotes
-        .slice()
-        .reverse()
-        .map((item) => `
-          <div class="wrong-item">
-            <div>
-              <div><strong>${item["관사"] ? item["관사"] + " " : ""}${item["단어"]}</strong> · ${item["뜻"]}</div>
-              <div style="font-size:0.76rem; color:var(--muted);">정답: ${item["정답"]} (오답 ${item["count"]}회)</div>
-            </div>
-            <button type="button" class="small-btn" onclick="speakGerman('${String(item["단어"] || "").replace(/'/g, "")}')">🔊</button>
+
+      container.innerHTML = wrongList.map((w, idx) => `
+        <div class="wrong-item">
+          <div>
+            <div><strong>${escapeHtml((w.article ? w.article + " " : "") + w.word)}</strong> — ${escapeHtml(w.meaning)}</div>
+            <div style="font-size:0.76rem; color:var(--muted);">정답: ${escapeHtml(w.correct)} · 내 답: ${escapeHtml(w.userAnswer || "-")}</div>
           </div>
-        `).join("");
+          <div style="display:flex; gap:4px;">
+            <button type="button" class="small-btn" onclick="speakGerman('${escapeHtml((w.article ? w.article + " " : "") + w.word)}', this)">🔊</button>
+            <button type="button" class="small-btn" onclick="removeWrongItem(${idx})">삭제</button>
+          </div>
+        </div>
+      `).join("");
     }
 
-    document.getElementById("btnClearWrong").addEventListener("click", () => {
-      wrongNotes = [];
-      saveWrongNotes();
+    function removeWrongItem(idx) {
+      wrongList.splice(idx, 1);
+      saveState();
+      updateHeaderStats();
       renderWrongNote();
-    });
+    }
 
-    document.getElementById("btnResetDefault").addEventListener("click", () => {
-      words = [...DEFAULT_WORDS];
-      saveWords();
-      recentHistory = [];
-      saveRecentHistory();
-      showView("quiz");
-      buildQuestion();
-    });
+    function bindEvents() {
+      document.addEventListener("touchstart", unlockAudioContext, { passive: true });
+      document.addEventListener("pointerdown", unlockAudioContext, { passive: true });
 
-    document.getElementById("btnResetCooldown").addEventListener("click", () => {
-      recentHistory = [];
-      saveRecentHistory();
-      updateCooldownStatusText();
-      alert("출제 쿨다운 이력이 초기화되었습니다.");
-    });
-
-    document.getElementById("fileInput").addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      try {
-        const buf = await file.arrayBuffer();
-        const wb = XLSX.read(buf, { type: "array" });
-        const firstSheet = wb.SheetNames[0];
-        const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { defval: "" });
-        const parsed = parseSheetRowsToWords(rows);
-
-        if (parsed.length > 0) {
-          words = parsed;
-          saveWords();
-          recentHistory = [];
-          saveRecentHistory();
-          showView("quiz");
+      document.querySelectorAll(".mode-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentMode = btn.dataset.mode;
+          switchView("quiz");
           buildQuestion();
-          alert(`총 ${parsed.length}개 단어를 불러왔습니다.`);
-        } else {
-          alert("단어와 뜻 열을 인식하지 못했습니다.");
+        });
+      });
+
+      document.getElementById("btnNextQuestion").addEventListener("click", buildQuestion);
+      document.getElementById("btnSubmitSpelling").addEventListener("click", () => handleSpellingSubmit(false));
+      document.getElementById("btnSkipSpelling").addEventListener("click", () => handleSpellingSubmit(true));
+
+      document.getElementById("spellingInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleSpellingSubmit(false);
         }
-      } catch (err) {
-        alert("파일을 읽는 중 오류가 발생했습니다.");
-      }
-      e.target.value = "";
-    });
+      });
 
-    function normalizeWordRecord(r) {
-      return {
-        관사: String(r["관사"] || r["Article"] || "").trim(),
-        단어: String(r["단어"] || r["Word"] || "").trim(),
-        뜻: String(r["뜻"] || r["Meaning"] || "").trim(),
-        복수형: String(r["복수형"] || r["Plural"] || "").trim(),
-        예문: String(r["예문"] || r["Example"] || "").trim(),
-        참고: String(r["참고"] || r["Note"] || "").trim(),
-        ich: String(r["ich"] || "").trim(),
-        du: String(r["du"] || "").trim(),
-        "er/sie/es": String(r["er/sie/es"] || r["er"] || "").trim(),
-        ihr: String(r["ihr"] || "").trim()
-      };
-    }
+      document.querySelectorAll(".umlaut-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const input = document.getElementById("spellingInput");
+          const char = btn.dataset.char;
+          const start = input.selectionStart ?? input.value.length;
+          const end = input.selectionEnd ?? input.value.length;
+          input.value = input.value.slice(0, start) + char + input.value.slice(end);
+          input.focus();
+          const nextPos = start + char.length;
+          input.setSelectionRange(nextPos, nextPos);
+        });
+      });
 
-    function parseSheetRowsToWords(rows) {
-      return (rows || [])
-        .map(normalizeWordRecord)
-        .filter(r => r["단어"] && r["뜻"]);
-    }
+      document.getElementById("btnWrongNote").addEventListener("click", () => switchView("wrong"));
+      document.getElementById("btnCloseWrong").addEventListener("click", () => {
+        switchView("quiz");
+        if (!currentQuestion) buildQuestion();
+      });
+      document.getElementById("btnClearWrong").addEventListener("click", () => {
+        wrongList = [];
+        saveState();
+        updateHeaderStats();
+        renderWrongNote();
+      });
 
-    async function loadWordsFromRemoteCsv(url = "./words.csv") {
-      const cacheBustedUrl = `${url}${url.includes("?") ? "&" : "?"}v=${Date.now()}`;
-      const res = await fetch(cacheBustedUrl, { cache: "no-store" });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const buf = await res.arrayBuffer();
-      const wb = XLSX.read(buf, { type: "array" });
-      const firstSheet = wb.SheetNames[0];
-      const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { defval: "" });
-      const parsed = parseSheetRowsToWords(rows);
-      if (!parsed.length) {
-        throw new Error("Empty or invalid CSV rows");
-      }
-      return parsed;
-    }
+      document.getElementById("btnSettings").addEventListener("click", () => switchView("settings"));
+      document.getElementById("btnCloseSettings").addEventListener("click", () => {
+        switchView("quiz");
+        if (!currentQuestion) buildQuestion();
+      });
 
-    async function initApp() {
-      saveWrongNotes();
-      let sourceLabel = "내장 기본 단어장";
-
-      try {
-        const remoteWords = await loadWordsFromRemoteCsv("./words.csv");
-        words = remoteWords;
-        saveWords();
-        sourceLabel = `words.csv (${remoteWords.length}개)`;
-      } catch (err) {
-        if (Array.isArray(words) && words.length > 0) {
-          sourceLabel = `저장/기본 단어장 (${words.length}개)`;
-        } else {
-          words = [...DEFAULT_WORDS];
-          sourceLabel = `내장 기본 단어장 (${words.length}개)`;
+      document.getElementById("fileInput").addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFileUpload(e.target.files[0]);
+          e.target.value = "";
         }
-      }
+      });
 
-      const statusEl = document.getElementById("cooldownStatus");
-      if (statusEl) {
-        statusEl.dataset.sourceLabel = sourceLabel;
-      }
-      buildQuestion();
-    }
-
-    const btnReloadCsv = document.getElementById("btnReloadCsv");
-    if (btnReloadCsv) {
-      btnReloadCsv.addEventListener("click", async () => {
-        try {
-          const remoteWords = await loadWordsFromRemoteCsv("./words.csv");
-          words = remoteWords;
-          saveWords();
-          recentHistory = [];
-          saveRecentHistory();
-          const statusEl = document.getElementById("cooldownStatus");
-          if (statusEl) statusEl.dataset.sourceLabel = `words.csv (${remoteWords.length}개)`;
-          showView("quiz");
+      document.getElementById("btnReloadCsv").addEventListener("click", async () => {
+        const ok = await loadWordsCsvIfExists(true);
+        if (ok) {
+          switchView("quiz");
           buildQuestion();
-          alert(`words.csv에서 ${remoteWords.length}개 단어를 불러왔습니다.`);
-        } catch (err) {
-          alert("words.csv를 불러오지 못했습니다. 같은 폴더에 words.csv가 있는지 확인해 주세요.");
         }
+      });
+
+      document.getElementById("btnResetDefault").addEventListener("click", () => {
+        words = [...DEFAULT_WORDS];
+        recentHistory = {};
+        questionCounter = 0;
+        saveState();
+        updateHeaderStats();
+        alert("기본 A1 샘플 단어장으로 복원되었습니다.");
+        switchView("quiz");
+        buildQuestion();
+      });
+
+      document.getElementById("btnResetCooldown").addEventListener("click", () => {
+        recentHistory = {};
+        questionCounter = 0;
+        saveState();
+        updateCooldownUI();
+        alert("출제 쿨다운 기록이 초기화되었습니다.");
       });
     }
 
-    initApp();
+    (async function bootstrap() {
+      loadState();
+      initModePaneCollapse();
+      bindEvents();
+
+      if (!localStorage.getItem(STORAGE_KEYS.WORDS)) {
+        await loadWordsCsvIfExists(false);
+      }
+
+      updateHeaderStats();
+      buildQuestion();
+    })();
   </script>
 </body>
 </html>
