@@ -282,6 +282,15 @@
       background: #dbeafe;
     }
 
+    .tts-btn:disabled,
+    .tts-btn.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #64748b;
+    }
+
     .tts-btn.speaking {
       background: var(--primary);
       color: #ffffff;
@@ -399,6 +408,22 @@
 
     .primary-btn:active {
       background: var(--primary-dark);
+    }
+
+    .secondary-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .secondary-btn:active {
+      background: #e2e8f0;
     }
 
     .feedback-box {
@@ -563,6 +588,7 @@
             <div class="input-row">
               <input type="text" id="spellingInput" class="text-input" placeholder="독일어 단어를 입력하세요" autocomplete="off" autocapitalize="off" />
               <button type="button" class="primary-btn" id="btnSubmitSpelling">확인</button>
+              <button type="button" class="secondary-btn" id="btnSkipSpelling">정답 보기</button>
             </div>
           </div>
 
@@ -635,7 +661,6 @@
     let streak = 0;
     let questionCounter = 0;
     let answered = false;
-    let sessionCycleDeck = { article: [], meaning: [], spelling: [], conjugation: [] };
 
     let fallbackAudio = null;
     let germanVoice = null;
@@ -956,6 +981,28 @@
       return w;
     }
 
+    function setPronunciationButtonsEnabled(enabled, target = null) {
+      const wordBtn = document.getElementById("btnSpeakWord");
+      const exBtn = document.getElementById("btnSpeakExample");
+      const statusEl = document.getElementById("ttsStatus");
+
+      if (wordBtn) {
+        wordBtn.disabled = !enabled;
+        wordBtn.classList.toggle("locked", !enabled);
+      }
+      if (exBtn) {
+        const hasExample = Boolean(target && target["예문"]);
+        exBtn.style.display = hasExample ? "inline-flex" : "none";
+        exBtn.disabled = !enabled || !hasExample;
+        exBtn.classList.toggle("locked", !enabled);
+      }
+      if (statusEl && !enabled) {
+        statusEl.textContent = "정답 확인 후 발음 듣기 가능";
+      } else if (statusEl && enabled && statusEl.textContent === "정답 확인 후 발음 듣기 가능") {
+        statusEl.textContent = "";
+      }
+    }
+
     function buildQuestion() {
       answered = false;
       stopCurrentSpeech();
@@ -993,14 +1040,18 @@
       spellingArea.classList.add("hidden");
 
       const wordSpeechText = cleanWordForSpeech(target);
-      btnSpeakWord.onclick = () => speakGerman(wordSpeechText);
+      btnSpeakWord.onclick = () => {
+        if (!answered) return;
+        speakGerman(wordSpeechText);
+      };
 
       if (target["예문"]) {
-        btnSpeakExample.style.display = "inline-flex";
-        btnSpeakExample.onclick = () => speakGerman(target["예문"]);
-      } else {
-        btnSpeakExample.style.display = "none";
+        btnSpeakExample.onclick = () => {
+          if (!answered) return;
+          speakGerman(target["예문"]);
+        };
       }
+      setPronunciationButtonsEnabled(false, target);
 
       if (currentMode === "article") {
         const rawArt = String(target["관사"] || "").trim().toLowerCase();
@@ -1071,6 +1122,11 @@
 
         spellingArea.classList.remove("hidden");
         const input = document.getElementById("spellingInput");
+        const submitBtn = document.getElementById("btnSubmitSpelling");
+        const skipBtn = document.getElementById("btnSkipSpelling");
+        input.disabled = false;
+        if (submitBtn) submitBtn.disabled = false;
+        if (skipBtn) skipBtn.disabled = false;
         input.value = "";
         setTimeout(() => input.focus(), 50);
 
@@ -1161,6 +1217,12 @@
       if (!userVal) return;
 
       answered = true;
+      input.disabled = true;
+      const submitBtn = document.getElementById("btnSubmitSpelling");
+      const skipBtn = document.getElementById("btnSkipSpelling");
+      if (submitBtn) submitBtn.disabled = true;
+      if (skipBtn) skipBtn.disabled = true;
+
       const expected = currentQuestion.answerText;
       const isCorrect = userVal.toLowerCase() === expected.toLowerCase();
 
@@ -1173,6 +1235,22 @@
       }
 
       showFeedback(isCorrect, expected, currentQuestion.target);
+    }
+
+    function revealSpellingAnswer() {
+      if (answered || !currentQuestion) return;
+      answered = true;
+      const input = document.getElementById("spellingInput");
+      const submitBtn = document.getElementById("btnSubmitSpelling");
+      const skipBtn = document.getElementById("btnSkipSpelling");
+      if (input) input.disabled = true;
+      if (submitBtn) submitBtn.disabled = true;
+      if (skipBtn) skipBtn.disabled = true;
+
+      streak = 0;
+      const expected = currentQuestion.answerText;
+      addWrongNote(currentQuestion.target, "spelling", expected);
+      showFeedback(false, expected, currentQuestion.target, true);
     }
 
     function addWrongNote(target, mode, correctAnswer) {
@@ -1197,9 +1275,10 @@
       saveWrongNotes();
     }
 
-    function showFeedback(isCorrect, correctDisplay, target) {
+    function showFeedback(isCorrect, correctDisplay, target, skipped = false) {
       document.getElementById("scoreVal").textContent = score;
       document.getElementById("streakVal").textContent = `연속 ${streak}`;
+      setPronunciationButtonsEnabled(true, target);
 
       const fb = document.getElementById("feedbackArea");
       const exText = target["예문"] ? target["예문"] : "";
@@ -1218,11 +1297,14 @@
       }
 
       const speechSentence = exText || cleanWordForSpeech(target);
+      const statusTitle = isCorrect
+        ? "정답입니다! 🎉"
+        : (skipped ? `정답 확인 · 정답: ${correctDisplay}` : `오답 · 정답: ${correctDisplay}`);
 
       fb.innerHTML = `
         <div class="feedback-head">
           <strong style="color:${isCorrect ? "var(--success)" : "var(--danger)"};">
-            ${isCorrect ? "정답입니다! 🎉" : `오답 · 정답: ${correctDisplay}`}
+            ${statusTitle}
           </strong>
           <button type="button" class="mini-tts-btn" id="btnFeedbackSpeak">🔊 듣기</button>
         </div>
@@ -1269,6 +1351,7 @@
     });
 
     document.getElementById("btnSubmitSpelling").addEventListener("click", checkSpellingAnswer);
+    document.getElementById("btnSkipSpelling").addEventListener("click", revealSpellingAnswer);
     document.getElementById("spellingInput").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         if (!answered) checkSpellingAnswer();
