@@ -730,9 +730,14 @@
       el.textContent = `· ${srcTag}관사 ${getModePool("article").length}단어 / 10분·전단어 순회 중복방지 (현재 ${activePoolLen}개)`;
     }
 
+    function extractArticle(val) {
+      const m = String(val || "").trim().toLowerCase().match(/\b(der|die|das)\b/);
+      return m ? m[1] : "";
+    }
+
     function getModePool(mode) {
       if (mode === "article") {
-        return words.filter(w => ["der", "die", "das"].includes((w["관사"] || "").trim().toLowerCase()));
+        return words.filter(w => Boolean(extractArticle(w["관사"])));
       }
       if (mode === "conjugation") {
         return words.filter(w => (w["ich"] || w["du"] || w["er/sie/es"] || w["ihr"] || "").trim() !== "");
@@ -943,9 +948,9 @@
     }
 
     function cleanWordForSpeech(item) {
-      const art = (item["관사"] || "").trim();
+      const art = extractArticle(item["관사"]);
       const w = (item["단어"] || "").replace(/\//g, "").replace(/\(sich\)\s*/i, "").trim();
-      if (art && ["der", "die", "das"].includes(art.toLowerCase())) {
+      if (art) {
         return `${art} ${w}`;
       }
       return w;
@@ -998,7 +1003,9 @@
       }
 
       if (currentMode === "article") {
-        const correctArt = (target["관사"] || "").trim().toLowerCase();
+        const rawArt = String(target["관사"] || "").trim().toLowerCase();
+        const artMatch = rawArt.match(/\b(der|die|das)\b/);
+        const correctArt = artMatch ? artMatch[1] : "";
         qTypeLabel.textContent = "관사 퀴즈 (der / die / das)";
         qMain.textContent = `___ ${target["단어"]}`;
         qSub.textContent = `뜻: ${target["뜻"]}${target["복수형"] ? ` · 복수: ${target["복수형"]}` : ""}`;
@@ -1006,20 +1013,22 @@
         const fixedArticles = ["der", "die", "das"];
         optionsArea.classList.remove("hidden");
 
+        const rightAnswerLabel = correctArt ? `${correctArt} ${target["단어"]}` : "";
+
         fixedArticles.forEach((art, idx) => {
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "option-btn";
           btn.dataset.choiceValue = `${art} ${target["단어"]}`;
           btn.innerHTML = `<span class="option-idx">${idx + 1}</span><span>${art} ${target["단어"]}</span>`;
-          btn.onclick = () => checkChoiceAnswer(btn, art === correctArt, `${art} ${target["단어"]}`, target);
+          btn.onclick = () => checkChoiceAnswer(btn, correctArt !== "" && art === correctArt, rightAnswerLabel, target);
           optionsArea.appendChild(btn);
         });
 
         currentQuestion = {
           mode: "article",
           target,
-          answerText: `${correctArt} ${target["단어"]}`
+          answerText: rightAnswerLabel
         };
       } else if (currentMode === "meaning") {
         qTypeLabel.textContent = "독일어 → 한국어 뜻 맞추기";
